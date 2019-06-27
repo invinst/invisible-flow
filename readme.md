@@ -15,9 +15,17 @@ Most of the background you need to complete these stories will be in the "defini
 
 Setup:
 1. Download [Conda](https://docs.conda.io/projects/conda/en/latest/) as miniconda (Conda + virtual environment) or as Anaconda (Conda + virtual environment + a ton of packages)
+1. Download [Docker](https://hub.docker.com/editions/community/docker-ce-desktop-mac) and ensure it's running locally. You will need to create a Docker account. 
 1. Run `conda env create -f environment.yml`
 1. Activate the environment by running `conda activate invisible-flow-env`
 1. Import and switch project interpreter to Python 3.7 (invisible-flow) in the IDE.
-1. Run `docker-compose up`. The first time this runs, it will dump the schema and test data into your docker postgis container, which may take a few minutes. 
+1. Run `docker-compose up`. The first time this runs, it will dump the schema and test data into your docker postgis container, which may take a few minutes. You can also run the container in the background with `docker-compose up -d`. 
 
-If you would like to explore the data locally, you cna download [pgAdmin](https://www.pgadmin.org/download/) and connect to the database using the configuration set inside the Dockerfile. 
+You can verify that the data has been migrated successfully by connecting to the docker container and exploring the database:
+
+```
+$ docker exec -it invisible-flow_cpdb_1 bash
+$ psql invisible cpdb
+$ \dt # To list all tables
+$ SELECT * FROM data_allegation LIMIT 10; # To show some data.  
+``` 
