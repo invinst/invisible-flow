@@ -2,7 +2,7 @@ Goal:
 To be able to update a running database of police complaints managed by the Invisible Institute, based on the prior work at [the original repo](https://github.com/invinst/chicago-police-data)
 
 If you want to get started, feel free to pick up a story at the top of [the Rearchitecting Data Pipeline Project](https://github.com/invinst/invisible-flow/projects/1) or any story directly underneath a __ that doesn't already have someone assigned to it.
-TO DO: PRIORITIZE STORIES AND UPDATE THEIR STATUS IN GITHUB PROJECT
+RFP means Ready for pickup! Pick up stories that have this at the end.
 
 The stories are organized from top to bottom as dependencies. That is, if you see story A above story B, then story B depends on story A. When you see a __ mark that starts a new set of stories that are self contained.
 Further, any story tagged "can be done in parallel" can also be done out of order. 
