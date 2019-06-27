@@ -16,5 +16,8 @@ Most of the background you need to complete these stories will be in the "defini
 Setup:
 1. Download [Conda](https://docs.conda.io/projects/conda/en/latest/) as miniconda (Conda + virtual environment) or as Anaconda (Conda + virtual environment + a ton of packages)
 1. Run `conda env create -f environment.yml`
-1. Activate the environment by runing `conda activiate invisible-flow-env`
-1. Import and swtich project interpreter to Python 3.7 (invisible-flow) in the IDE.
+1. Activate the environment by running `conda activate invisible-flow-env`
+1. Import and switch project interpreter to Python 3.7 (invisible-flow) in the IDE.
+1. Run `docker-compose up`. The first time this runs, it will dump the schema and test data into your docker postgis container, which may take a few minutes. 
+
+If you would like to explore the data locally, you cna download [pgAdmin](https://www.pgadmin.org/download/) and connect to the database using the configuration set inside the Dockerfile. 
