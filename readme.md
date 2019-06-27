@@ -19,7 +19,7 @@ Setup:
 1. Run `conda env create -f environment.yml`
 1. Activate the environment by running `conda activate invisible-flow-env`
 1. Import and switch project interpreter to Python 3.7 (invisible-flow) in the IDE.
-1. Run `docker-compose up`. The first time this runs, it will dump the schema and test data into your docker postgis container, which may take a few minutes. You can also run the container in the background with `docker-compose up -d`. 
+1. Before you can bootstrap and run the app, you will need the /data files. Once you have these, you can run `docker-compose up`. The first time this runs, it will dump the schema and test data into your docker postgis container, which may take a few minutes. You can also run the container in the background with `docker-compose up -d`. 
 
 You can verify that the data has been migrated successfully by connecting to the docker container and exploring the database:
 
