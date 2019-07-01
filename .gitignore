@@ -68,6 +68,7 @@ data/
 # ipython files
 **/.ipynb_checkpoints
 __pycache__
+venv/
 
 # Logs and databases #
 ######################
