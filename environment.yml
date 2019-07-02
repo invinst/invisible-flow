@@ -31,6 +31,7 @@ dependencies:
     - defusedxml==0.6.0
     - dill==0.2.9
     - docutils==0.14
+    - flake8==3.7.7
     - flask==1.0.3
     - flask-admin==1.5.3
     - flask-appbuilder==1.12.3
@@ -62,6 +63,8 @@ dependencies:
     - pendulum==1.4.4
     - psutil==5.6.2
     - pygments==2.4.2
+    - pytest==5.0.0
+    - pytest-cov==2.7.1
     - python-daemon==2.1.2
     - python-dateutil==2.8.0
     - python-editor==1.0.4
