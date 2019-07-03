@@ -37,12 +37,25 @@ class TestInvisibleFlowApp:
         assert response.status_code == 200
         assert b'Success' in response.data
 
-    def test_foia_response_upload_writes_to_uploads_dir(self):
+    @pytest.mark.parametrize('extension', ['csv', 'xlsx', 'xls'])
+    def test_foia_response_upload_writes_to_uploads_dir(self, extension):
         data = {
             'field': FOIA_RESPONSE_FIELD_NAME,
-            'file': (BytesIO(b'some content'), '{}.csv'.format(FOIA_RESPONSE_FIELD_NAME))
+            'file': (BytesIO(b'some content'), '{}.{}'.format(FOIA_RESPONSE_FIELD_NAME, extension))
         }
 
         self.test_client.post('/foia_response_upload', data=data, content_type='multipart/form-data')
 
         assert os.path.exists('{}{}'.format(FOIA_RESPONSE_UPLOAD_DIR, FOIA_RESPONSE_FIELD_NAME))
+
+    @pytest.mark.parametrize('extension', ['txt', 'sh', 'py'])
+    def test_unsupported_file_type_throw_on_post_request(self, extension):
+        data = {
+            'field': FOIA_RESPONSE_FIELD_NAME,
+            'file': (BytesIO(b'some content'), '{}.{}'.format(FOIA_RESPONSE_FIELD_NAME, extension))
+        }
+
+        response = self.test_client.post('/foia_response_upload', data=data, content_type='multipart/form-data')
+
+        assert response.status_code == 415
+        assert b'Unsupported' in response.data
