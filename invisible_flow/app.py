@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, request, render_template, Response
 
 from invisible_flow.constants import FOIA_RESPONSE_UPLOAD_DIR, FOIA_RESPONSE_FIELD_NAME
@@ -20,6 +22,9 @@ def foia_response_upload():
 
     if not is_valid_file_type(foia_response_file.filename):
         return Response(status=415, response='Unsupported file type. Please upload a .csv por and .xlsx file.')
+
+    if not os.path.exists(FOIA_RESPONSE_UPLOAD_DIR):
+        os.makedirs(FOIA_RESPONSE_UPLOAD_DIR)
 
     # We may not need to write the file to the local disk if we can upload directly to the cloud.
     with open('{}{}'.format(FOIA_RESPONSE_UPLOAD_DIR, FOIA_RESPONSE_FIELD_NAME), 'wb') as file:
