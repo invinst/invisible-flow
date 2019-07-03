@@ -10,6 +10,9 @@ script:
   - pytest --cov=invisible_flow tests
 deploy:
   provider: gae
-  keyfile: $GAE_KEYFILE
-  project: $GAE_PROJECT_ID
-  version: $GAE_VERSION
+  keyfile: "$GAE_KEYFILE"
+  project: "$GAE_PROJECT_ID"
+  version: "$GAE_VERSION"
+before_install:
+  - openssl aes-256-cbc -K $encrypted_9d94b03b2147_key -iv $encrypted_9d94b03b2147_iv
+    -in gae-keyfile-dev.json.enc -out gae-keyfile-dev.json -d
