@@ -7,6 +7,7 @@ app = Flask(__name__)
 def fileFrontPage():
     return render_template('./index.html')
 
+
 @app.route("/handleUpload", methods=['POST'])
 def handleFileUpload():
     if 'foia' in request.files:
