@@ -8,3 +8,8 @@ install:
 script:
   - flake8 .
   - pytest --cov=invisible_flow tests
+deploy:
+  provider: gae
+  keyfile: $GAE_KEYFILE
+  project: $GAE_PROJECT_ID
+  version: $GAE_VERSION
