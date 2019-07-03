@@ -28,3 +28,11 @@ $ psql invisible cpdb
 $ \dt # To list all tables
 $ SELECT * FROM data_allegation LIMIT 10; # To show some data.  
 ``` 
+
+You can run the app with:
+
+```
+$ cd invisible_flow 
+$ export FLASK_APP=app.py
+$ flask run 
+``` 
