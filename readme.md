@@ -13,11 +13,10 @@ Most of the background you need to complete these stories will be in the "defini
 * [Important links](https://docs.google.com/document/d/1fGi61CmjcWeY6xFlV0qHKrPLH4AqJkDkd70YWtOaQIg/edit?usp=sharing) including an overview of the current data pipeline
 * [Onboarding notes](https://docs.google.com/document/d/1QIxJwsO7xY1-SbfmNyFxXGcDqBtex4QeeDGfRtrTMHA/edit?usp=sharing)
 
-Setup:
-1. Download [Conda](https://docs.conda.io/projects/conda/en/latest/) as miniconda (Conda + virtual environment) or as Anaconda (Conda + virtual environment + a ton of packages)
+Local environment setup:
 1. Download [Docker](https://hub.docker.com/editions/community/docker-ce-desktop-mac) and ensure it's running locally. You will need to create a Docker account. 
-1. Run `conda env create -f environment.yml`
-1. Activate the environment by running `conda activate invisible-flow-env`
+1. Run `python3 -m venv venv` then `source venv/bin/activate` to create and start your Python virtual environment.
+1. Install the dependencies with `pip install -r requirements.txt`.
 1. Import and switch project interpreter to Python 3.7 (invisible-flow) in the IDE.
 1. Before you can bootstrap and run the app, you will need the /data files. Once you have these, you can run `docker-compose up`. The first time this runs, it will dump the schema and test data into your docker postgis container, which may take a few minutes. You can also run the container in the background with `docker-compose up -d`. 
 
@@ -28,4 +27,12 @@ $ docker exec -it invisible-flow_cpdb_1 bash
 $ psql invisible cpdb
 $ \dt # To list all tables
 $ SELECT * FROM data_allegation LIMIT 10; # To show some data.  
+``` 
+
+You can run the app with:
+
+```
+$ cd invisible_flow 
+$ export FLASK_APP=app.py
+$ flask run 
 ``` 

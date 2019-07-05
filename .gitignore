@@ -1,5 +1,6 @@
 .idea/
 data/
+uploads/
 
 # Editor temporary/working/backup files #
 #########################################
@@ -68,6 +69,7 @@ data/
 # ipython files
 **/.ipynb_checkpoints
 __pycache__
+venv/
 
 # Logs and databases #
 ######################
