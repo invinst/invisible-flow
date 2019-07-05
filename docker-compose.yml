@@ -2,7 +2,7 @@ version: '3'
 
 services:
   cpdb:
-    build: .
+    build: invisible_flow
     ports:
       - "5432:5432"
     environment:

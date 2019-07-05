@@ -29,10 +29,12 @@ $ \dt # To list all tables
 $ SELECT * FROM data_allegation LIMIT 10; # To show some data.  
 ``` 
 
-You can run the app with:
+You can run the app two ways with:
 
 ```
 $ cd invisible_flow 
 $ export FLASK_APP=app.py
 $ flask run 
 ``` 
+
+To run it the same way it's run on GAE, run `gunicorn -b 127.0.0.1:8080 invisible_flow.app:app`
