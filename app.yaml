@@ -1,3 +1,5 @@
+env: flex
+entrypoint: gunicorn -b :$PORT invisible_flow.app:app
 runtime: python37
 
 handlers:
