@@ -1,1 +1,5 @@
 runtime: python37
+
+handlers:
+- url: /.*
+  script: invisible_flow.app.app
