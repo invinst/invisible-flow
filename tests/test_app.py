@@ -1,11 +1,12 @@
 import os
 from io import BytesIO
-from unittest.mock import patch
+from unittest.mock import patch, MagicMock
 
 import pytest
+from google.cloud import storage
 
 from invisible_flow.app import app
-from invisible_flow.constants import FOIA_RESPONSE_UPLOAD_DIR, FOIA_RESPONSE_FIELD_NAME
+from invisible_flow.constants import FOIA_RESPONSE_FIELD_NAME
 
 
 @patch('invisible_flow.app.storage.Client')
@@ -46,9 +47,20 @@ class TestInvisibleFlowApp:
             'file': (BytesIO(b'some content'), '{}.{}'.format(FOIA_RESPONSE_FIELD_NAME, extension))
         }
 
+        gcs_client_mock = MagicMock(speç=storage.Client)
+        gcs_client.return_value = gcs_client_mock
+
+        bucket_blob_mock = MagicMock(spec=storage.bucket.Bucket)
+        gcs_client_mock.bucket.return_value = bucket_blob_mock
+
+        blob_mock = MagicMock(spec=storage.blob.Blob)
+        bucket_blob_mock.blob.return_value = blob_mock
+
         self.test_client.post('/foia_response_upload', data=data, content_type='multipart/form-data')
 
-        assert os.path.exists('{}{}'.format(FOIA_RESPONSE_UPLOAD_DIR, FOIA_RESPONSE_FIELD_NAME))
+        gcs_client_mock.bucket.assert_called_with(os.environ.get('GCS_BUCKET'))
+        bucket_blob_mock.blob.assert_called_with(FOIA_RESPONSE_FIELD_NAME)
+        blob_mock.upload_from_string.assert_called_once()
 
     @pytest.mark.parametrize('extension', ['txt', 'sh', 'py'])
     def test_unsupported_file_type_throw_on_post_request(self, gcs_client, extension):
