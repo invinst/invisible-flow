@@ -4,3 +4,4 @@ flask==1.0.3
 pytest==5.0.0
 pytest-cov==2.7.1
 gunicorn==19.9.0
+google_cloud_storage==1.16.1
