@@ -1,5 +1,7 @@
 entrypoint: gunicorn -b :$PORT invisible_flow.app:app
 runtime: python37
+env_variables:
+  - GCS_BUCKET: 'twitterbot-180604.appspot.com'
 
 handlers:
 - url: /.*
