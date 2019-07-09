@@ -1,8 +1,9 @@
 import os
 
 from flask import Flask, request, render_template, Response
+from google.cloud import storage
 
-from invisible_flow.constants import FOIA_RESPONSE_UPLOAD_DIR, FOIA_RESPONSE_FIELD_NAME
+from invisible_flow.constants import FOIA_RESPONSE_FIELD_NAME
 from invisible_flow.validation import is_valid_file_type
 
 app = Flask(__name__)
@@ -23,13 +24,11 @@ def foia_response_upload():
     if not is_valid_file_type(foia_response_file.filename):
         return Response(status=415, response='Unsupported file type. Please upload a .csv por and .xlsx file.')
 
-    if not os.path.exists(FOIA_RESPONSE_UPLOAD_DIR):
-        os.makedirs(FOIA_RESPONSE_UPLOAD_DIR)
+    gcs_client = storage.Client()
+    bucket = gcs_client.bucket(os.environ.get('GCS_BUCKET'))
+    blob = bucket.blob(FOIA_RESPONSE_FIELD_NAME)
+    blob.upload_from_string(foia_response_file.stream.read(), foia_response_file.content_type)
 
-    # We may not need to write the file to the local disk if we can upload directly to the cloud.
-    with open('{}{}'.format(FOIA_RESPONSE_UPLOAD_DIR, FOIA_RESPONSE_FIELD_NAME), 'wb') as file:
-        file.write(foia_response_file.read())
-        file.close()
     return Response(status=200, response='Success')
 
 
