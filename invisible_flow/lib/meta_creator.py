@@ -1,4 +1,4 @@
-import json
+import json, os
 from google.cloud import storage
 
 class MetaCreator:
@@ -29,16 +29,15 @@ class MetaCreatorWriter:
         f = open(self.meta_creator.output_filename, "w+")
         f.write(json.dumps(self.meta_creator.build_and_return_dict()))
 
-    def write_file_to_gcp(self, gcp_client):
+    def write_file_to_gcp(self, gcp_client, bucket_name):
 
-        self.meta_creator.output_filename
+        bucket = gcp_client.get_bucket(bucket_name)
+        blob = bucket.get_blob(self.meta_creator.output_filename)
+        json_string = json.dumps(self.meta_creator.build_and_return_dict())
+        blob.upload_from_string(json_string)
+        return self.verify(self.meta_creator.output_filename, bucket, json_string)
 
+    def verify(self, filename, bucket, json_string):
 
-
-        try:
-            # do something
-            raise NameError
-            return True
-        except Exception:
-            return False
-
+        blob = bucket.get_blob(filename)
+        return json_string == blob.download_as_string()
