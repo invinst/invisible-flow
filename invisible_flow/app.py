@@ -19,10 +19,10 @@ def foia_response_upload():
     foia_response_file = request.files['file']
 
     if 'multipart/form-data' not in request.content_type:
-        return Response(status=415, response='Unsupported media type. Please upload a .csv por and .xlsx file.')
+        return Response(status=415, response='Unsupported media type. Please upload a .csv .xls or .xlsx file.')
 
     if not is_valid_file_type(foia_response_file.filename):
-        return Response(status=415, response='Unsupported file type. Please upload a .csv por and .xlsx file.')
+        return Response(status=415, response='Unsupported file type. Please upload a .csv .xls or .xlsx file.')
 
     gcs_client = storage.Client()
     bucket = gcs_client.bucket(os.environ.get('GCS_BUCKET'))
