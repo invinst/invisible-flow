@@ -1,13 +1,23 @@
 <html>
     <head>
-        <title>Freedom of Information Act Repose Upload</title>
+        <title>Freedom of Information Act Response Upload</title>
     </head>
     <body>
     	<h1>Invisible Institute</h1>
         <form action="/foia_response_upload" method="post" enctype="multipart/form-data">
-            Upload FOIA response:<br> 
+            Upload FOIA response:<br>
+            <select required name="response_type">
+                <option value="">Please select response type</option>
+                <option value="accused">Accused</option>
+                <option value="case_info">Case Information</option>
+                <option value="civilian_witness">Civilian Witness</option>
+                <option value="complainant">Complainant</option>
+                <option value="cpd_witness">CPD Witness</option>
+                <option value="investigators">Investigators</option>
+                <option value="victim">Victim</option>
+            </select><br>
             <input type="file" name="file"/><br>
             <input type="submit" value="Upload"/>
-        </form> 
+        </form>
     </body>
 </html>
