@@ -47,7 +47,7 @@ class TestInvisibleFlowApp:
             'file': (BytesIO(b'some content'), '{}.{}'.format(FOIA_RESPONSE_FIELD_NAME, extension))
         }
 
-        gcs_client_mock = MagicMock(speç=storage.Client)
+        gcs_client_mock = MagicMock(spec=storage.Client)
         gcs_client.return_value = gcs_client_mock
 
         bucket_blob_mock = MagicMock(spec=storage.bucket.Bucket)

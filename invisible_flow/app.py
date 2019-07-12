@@ -1,17 +1,18 @@
 import os
 
 from flask import Flask, request, render_template, Response
-from google.cloud import storage
 
+from invisible_flow.Storage.GCStorage import GCStorage
 from invisible_flow.Storage.IStorage import IStorage
 from invisible_flow.Storage.LocalStorage import LocalStorage
-from invisible_flow.constants import FOIA_RESPONSE_FIELD_NAME
 from invisible_flow.validation import is_valid_file_type
 
 app = Flask(__name__)
 
-if (os.environ.get('ENVIRONMENT_PROFILE') == 'local'):
+if os.environ.get('ENVIRONMENT') == 'local':
     storageI = LocalStorage()
+elif os.environ.get('ENVIRONMENT') == 'gae':
+    storageI = GCStorage()
 else:
     storageI = IStorage()
 
