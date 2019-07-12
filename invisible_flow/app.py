@@ -1,9 +1,6 @@
-import os
-
 from flask import Flask, request, render_template, Response
-from google.cloud import storage
 
-from invisible_flow.constants import FOIA_RESPONSE_FIELD_NAME
+from invisible_flow.storage.storage_factory import StorageFactory
 from invisible_flow.validation import is_valid_file_type
 
 app = Flask(__name__)
@@ -16,6 +13,7 @@ def index():
 
 @app.route('/foia_response_upload', methods=['POST'])
 def foia_response_upload():
+    storage = StorageFactory.get_storage()
     foia_response_file = request.files['file']
 
     if 'multipart/form-data' not in request.content_type:
@@ -24,10 +22,7 @@ def foia_response_upload():
     if not is_valid_file_type(foia_response_file.filename):
         return Response(status=415, response='Unsupported file type. Please upload a .csv .xls or .xlsx file.')
 
-    gcs_client = storage.Client()
-    bucket = gcs_client.bucket(os.environ.get('GCS_BUCKET'))
-    blob = bucket.blob(FOIA_RESPONSE_FIELD_NAME)
-    blob.upload_from_string(foia_response_file.stream.read(), foia_response_file.content_type)
+    storage.store(foia_response_file.filename, foia_response_file)
 
     return Response(status=200, response='Success')
 
