@@ -6,8 +6,8 @@ from unittest.mock import MagicMock
 from google.cloud import storage
 from werkzeug.datastructures import FileStorage
 
-from invisible_flow.Storage.GCStorage import GCStorage
-from invisible_flow.Storage.LocalStorage import LocalStorage
+from invisible_flow.storage.gcs_storage import GCStorage
+from invisible_flow.storage.local_storage import LocalStorage
 from invisible_flow.constants import FOIA_RESPONSE_FIELD_NAME
 
 
@@ -28,9 +28,6 @@ class TestLocalStorage:
 class TestGCStorage:
     fake_file_storage = FileStorage(stream=BytesIO(b'Some content'), content_type='csv')
 
-    # gcs_client_mock = MagicMock(spec=storage.Client)
-    # gcs_client.return_value = gcs_client_mock
-
     def create_gcs_storage(self):
         gcs_client_mock = MagicMock(spec=storage.Client)
 
@@ -42,11 +39,8 @@ class TestGCStorage:
 
         return GCStorage(gcs_client_mock)
 
-    # def test_store_does_not_throw_exception_when_used(self):
-    #     self.subject.store('Blah', self.fake_file_storage)
-
     def test_store_sends_files_to_gcp(self):
-        with mock.patch('invisible_flow.Storage.GCStorage.os.environ.get') as os_environ_get_mock:
+        with mock.patch('invisible_flow.storage.gcs_storage.os.environ.get') as os_environ_get_mock:
             os_environ_get_mock.return_value = 'gcs-bucket-url'
             subject = self.create_gcs_storage()
 
@@ -58,4 +52,3 @@ class TestGCStorage:
 
             # Return value of blob call is a mock, so we can assert on it
             subject.bucket.blob.return_value.upload_from_string.assert_called_with(b'Some content', 'csv')
-

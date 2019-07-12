@@ -1,10 +1,10 @@
 from werkzeug.datastructures import FileStorage
 
-from invisible_flow.Storage.IStorage import IStorage
+from invisible_flow.storage.storage_base import StorageBase
 
 
-class LocalStorage(IStorage):
-    """Implementation of Storage interface that saves files locally"""
+class LocalStorage(StorageBase):
+    """Implementation of storage interface that saves files locally"""
 
     def __init__(self):
         print("Instantiated locally!!!!!!!")
