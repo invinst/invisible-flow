@@ -1,6 +1,7 @@
 .idea/
 data/
 uploads/
+local_upload/
 
 # Editor temporary/working/backup files #
 #########################################

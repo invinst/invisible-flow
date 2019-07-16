@@ -9,9 +9,12 @@ from invisible_flow.storage.storage_base import StorageBase
 
 class GCStorage(StorageBase):
 
-    def store(self, filename, file: FileStorage):
-        blob = self.bucket.blob(filename)
+    def store(self, filename, file: FileStorage, path):
+        blob = self.bucket.blob(os.path.join(path, filename))
         blob.upload_from_string(file.stream.read1(), file.content_type)
+
+    def get(self, filename, path):
+        pass
 
     def store_metadata(self, filename: str, metadata_text: str) -> None:
         blob = self.bucket.blob(filename)
