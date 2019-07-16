@@ -1,5 +1,7 @@
 import json, os
 from google.cloud import storage
+from google.api_core.exceptions import GoogleAPICallError
+
 
 class MetaCreator:
     commit = None
@@ -34,7 +36,11 @@ class MetaCreatorWriter:
         bucket = gcp_client.get_bucket(bucket_name)
         blob = bucket.get_blob(self.meta_creator.output_filename)
         json_string = json.dumps(self.meta_creator.build_and_return_dict())
-        blob.upload_from_string(json_string)
+        try:
+            blob.upload_from_string(json_string)
+        except GoogleAPICallError as error:
+            print(error)
+
         return self.verify(self.meta_creator.output_filename, bucket, json_string)
 
     def verify(self, filename, bucket, json_string):
