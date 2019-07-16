@@ -1,5 +1,8 @@
 from invisible_flow.storage.gcs_storage import GCStorage
-from invisible_flow.storage.storage_base import InMemoryStorage
+<<<<<<< Updated upstream
+from invisible_flow.storage.in_memory_storage import InMemoryStorage
+=======
+>>>>>>> Stashed changes
 from invisible_flow.storage.local_storage import LocalStorage
 
-__all__ = ['GCStorage', 'InMemoryStorage', 'LocalStorage']
+__all__ = ['GCStorage', 'LocalStorage']

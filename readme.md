@@ -35,12 +35,20 @@ $ \dt # To list all tables
 $ SELECT * FROM data_allegation LIMIT 10; # To show some data.
 ```
 
-You can run the app two ways with:
+You can run the app one of two ways:
 
+1. To run it locally with flask as the [wsgi](https://flask.palletsprojects.com/en/1.1.x/deploying/)
 ```
 $ cd invisible_flow
 $ export FLASK_APP=app.py
+$ export ENVIRONMENT=local
 $ flask run
 ```
+2. To run it the same way it's run on GAE, run `gunicorn -b 127.0.0.1:8080 invisible_flow.app:app`
 
-To run it the same way it's run on GAE, run `gunicorn -b 127.0.0.1:8080 invisible_flow.app:app`
+### Running the tests
+* To run the tests execute `pytest`
+* arguments
+  * m [argument] - run tests with [argument] mark
+     * To run the tests with a certain test focused, mark the focused test with `@pytest.mark.focus`
+     * This uses the [pytest mark system](https://docs.pytest.org/en/latest/mark.html)

@@ -1,28 +1,16 @@
-import os
 from io import BytesIO
 from unittest import mock
 from unittest.mock import MagicMock
 
+import pytest
 from google.cloud import storage
 from werkzeug.datastructures import FileStorage
 
-from invisible_flow.storage.gcs_storage import GCStorage
-from invisible_flow.storage.local_storage import LocalStorage
+<<<<<<< Updated upstream:tests/test_gc_storage.py
 from invisible_flow.constants import FOIA_RESPONSE_FIELD_NAME
-
-
-class TestLocalStorage:
-    subject = LocalStorage()
-    fake_file_storage = FileStorage(stream=BytesIO(b'Some content'))
-
-    def test_store_does_not_throw_exception_when_used(self):
-        self.subject.store('Blah', self.fake_file_storage)
-        os.remove('Blah')
-
-    def test_store_writes_file_locally(self):
-        self.subject.store(FOIA_RESPONSE_FIELD_NAME, self.fake_file_storage)
-        assert os.path.exists(FOIA_RESPONSE_FIELD_NAME)
-        os.remove(FOIA_RESPONSE_FIELD_NAME)
+=======
+>>>>>>> Stashed changes:tests/test_gc_storage.py
+from invisible_flow.storage import GCStorage
 
 
 class TestGCStorage:
@@ -39,16 +27,17 @@ class TestGCStorage:
 
         return GCStorage(gcs_client_mock)
 
+    @pytest.mark.focus
     def test_store_sends_files_to_gcp(self):
         with mock.patch('invisible_flow.storage.gcs_storage.os.environ.get') as os_environ_get_mock:
             os_environ_get_mock.return_value = 'gcs-bucket-url'
             subject = self.create_gcs_storage()
 
-            subject.store(FOIA_RESPONSE_FIELD_NAME, self.fake_file_storage)
+            subject.store('some-file.csv', self.fake_file_storage, 'some/path')
 
             # Bucket should be instantiated with the bucket url
             subject.gcs_client.bucket.assert_called_with("gcs-bucket-url")
-            subject.bucket.blob.assert_called_with(FOIA_RESPONSE_FIELD_NAME)
+            subject.bucket.blob.assert_called_with('some/path/some-file.csv')
 
             # Return value of blob call is a mock, so we can assert on it
             subject.bucket.blob.return_value.upload_from_string.assert_called_with(b'Some content', 'csv')

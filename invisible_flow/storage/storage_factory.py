@@ -1,7 +1,8 @@
 import os
 
 from google.cloud import storage
-from invisible_flow.storage import GCStorage, InMemoryStorage, LocalStorage
+
+from invisible_flow.storage import GCStorage, LocalStorage
 
 
 class StorageFactory:
@@ -14,4 +15,4 @@ class StorageFactory:
             gcs_client = storage.Client()
             return GCStorage(gcs_client)
         else:
-            return InMemoryStorage()
+            raise Exception('Unable to determine the environment')
