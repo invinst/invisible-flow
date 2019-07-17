@@ -2,12 +2,8 @@ import json
 
 
 class MetaDataCreator:
-    commit = None
-    origin = None
-    filename = None
-    output_filename = None
 
-    def __init__(self, filename, commit, origin):
+    def __init__(self, filename: str, commit: str, origin: str):
 
         if not filename or not isinstance(filename, str):
             raise ValueError('Output filename is invalid')
@@ -20,8 +16,6 @@ class MetaDataCreator:
         self.commit = commit
         self.origin = origin
         self.output_filename = '{}.json'.format(self.filename)
-
-    #  def output_meta_data_json(self):
 
     def build_and_return_dict(self):
         return {'sha': self.commit, 'origin': self.origin}
