@@ -39,21 +39,21 @@ def foia_response_upload():
     request_context: Request = GlobalsFactory.get_request_context()
 
     if 'multipart/form-data' not in request_context.content_type:
-        logger.error("Unsupported media type uploaded to FOIA. content type={}".format(request_context.content_type))
+        logger.error('Unsupported media type uploaded to FOIA. content type={}'.format(request_context.content_type))
         return Response(status=415, response='Unsupported media type. Please upload a .csv .xls or .xlsx file.')
 
     foia_response_file = request_context.files['foia_response']
     if not is_valid_file_type(foia_response_file.filename):
-        logger.error("Unsupported file type uploaded to FOIA. filename={}".format(foia_response_file.filename))
+        logger.error('Unsupported file type uploaded to FOIA. filename={}'.format(foia_response_file.filename))
         return Response(status=415, response='Unsupported file type. Please upload a .csv .xls or .xlsx file.')
 
     storage = StorageFactory.get_storage()
     response_type = request_context.form['response_type']
-    current_date = GlobalsFactory.get_current_datetime_utc().isoformat(sep="_").replace(':', '-')
+    current_date = GlobalsFactory.get_current_datetime_utc().isoformat(sep='_').replace(':', '-')
 
-    storage.store("{}.csv".format(response_type), foia_response_file, "ui-{}/initial_data".format(current_date))
+    storage.store('{}.csv'.format(response_type), foia_response_file, 'ui-{}/initial_data'.format(current_date))
 
-    logger.info("Successfully uploaded FOIA file")
+    logger.info('Successfully uploaded FOIA file')
     return Response(status=200, response='Success')
 
 
