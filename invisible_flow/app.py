@@ -15,7 +15,6 @@ def index():
 @app.route('/foia_response_upload', methods=['POST'])
 def foia_response_upload():
     request_context: Request = GlobalsFactory.get_request_context()
-    storage = StorageFactory.get_storage()
 
     if 'multipart/form-data' not in request_context.content_type:
         return Response(status=415, response='Unsupported media type. Please upload a .csv .xls or .xlsx file.')
@@ -24,6 +23,7 @@ def foia_response_upload():
     if not is_valid_file_type(foia_response_file.filename):
         return Response(status=415, response='Unsupported file type. Please upload a .csv .xls or .xlsx file.')
 
+    storage = StorageFactory.get_storage()
     response_type = request_context.form['response_type']
     todays_date = GlobalsFactory.get_current_datetime_utc().isoformat(sep="_").replace(':', '-')
 

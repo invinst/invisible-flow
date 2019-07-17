@@ -11,7 +11,7 @@ class GCStorage(StorageBase):
 
     def store(self, filename, file: FileStorage, path):
         blob = self.bucket.blob(os.path.join(path, filename))
-        blob.upload_from_string(file.stream.read1(), file.content_type)
+        blob.upload_from_string(file.read(), file.content_type)
 
     def get(self, filename, path):
         pass

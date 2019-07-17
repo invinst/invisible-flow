@@ -2,14 +2,9 @@ from io import BytesIO
 from unittest import mock
 from unittest.mock import MagicMock
 
-import pytest
 from google.cloud import storage
 from werkzeug.datastructures import FileStorage
 
-<<<<<<< Updated upstream:tests/test_gc_storage.py
-from invisible_flow.constants import FOIA_RESPONSE_FIELD_NAME
-=======
->>>>>>> Stashed changes:tests/test_gc_storage.py
 from invisible_flow.storage import GCStorage
 
 
@@ -27,7 +22,6 @@ class TestGCStorage:
 
         return GCStorage(gcs_client_mock)
 
-    @pytest.mark.focus
     def test_store_sends_files_to_gcp(self):
         with mock.patch('invisible_flow.storage.gcs_storage.os.environ.get') as os_environ_get_mock:
             os_environ_get_mock.return_value = 'gcs-bucket-url'
