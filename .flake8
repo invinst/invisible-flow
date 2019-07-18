@@ -1,4 +1,4 @@
 [flake8]
 max-line-length=120
-exclude = venv, .tox, dist, doc, build, *.egg, data
+exclude = venv, .tox, dist, doc, build, *.egg, data, .git
 max-complexity = 10
