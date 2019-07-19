@@ -15,8 +15,10 @@ Most of the background you need to complete these stories will be in the "defini
 
 ### Software Requirements:
 
-1. [Docker](https://hub.docker.com/editions/community/docker-ce-desktop-mac) and ensure it's running locally. You will need to create a Docker account.
-2. Python 3.7
+1. Docker
+    - You can use `brew cask install docker`
+    - You can download it from the [docker site](https://hub.docker.com/editions/community/docker-ce-desktop-mac) but you'll need to create an account
+2. Python 3.7+
 3. An IDE (like PyCharm)
 
 ### Running the program
