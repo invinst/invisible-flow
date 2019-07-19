@@ -1,3 +1,5 @@
+from unittest import TestCase
+
 from invisible_flow.entities.data_allegation import Allegation
 from invisible_flow.transformers.case_info_allegations_transformer import CaseInfoAllegationsTransformer
 
@@ -21,3 +23,17 @@ class TestCaseInfoAllegationsTransformer():
             )
             assert allegation_to_test == expected_allegation
             assert len(actual_allegations) == 9
+
+    def test_transform_allegations_to_database_ready_df(self):
+        a = Allegation(
+            add1="asdf",
+            add2="asdf",
+            beat_id="asdf",
+            city="asdf",
+            incident_date="asdf",
+            is_officer_complaint=True,
+            location="",
+            summary=''
+        )
+        df = CaseInfoAllegationsTransformer.transform_allegations_to_database_ready_df([a])
+        print(df)

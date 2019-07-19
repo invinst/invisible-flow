@@ -12,3 +12,14 @@ class Allegation:
     location: str
     summary: str
 
+    def __iter__(self):
+        return iter([
+            self.add1,
+            self.add2,
+            self.beat_id,
+            self.city,
+            self.incident_date,
+            self.is_officer_complaint,
+            self.location,
+            self.summary
+        ])

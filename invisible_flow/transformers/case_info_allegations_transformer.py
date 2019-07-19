@@ -23,4 +23,18 @@ class CaseInfoAllegationsTransformer:
         df = pd.read_csv(string_io_csv)
         return [CaseInfoAllegationsTransformer.row_to_allegation(row) for _, row in df.iterrows()]
 
-
+    @staticmethod
+    def transform_allegations_to_database_ready_df(allegations: [Allegation]) -> pd.DataFrame:
+        column_names = [
+            'add1',
+            'add2',
+            'beat_id',
+            'city',
+            'incident_date',
+            'is_officer_complaint',
+            'location',
+            'summary'
+        ]
+        df = pd.DataFrame([iter(allegation) for allegation in allegations], column_names)
+        print(df)
+        return df
