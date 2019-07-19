@@ -17,7 +17,6 @@ class CaseInfoAllegationsTransformer:
             summary=""
         )
 
-
     @staticmethod
     def transform_case_info_csv_to_allegation(csv_content: str) -> [Allegation]:
         string_io_csv = StringIO(csv_content)

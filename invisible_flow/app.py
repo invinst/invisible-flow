@@ -1,3 +1,4 @@
+import shutil
 from logging import getLogger
 from logging.config import dictConfig
 
@@ -6,6 +7,7 @@ from flask import Flask, render_template, Response, Request
 from invisible_flow.globals_factory import GlobalsFactory
 from invisible_flow.storage.storage_factory import StorageFactory
 from invisible_flow.validation import is_valid_file_type
+from invisible_flow.transformers.case_info_allegations_transformer import transform_case_info_csv_to_allegation
 
 # Logging configuration
 dictConfig({
@@ -55,7 +57,14 @@ def foia_response_upload():
     response_type = request_context.form['response_type']
     current_date = GlobalsFactory.get_current_datetime_utc().isoformat(sep='_').replace(':', '-')
 
-    storage.store('{}.csv'.format(response_type), foia_response_file, 'ui-{}/initial_data'.format(current_date))
+    file_to_store = shutil.copyfile(foia_response_file)
+    file_to_convert = shutil.copyfile(foia_response_file)
+
+    allegations = transform_case_info_csv_to_allegation(file_to_convert)
+
+    storage.store('{}.csv'.format(response_type), file_to_store, 'ui-{}/initial_data'.format(current_date))
+
+
 
     logger.info('Successfully uploaded FOIA file')
     return Response(status=200, response='Success')
