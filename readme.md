@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/invinst/invisible-flow.svg?branch=master)](https://travis-ci.org/invinst/invisible-flow)
+
 ## Goal: To be able to update a running database of police complaints managed by the Invisible Institute, based on the prior work at [the original repo](https://github.com/invinst/chicago-police-data)
 
 If you want to get started, feel free to pick up a story [the Rearchitecting Data Pipeline Project](https://github.com/invinst/invisible-flow/projects/1) RFP means Ready for pickup! Pick up stories that have this at the end.
@@ -17,7 +19,7 @@ Most of the background you need to complete these stories will be in the "defini
 
 1. Docker
     - You can use `brew cask install docker`
-    - You can download it from the [docker site](https://hub.docker.com/editions/community/docker-ce-desktop-mac) but you'll need to create an account
+    - You can download it from their changelogs. [mac](https://docs.docker.com/docker-for-mac/release-notes/), [windows](https://docs.docker.com/docker-for-windows/release-notes/)
 2. Python 3.7+
 3. An IDE (like PyCharm)
 
