@@ -23,3 +23,15 @@ class Allegation:
             self.location,
             self.summary
         ])
+
+    def to_array(self):
+        return [
+            self.add1,
+            self.add2,
+            self.beat_id,
+            self.city,
+            self.incident_date,
+            self.is_officer_complaint,
+            self.location,
+            self.summary
+        ]

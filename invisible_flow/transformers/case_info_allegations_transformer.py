@@ -35,6 +35,10 @@ class CaseInfoAllegationsTransformer:
             'location',
             'summary'
         ]
-        df = pd.DataFrame([iter(allegation) for allegation in allegations], column_names)
-        print(df)
-        return df
+        return pd.DataFrame([allegation.to_array() for allegation in allegations], columns=column_names)
+
+    @staticmethod
+    def case_info_csv_to_allegation_csv(csv_content: str) -> str:
+        allegations = CaseInfoAllegationsTransformer.transform_case_info_csv_to_allegation(csv_content)
+        df = CaseInfoAllegationsTransformer.transform_allegations_to_database_ready_df(allegations)
+        return df.to_csv(index=False)

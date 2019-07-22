@@ -62,6 +62,7 @@ def foia_response_upload():
 
     storage.store_string('{}.csv'.format(response_type), file_content, 'ui-{}/initial_data'.format(current_date))
     allegations = CaseInfoAllegationsTransformer.transform_case_info_csv_to_allegation(file_content)
+    storage.store_string()
 
     logger.info('Successfully uploaded FOIA file')
     return Response(status=200, response='Success')
