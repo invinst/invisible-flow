@@ -4,7 +4,7 @@ from invisible_flow.entities.data_allegation import Allegation
 from invisible_flow.transformers.case_info_allegations_transformer import CaseInfoAllegationsTransformer
 
 
-class TestCaseInfoAllegationsTransformer():
+class TestCaseInfoAllegationsTransformer:
     def test_transform_case_info_csv_to_allegation(self):
         with open('head_case_info.csv') as file:
             actual_allegations = CaseInfoAllegationsTransformer.transform_case_info_csv_to_allegation(file.read())
@@ -75,3 +75,11 @@ class TestCaseInfoAllegationsTransformer():
             expected_output = expected_output_file.read()
             assert actual_output == expected_output
 
+    def test_transform(self):
+        with open('single_row_case_info.csv') as input_file, \
+                open('single_row_case_info_allegation.csv') as expected_output_file:
+            initial_case_info_content = input_file.read()
+            actual_output = \
+                CaseInfoAllegationsTransformer().transform(None, initial_case_info_content)
+            expected_output = expected_output_file.read()
+            assert actual_output == expected_output

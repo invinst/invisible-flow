@@ -2,8 +2,10 @@ from invisible_flow.entities.data_allegation import Allegation
 import pandas as pd
 from io import StringIO
 
+from invisible_flow.transformers.transformer_base import TransformerBase
 
-class CaseInfoAllegationsTransformer:
+
+class CaseInfoAllegationsTransformer(TransformerBase):
     @staticmethod
     def row_to_allegation(df):
         return Allegation(
@@ -41,4 +43,10 @@ class CaseInfoAllegationsTransformer:
     def case_info_csv_to_allegation_csv(csv_content: str) -> str:
         allegations = CaseInfoAllegationsTransformer.transform_case_info_csv_to_allegation(csv_content)
         df = CaseInfoAllegationsTransformer.transform_allegations_to_database_ready_df(allegations)
+        # todo handle empty data df tranform, results in list of columnts returned
         return df.to_csv(index=False)
+
+    def transform(self, response_type, file_content: str) -> str:
+        # todo look at filename and figure out extention type and choose
+        # todo if csv convert from binary to plain text
+        return CaseInfoAllegationsTransformer.case_info_csv_to_allegation_csv(file_content.decode('utf-8'))
