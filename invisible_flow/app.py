@@ -1,5 +1,3 @@
-import pandas as pd
-import shutil
 from logging import getLogger
 from logging.config import dictConfig
 
@@ -44,7 +42,6 @@ def index():
 @app.route('/foia_response_upload', methods=['POST'])
 def foia_response_upload():
     request_context: Request = GlobalsFactory.get_request_context()
-
 
     if 'multipart/form-data' not in request_context.content_type:
         logger.error('Unsupported media type uploaded to FOIA. content type={}'.format(request_context.content_type))

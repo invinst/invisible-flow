@@ -2,7 +2,6 @@ from invisible_flow.entities.data_allegation import Allegation
 
 
 class TestAllegation:
-    
     def test_allegation_to_array(self):
         allegation = Allegation(
             add1='add1',
@@ -26,5 +25,3 @@ class TestAllegation:
             ''
         ]
         assert expected_array == allegation_array
-        
-        

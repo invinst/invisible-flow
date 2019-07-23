@@ -49,4 +49,5 @@ class TestGCStorage:
             subject.bucket.blob.assert_called_with('some/path/some-file.csv')
 
             # Return value of blob call is a mock, so we can assert on it
-            subject.bucket.blob.return_value.upload_from_string.assert_called_with('I love dem tacos very much', 'text/csv')
+            subject.bucket.blob.return_value.upload_from_string.assert_called_with(
+                'I love dem tacos very much', 'text/csv')
