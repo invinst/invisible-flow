@@ -1,0 +1,3 @@
+from invisible_flow.transformers.case_info_allegations_transformer import CaseInfoAllegationsTransformer
+
+__all__ = ['CaseInfoAllegationsTransformer']
