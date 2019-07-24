@@ -1,3 +1,5 @@
+import os
+
 import pandas as pd
 
 from invisible_flow.entities.data_allegation import Allegation
@@ -5,8 +7,12 @@ from invisible_flow.transformers.case_info_allegations_transformer import CaseIn
 
 
 class TestCaseInfoAllegationsTransformer:
+    case_info_path = os.path.join('.', 'tests', 'transformers', 'single_row_case_info.csv')
+    expected_output_path = os.path.join('.', 'tests', 'transformers', 'single_row_case_info_allegation.csv')
+    head_case_info_path = os.path.join('.', 'tests', 'transformers', 'head_case_info.csv')
+
     def test_transform_case_info_csv_to_allegation(self):
-        with open('head_case_info.csv') as file:
+        with open(self.head_case_info_path) as file:
             actual_allegations = CaseInfoAllegationsTransformer.transform_case_info_csv_to_allegation(file.read())
             allegation_to_test = actual_allegations[0]
             expected_allegation = Allegation(
@@ -68,16 +74,17 @@ class TestCaseInfoAllegationsTransformer:
         assert expected_df.equals(df)
 
     def test_case_info_csv_to_allegation_csv(self):
-        with open('single_row_case_info.csv') as input_file,\
-                open('single_row_case_info_allegation.csv') as expected_output_file:
+
+        with open(self.case_info_path) as input_file,\
+                open(self.expected_output_path) as expected_output_file:
             initial_case_info_content = input_file.read()
             actual_output = CaseInfoAllegationsTransformer.case_info_csv_to_allegation_csv(initial_case_info_content)
             expected_output = expected_output_file.read()
             assert actual_output == expected_output
 
     def test_transform(self):
-        with open('single_row_case_info.csv') as input_file, \
-                open('single_row_case_info_allegation.csv') as expected_output_file:
+        with open(self.case_info_path) as input_file, \
+                open(self.expected_output_path) as expected_output_file:
             initial_case_info_content = input_file.read()
             actual_output = \
                 CaseInfoAllegationsTransformer().transform(None, initial_case_info_content)
