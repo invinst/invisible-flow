@@ -9,6 +9,9 @@ from invisible_flow.storage.storage_base import StorageBase
 class LocalStorage(StorageBase):
     """Implementation of storage interface that saves files locally"""
 
+    def store_string(self, filename, file_content: str, path: str):
+        pass
+
     def store(self, filename, upload_file: FileStorage, path):
         dir_path = os.path.join('local_upload', path)
 

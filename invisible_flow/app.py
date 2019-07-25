@@ -56,7 +56,7 @@ def foia_response_upload():
     response_type = request_context.form['response_type']
     current_date = GlobalsFactory.get_current_datetime_utc().isoformat(sep='_').replace(':', '-')
 
-    file_content = foia_response_file.read()
+    file_content: str = foia_response_file.read().decode('utf-8')
 
     storage.store_string('{}.csv'.format(response_type), file_content, 'ui-{}/initial_data'.format(current_date))
 
