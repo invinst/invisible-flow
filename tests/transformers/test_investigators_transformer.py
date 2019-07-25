@@ -39,10 +39,11 @@ class TestInvestigatorTransformer:
                                           race="BLA",
                                           appointed_date='5-MAY-10',
                                           officer_id=0)]
-        column_names = [x.name for x in getattr(
-            Investigator, "__attrs_attrs__", None)]
-        get_property_values = lambda object, column_list: [getattr(object,x) for x in column_list]
-        source_arrays = list(map(lambda obj:get_property_values(obj, column_names), investigator_list))
-        expected = pd.DataFrame(source_arrays, columns= column_names)
-        actual = InvestigatorTransformer.transform_invesitgator_entities_to_df(investigator_list)
+        column_names = ['last_name', 'first_name', 'middle_initial',
+                        'gender', 'race', 'appointed_date', 'officer_id']
+        source_arrays = [['DALKIN', 'ANDREW', '', 'M', 'WHI', '17-MAY-17',
+                          0], ['CROSS', 'FREDERICK', '', 'M', 'BLA', '5-MAY-10', 0]]
+        expected = pd.DataFrame(source_arrays, columns=column_names)
+        actual = InvestigatorTransformer.transform_invesitgator_entities_to_df(
+            investigator_list)
         assert expected.equals(actual)
