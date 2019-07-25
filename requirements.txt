@@ -5,3 +5,4 @@ pytest-cov==2.7.1
 gunicorn==19.9.0
 google_cloud_storage==1.16.1
 pandas==0.24.2
+mypy==0.720

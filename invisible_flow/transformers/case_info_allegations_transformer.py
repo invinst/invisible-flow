@@ -1,3 +1,5 @@
+from typing import List
+
 from invisible_flow.entities.data_allegation import Allegation
 import pandas as pd
 from io import StringIO
@@ -20,13 +22,13 @@ class CaseInfoAllegationsTransformer(TransformerBase):
         )
 
     @staticmethod
-    def transform_case_info_csv_to_allegation(csv_content: str) -> [Allegation]:
+    def transform_case_info_csv_to_allegation(csv_content: str) -> List[Allegation]:
         string_io_csv = StringIO(csv_content)
         df = pd.read_csv(string_io_csv)
         return [CaseInfoAllegationsTransformer.row_to_allegation(row) for _, row in df.iterrows()]
 
     @staticmethod
-    def transform_allegations_to_database_ready_df(allegations: [Allegation]) -> pd.DataFrame:
+    def transform_allegations_to_database_ready_df(allegations: List[Allegation]) -> pd.DataFrame:
         column_names = [
             'add1',
             'add2',
@@ -43,10 +45,10 @@ class CaseInfoAllegationsTransformer(TransformerBase):
     def case_info_csv_to_allegation_csv(csv_content: str) -> str:
         allegations = CaseInfoAllegationsTransformer.transform_case_info_csv_to_allegation(csv_content)
         df = CaseInfoAllegationsTransformer.transform_allegations_to_database_ready_df(allegations)
-        # todo handle empty data df tranform, results in list of columnts returned
+        # todo handle empty data df transform, results in list of columns returned
         return df.to_csv(index=False)
 
-    def transform(self, response_type, file_content: str) -> str:
-        # todo look at filename and figure out extention type and choose
+    def transform(self, response_type: str, file_content: str) -> str:
+        # todo look at filename and figure out extension type and choose
         # todo if csv convert from binary to plain text
-        return CaseInfoAllegationsTransformer.case_info_csv_to_allegation_csv(file_content.decode('utf-8'))
+        return CaseInfoAllegationsTransformer.case_info_csv_to_allegation_csv(file_content)
