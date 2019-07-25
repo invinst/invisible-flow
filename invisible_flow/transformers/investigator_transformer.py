@@ -17,6 +17,7 @@ class InvestigatorTransformer(TransformerBase):
     def transform_investigator_csv_to_entity_list(csv_content):
         csv_content_IO = StringIO(csv_content)
         df = pd.read_csv(csv_content_IO)
+        df = df.replace(pd.np.nan, '', regex=True)
         return [InvestigatorTransformer.row_to_investigator(row) for _, row in df.iterrows()]
 
     def transform(self, response_type, file_content: str):
