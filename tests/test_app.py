@@ -45,7 +45,7 @@ class TestInvisibleFlowApp:
 
             case_info_transformer_mock.transform = MagicMock()
             transform_mock = case_info_transformer_mock.transform
-            transform_mock.return_value = b'some content'
+            transform_mock.return_value = 'transformed content'
 
             file_name = '{}.csv'.format(FOIA_RESPONSE_FIELD_NAME)
             data = {
@@ -58,11 +58,11 @@ class TestInvisibleFlowApp:
             assert response.status_code == 200
             assert b'Success' in response.data
 
-            case_info_transformer_mock.transform.assert_called_with('accused', b'some content')
+            case_info_transformer_mock.transform.assert_called_with('accused', 'some content')
 
             calls = [
-                call('accused.csv', b'some content', 'ui-2019-03-25_05-30-50/initial_data'),
-                call('accused.csv', b'some content', 'ui-2019-03-25_05-30-50/transformed')
+                call('accused.csv', 'some content', 'ui-2019-03-25_05-30-50/initial_data'),
+                call('accused.csv', 'transformed content', 'ui-2019-03-25_05-30-50/transformed')
             ]
             storage_mock.store_string.assert_has_calls(calls)
             # TODO test that xlsx is saved with ending

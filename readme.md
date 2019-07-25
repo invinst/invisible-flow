@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/invinst/invisible-flow.svg?branch=master)](https://travis-ci.org/invinst/invisible-flow)
+[![Build Status](https://travis-ci.com/invinst/invisible-flow.svg?branch=master)](https://travis-ci.com/invinst/invisible-flow)
 
 ## Goal: To be able to update a running database of police complaints managed by the Invisible Institute, based on the prior work at [the original repo](https://github.com/invinst/chicago-police-data)
 
@@ -48,7 +48,7 @@ $ export FLASK_APP=app.py
 $ export ENVIRONMENT=local
 $ flask run
 ```
-2. To run it the same way it's run on GAE, run `gunicorn -b 127.0.0.1:8080 invisible_flow.app:app`
+2. To run it the same way it's run on GAE, run `gunicorn -b :$PORT invisible_flow.app:app -c gunicorn.config.py`
 
 ### Running the tests
 * To run the tests execute `pytest`
