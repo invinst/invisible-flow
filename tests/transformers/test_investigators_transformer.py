@@ -6,17 +6,20 @@ from invisible_flow.transformers.investigator_transformer import InvestigatorTra
 
 
 class TestInvestigatorTransformer:
-    expected_output_path = os.path.join('.', 'tests', 'transformers', 'investigator_transform_output.csv')
-    investigator_csv_path = os.path.join('.', 'tests', 'resources', 'sample_investigator_request.csv')
+    expected_output_path = os.path.join(
+        '.', 'tests', 'transformers', 'investigator_transform_output.csv')
+    investigator_csv_path = os.path.join(
+        '.', 'tests', 'resources', 'sample_investigator_request.csv')
 
     def test_transform_investigator_csv_to_investigator_entity_list(self):
         with open(self.investigator_csv_path) as file:
-            actual = InvestigatorTransformer.transform_investigator_csv_to_entity_list(file.read())
-            expected = [Investigator(last_name='lastname',
-                                     first_name='first name',
-                                     middle_initial='middle',
+            actual = InvestigatorTransformer.transform_investigator_csv_to_entity_list(
+                file.read())
+            expected = [Investigator(last_name='DALKIN',
+                                     first_name='ANDREW',
+                                     middle_initial='',
                                      gender='M',
-                                     race="BLACK",
-                                     appointed_date='',
-                                     officer_id=232)]
+                                     race="WHI",
+                                     appointed_date='17-MAY-17',
+                                     officer_id=0)]
         assert actual == expected
