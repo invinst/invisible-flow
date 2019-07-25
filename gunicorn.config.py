@@ -1,5 +1,5 @@
 import multiprocessing
 
-workers = multiprocessing.cpu_count() * 2 + 1
+workers = 3
 
 worker_class = 'eventlet'
