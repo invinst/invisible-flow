@@ -23,3 +23,26 @@ class TestInvestigatorTransformer:
                                      appointed_date='17-MAY-17',
                                      officer_id=0)]
         assert actual == expected
+
+    def test_transform_investigator_entity_to_investigator_df(self):
+        investigator_list = [Investigator(last_name='DALKIN',
+                                          first_name='ANDREW',
+                                          middle_initial='',
+                                          gender='M',
+                                          race="WHI",
+                                          appointed_date='17-MAY-17',
+                                          officer_id=0),
+                             Investigator(last_name='CROSS',
+                                          first_name='FREDERICK',
+                                          middle_initial='',
+                                          gender='M',
+                                          race="BLA",
+                                          appointed_date='5-MAY-10',
+                                          officer_id=0)]
+        column_names = [x.name for x in getattr(
+            Investigator, "__attrs_attrs__", None)]
+        get_property_values = lambda object, column_list: [getattr(object,x) for x in column_list]
+        source_arrays = list(map(lambda obj:get_property_values(obj, column_names), investigator_list))
+        expected = pd.DataFrame(source_arrays, columns= column_names)
+        actual = InvestigatorTransformer.transform_invesitgator_entities_to_df(investigator_list)
+        assert expected.equals(actual)
