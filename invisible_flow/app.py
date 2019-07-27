@@ -60,8 +60,8 @@ def foia_response_upload():
 
     storage.store_string('{}.csv'.format(response_type), file_content, 'ui-{}/initial_data'.format(current_date))
 
-    transformer_factory = TransformerFactory.get_transformer(response_type)
-    transformer_factory.transform(response_type, file_content)
+    transformer = TransformerFactory.get_transformer(response_type)
+    transformer.transform(response_type, file_content)
     allegations = TransformerFactory.get_transformer(response_type).transform(response_type, file_content)
     storage.store_string('{}.csv'.format(response_type), allegations, 'ui-{}/transformed'.format(current_date))
 

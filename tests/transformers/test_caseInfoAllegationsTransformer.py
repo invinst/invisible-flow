@@ -4,12 +4,15 @@ import pandas as pd
 
 from invisible_flow.entities.data_allegation import Allegation
 from invisible_flow.transformers.case_info_allegations_transformer import CaseInfoAllegationsTransformer
+from tests.helpers.if_test_base import IFTestBase
+
+package_directory = os.path.dirname(os.path.abspath(__file__))
 
 
-class TestCaseInfoAllegationsTransformer:
-    case_info_path = os.path.join('.', 'tests', 'transformers', 'single_row_case_info.csv')
-    expected_output_path = os.path.join('.', 'tests', 'transformers', 'single_row_case_info_allegation.csv')
-    head_case_info_path = os.path.join('.', 'tests', 'transformers', 'head_case_info.csv')
+class TestCaseInfoAllegationsTransformer(IFTestBase):
+    case_info_path = os.path.join(IFTestBase.resource_directory, 'case_info_test_single_row.csv')
+    expected_output_path = os.path.join(IFTestBase.resource_directory, 'case_info_test_allegation_single_row.csv')
+    head_case_info_path = os.path.join(IFTestBase.resource_directory, 'case_info_test_head.csv')
 
     def test_transform_case_info_csv_to_allegation(self):
         with open(self.head_case_info_path) as file:
