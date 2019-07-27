@@ -19,7 +19,6 @@ class TestComplainantTransformer(IFTestBase):
 
         pd.testing.assert_frame_equal(new_df, expected_df)
 
-
     def test_transform(self):
         with open(self.complainant_input_path) as input_file, \
                 open(self.complainant_output_path) as expected_output_file:

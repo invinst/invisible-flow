@@ -1,11 +1,7 @@
 import datetime
-import time
-
-from typing import List
-
-from invisible_flow.entities.data_allegation import Allegation
-import pandas as pd
 from io import StringIO
+
+import pandas as pd
 
 from invisible_flow.transformers.transformer_base import TransformerBase
 
