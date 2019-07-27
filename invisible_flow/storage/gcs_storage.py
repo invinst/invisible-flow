@@ -32,4 +32,4 @@ class GCStorage(StorageBase):
         try:
             blob.upload_from_string(metadata_text)
         except GoogleAPICallError as error:
-            logger.error('Error uploading metadata to GCS. message:{}'.format(error.message))
+            logger.error(f'Error uploading metadata to GCS. message:{error.message}')

@@ -44,12 +44,12 @@ def foia_response_upload():
     request_context: Request = GlobalsFactory.get_request_context()
 
     if 'multipart/form-data' not in request_context.content_type:
-        logger.error('Unsupported media type uploaded to FOIA. content type={}'.format(request_context.content_type))
+        logger.error(f'Unsupported media type uploaded to FOIA. content type={request_context.content_type}')
         return Response(status=415, response='Unsupported media type. Please upload a .csv .xls or .xlsx file.')
 
     foia_response_file = request_context.files['foia_response']
     if not is_valid_file_type(foia_response_file.filename):
-        logger.error('Unsupported file type uploaded to FOIA. filename={}'.format(foia_response_file.filename))
+        logger.error(f'Unsupported file type uploaded to FOIA. filename={foia_response_file.filename}')
         return Response(status=415, response='Unsupported file type. Please upload a .csv .xls or .xlsx file.')
 
     storage = StorageFactory.get_storage()
@@ -58,12 +58,12 @@ def foia_response_upload():
 
     file_content: str = foia_response_file.read().decode('utf-8')
 
-    storage.store_string('{}.csv'.format(response_type), file_content, 'ui-{}/initial_data'.format(current_date))
+    storage.store_string(f'{response_type}.csv', file_content, f'ui-{current_date}/initial_data')
 
     transformer = TransformerFactory.get_transformer(response_type)
     transformer.transform(response_type, file_content)
     allegations = TransformerFactory.get_transformer(response_type).transform(response_type, file_content)
-    storage.store_string('{}.csv'.format(response_type), allegations, 'ui-{}/transformed'.format(current_date))
+    storage.store_string(f'{response_type}.csv', allegations, f'ui-{current_date}/transformed')
 
     logger.info('Successfully uploaded FOIA file')
     return Response(status=200, response='Success')
