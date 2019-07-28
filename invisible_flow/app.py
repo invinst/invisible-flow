@@ -5,8 +5,8 @@ from flask import Flask, render_template, Response, Request
 
 from invisible_flow.globals_factory import GlobalsFactory
 from invisible_flow.storage.storage_factory import StorageFactory
-from invisible_flow.validation import is_valid_file_type
 from invisible_flow.transformers.transformer_factory import TransformerFactory
+from invisible_flow.validation import is_valid_file_type
 
 # Logging configuration
 dictConfig({
