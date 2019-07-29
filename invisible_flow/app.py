@@ -67,7 +67,6 @@ def foia_response_upload():
     logger.info(f'Transforming foia request of type {response_type}')
     transformer = TransformerFactory.get_transformer(response_type)
     transformation_result = transformer.transform(response_type, file_content)
-    # allegations = TransformerFactory.get_transformer(response_type).transform(response_type, file_content)
     logger.info(f'Storing transformed file')
     storage.store_string(f'{response_type}.csv', transformation_result, f'ui-{current_date}/transformed')
 
