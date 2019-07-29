@@ -15,7 +15,7 @@ class MetaDataCreator:
         self.filename = filename
         self.commit = commit
         self.origin = origin
-        self.output_filename = '{}.json'.format(self.filename)
+        self.output_filename = f'{self.filename}.json'
 
     def build_and_return_dict(self):
         return {'sha': self.commit, 'origin': self.origin}

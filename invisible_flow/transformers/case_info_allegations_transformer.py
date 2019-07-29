@@ -14,7 +14,7 @@ class CaseInfoAllegationsTransformer(TransformerBase):
             add1=str(df['STREET_NO']),
             add2=str(df['STREET_NME']),
             beat_id=str(df['OCCURANCE_BEAT']),
-            city="{} {} {}".format(df['CITY'], df['STATE'], df['ZIP_CD']),
+            city=f"{df['CITY']} {df['STATE']} {df['ZIP_CD']}",
             incident_date=str(df['COMPLAINT_DATE']),
             is_officer_complaint=str(df['COMPLAINANT_TYPE']) == 'CPD_EMPLOYEE',
             location=str(df['LOCATION_CODE']),
