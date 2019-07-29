@@ -53,17 +53,23 @@ def foia_response_upload():
         return Response(status=415, response='Unsupported file type. Please upload a .csv .xls or .xlsx file.')
 
     storage = StorageFactory.get_storage()
+    print(type(storage))
     response_type = request_context.form['response_type']
+    logger.info(f'Received foia request of type {response_type}')
+
     current_date = GlobalsFactory.get_current_datetime_utc().isoformat(sep='_').replace(':', '-')
 
     file_content: str = foia_response_file.read().decode('utf-8')
 
+    logger.info(f'Storing foia request of type {response_type}')
     storage.store_string(f'{response_type}.csv', file_content, f'ui-{current_date}/initial_data')
 
+    logger.info(f'Transforming foia request of type {response_type}')
     transformer = TransformerFactory.get_transformer(response_type)
-    transformer.transform(response_type, file_content)
-    allegations = TransformerFactory.get_transformer(response_type).transform(response_type, file_content)
-    storage.store_string(f'{response_type}.csv', allegations, f'ui-{current_date}/transformed')
+    transformation_result = transformer.transform(response_type, file_content)
+    # allegations = TransformerFactory.get_transformer(response_type).transform(response_type, file_content)
+    logger.info(f'Storing transformed file')
+    storage.store_string(f'{response_type}.csv', transformation_result, f'ui-{current_date}/transformed')
 
     logger.info('Successfully uploaded FOIA file')
     return Response(status=200, response='Success')
