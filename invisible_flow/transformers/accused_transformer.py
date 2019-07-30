@@ -3,8 +3,6 @@ from typing import List, Tuple
 import pandas as pd
 from io import StringIO
 
-from attr import dataclass
-
 from invisible_flow.entities.data_allegationcategory import AllegationCategory
 from invisible_flow.entities.data_officer import Officer
 from invisible_flow.entities.data_officerbadgenumber import OfficerBadgeNumber
@@ -16,7 +14,7 @@ from invisible_flow.transformers.transformer_base import TransformerBase
 class AccusedTransformer(TransformerBase):
     # TODO We need a method that returns a collection of name/entity tuples
 
-    def csv_to_entity_name_entity_list_tuples(self, accused_df) -> List[Tuple[str, dataclass]]:
+    def csv_to_entity_name_entity_list_tuples(self, accused_df) -> List[Tuple]:
         # what if we push each entity into a collection for use later
         # loop across rows of csv_content
         # 4 collections one for each entity
@@ -62,10 +60,10 @@ class AccusedTransformer(TransformerBase):
             )
         ]
 
-    def transform_csv_to_accused_entities(self, csv_content: str) -> List[dataclass]:
+    def transform_csv_to_accused_entities(self, csv_content: str) -> List:
         string_io_csv = StringIO(csv_content)
         df = pd.read_csv(string_io_csv)
-        return [AccusedTransformer.csv_to_entity_name_entity_list_tuples(row) for _, row in df.iterrows()]
+        return [AccusedTransformer.csv_to_entity_name_entity_list_tuples(self, row) for _, row in df.iterrows()]
 
-    def transform(self):
+    def transform(self, one, two):
         pass
