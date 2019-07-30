@@ -5,5 +5,5 @@ from attr import dataclass
 class AllegationCategory:
     category: str
     category_code: str
-    on_duty: str
+    on_duty: bool
     cr_id: str
