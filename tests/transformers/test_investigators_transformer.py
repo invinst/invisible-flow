@@ -61,6 +61,6 @@ class TestInvestigatorTransformer:
                 open(self.expected_output_path) as expected_output_file:
             initial_investigator_content = input_file.read()
 
-            expected = expected_output_file.read()
-            actual = InvestigatorTransformer().transform(None, initial_investigator_content)
+            expected = [('investigator', expected_output_file.read())]
+            actual = InvestigatorTransformer().transform('investigator', initial_investigator_content)
             assert actual == expected

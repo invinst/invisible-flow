@@ -34,4 +34,7 @@ class InvestigatorTransformer(TransformerBase):
         return df.to_csv(index=False)
 
     def transform(self, response_type, file_content: str):
-        return InvestigatorTransformer.transform_investigator_csv_to_investigator_csv(csv_content=file_content)
+        return [(
+            response_type,
+            InvestigatorTransformer.transform_investigator_csv_to_investigator_csv(csv_content=file_content))
+        ]

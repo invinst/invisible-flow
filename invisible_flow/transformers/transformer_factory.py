@@ -1,4 +1,3 @@
-from invisible_flow.transformers import CaseInfoAllegationsTransformer
 from invisible_flow.transformers.complainant_transformer import ComplainantTransformer
 from invisible_flow.transformers.transformer_base import TransformerBase
 from invisible_flow.transformers import CaseInfoAllegationsTransformer, InvestigatorTransformer
