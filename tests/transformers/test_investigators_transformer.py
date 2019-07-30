@@ -7,7 +7,7 @@ from invisible_flow.transformers.investigator_transformer import InvestigatorTra
 
 class TestInvestigatorTransformer:
     expected_output_path = os.path.join(
-        '.', 'tests', 'transformers', 'investigator_transform_output.csv')
+        '.', 'tests','resources', 'investigator_transform_output.csv')
     investigator_csv_path = os.path.join(
         '.', 'tests', 'resources', 'sample_investigator_request.csv')
 
@@ -47,3 +47,11 @@ class TestInvestigatorTransformer:
         actual = InvestigatorTransformer.transform_invesitgator_entities_to_df(
             investigator_list)
         assert expected.equals(actual)
+
+    def test_transform_investigator_csv_to_investigator_csv(self):
+        with open(self.investigator_csv_path) as input_file,\
+                open(self.expected_output_path) as expected_output_file:
+            initial_investigator_content = input_file.read()
+            actual_output = InvestigatorTransformer.transform_investigator_csv_to_investigator_csv(initial_investigator_content)
+            expected_output = expected_output_file.read()
+            assert actual_output == expected_output
