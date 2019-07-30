@@ -29,7 +29,10 @@ class InvestigatorTransformer(TransformerBase):
         return df
 
     def transform_investigator_csv_to_investigator_csv(csv_content):
-        pass
+         investigator_entity_list = InvestigatorTransformer.transform_investigator_csv_to_entity_list(csv_content)
+         df = InvestigatorTransformer.transform_invesitgator_entities_to_df(investigator_entity_list)
+         return df.to_csv(index=False)
+
 
     def transform(self, response_type, file_content: str):
         return InvestigatorTransformer.transform_investigator_csv_to_entity_list(csv_content=file_content)
