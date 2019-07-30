@@ -20,7 +20,7 @@ Most of the background you need to complete these stories will be in the "defini
 1. Docker
     - You can use `brew cask install docker`
     - You can download it from their changelogs. [mac](https://docs.docker.com/docker-for-mac/release-notes/), [windows](https://docs.docker.com/docker-for-windows/release-notes/)
-2. Python 3.7+
+2. Python 3.7+ 
 3. An IDE (like PyCharm)
 
 ### Running the program
