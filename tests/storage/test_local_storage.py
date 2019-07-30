@@ -11,28 +11,31 @@ class TestLocalStorage:
     subject = LocalStorage()
     fake_file_storage = FileStorage(stream=BytesIO(b'Some content'))
 
-    def test_store_does_not_throw_exception_when_used(self):
-        self.subject.store('Blah', self.fake_file_storage, '.')
-        os.remove(os.path.join('local_upload', 'Blah'))
+    def test_store_string_does_not_throw_exception_when_used(self):
+        self.subject.store_string('Blah', 'Some content', '.')
+        os.remove(os.path.join(self.subject.local_upload_directory, 'Blah'))
 
-    def test_store_writes_file_locally(self):
-        self.subject.store('test-file.csv', self.fake_file_storage, 'subdir')
-        assert os.path.exists(os.path.join('local_upload', 'subdir', 'test-file.csv'))
+    def test_store_string_writes_file_locally(self):
+        self.subject.store_string('test-file.csv', 'Some content', 'subdir')
+        assert os.path.exists(os.path.join(self.subject.local_upload_directory, 'subdir', 'test-file.csv'))
 
         # cleanup
-        os.remove(os.path.join('local_upload', 'subdir', 'test-file.csv'))
-        os.rmdir(os.path.join('local_upload', 'subdir'))
-        assert not (os.path.exists(os.path.join('local_upload', 'subdir', 'test-file.csv')))
+        os.remove(os.path.join(self.subject.local_upload_directory, 'subdir', 'test-file.csv'))
+        os.rmdir(os.path.join(self.subject.local_upload_directory, 'subdir'))
+        assert not (os.path.exists(os.path.join(self.subject.local_upload_directory, 'subdir', 'test-file.csv')))
 
     def test_get_retrieves_locally_stored_files(self):
-        pathlib.Path('other-subdir').mkdir()
-        with open(os.path.join('other-subdir', 'some-file.txt'), 'w') as file:
-            file.write('some text')
-            file.close()
+        directory_path = os.path.join(self.subject.local_upload_directory, 'other-subdir')
+        pathlib.Path(directory_path).mkdir()
 
-        assert self.subject.get('some-file.txt', 'other-subdir') == 'some text'
+        try:
+            with open(os.path.join(directory_path, 'some-file.txt'), 'w') as file:
+                file.write('some text')
+                file.close()
 
-        # cleanup
-        os.remove(os.path.join('other-subdir', 'some-file.txt'))
-        os.rmdir('other-subdir')
-        assert not (os.path.exists(os.path.join('other-subdir', 'some-file.txt')))
+            assert self.subject.get('some-file.txt', 'other-subdir') == 'some text'
+        finally:
+            # cleanup
+            os.remove(os.path.join(directory_path, 'some-file.txt'))
+            os.rmdir(directory_path)
+            assert not (os.path.exists(os.path.join(directory_path, 'some-file.txt')))

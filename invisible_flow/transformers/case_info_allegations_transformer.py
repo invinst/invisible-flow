@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Tuple
 
 from invisible_flow.entities.data_allegation import Allegation
 import pandas as pd
@@ -14,7 +14,7 @@ class CaseInfoAllegationsTransformer(TransformerBase):
             add1=str(df['STREET_NO']),
             add2=str(df['STREET_NME']),
             beat_id=str(df['OCCURANCE_BEAT']),
-            city="{} {} {}".format(df['CITY'], df['STATE'], df['ZIP_CD']),
+            city=f"{df['CITY']} {df['STATE']} {df['ZIP_CD']}",
             incident_date=str(df['COMPLAINT_DATE']),
             is_officer_complaint=str(df['COMPLAINANT_TYPE']) == 'CPD_EMPLOYEE',
             location=str(df['LOCATION_CODE']),
@@ -48,7 +48,7 @@ class CaseInfoAllegationsTransformer(TransformerBase):
         # todo handle empty data df transform, results in list of columns returned
         return df.to_csv(index=False)
 
-    def transform(self, response_type: str, file_content: str) -> str:
+    def transform(self, response_type: str, file_content: str) -> List[Tuple[str, str]]:
         # todo look at filename and figure out extension type and choose
         # todo if csv convert from binary to plain text
-        return CaseInfoAllegationsTransformer.case_info_csv_to_allegation_csv(file_content)
+        return [("allegations", CaseInfoAllegationsTransformer.case_info_csv_to_allegation_csv(file_content))]
