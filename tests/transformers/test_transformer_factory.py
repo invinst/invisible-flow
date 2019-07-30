@@ -1,3 +1,5 @@
+import pytest
+
 from invisible_flow.transformers import TransformerFactory
 
 
@@ -16,6 +18,7 @@ class TestTransformerFactory:
         actual = TransformerFactory().get_transformer('complainant').__class__.__name__
         expected = 'ComplainantTransformer'
         assert actual == expected
+
 
 def test_response_type_is_invalid():
     with pytest.raises(Exception):
