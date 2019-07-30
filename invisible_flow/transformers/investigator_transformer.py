@@ -28,5 +28,8 @@ class InvestigatorTransformer(TransformerBase):
         df = pd.DataFrame(investigator_entity_values, columns= column_names)
         return df
 
+    def transform_investigator_csv_to_investigator_csv(csv_content):
+        pass
+
     def transform(self, response_type, file_content: str):
         return InvestigatorTransformer.transform_investigator_csv_to_entity_list(csv_content=file_content)
