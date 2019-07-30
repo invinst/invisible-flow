@@ -89,7 +89,7 @@ class TestCaseInfoAllegationsTransformer(IFTestBase):
         with open(self.case_info_path) as input_file, \
                 open(self.expected_output_path) as expected_output_file:
             initial_case_info_content = input_file.read()
-            actual_output = \
-                CaseInfoAllegationsTransformer().transform(None, initial_case_info_content)
+            actual_output = CaseInfoAllegationsTransformer().transform('', initial_case_info_content)[0]
             expected_output = expected_output_file.read()
-            assert actual_output == expected_output
+            assert actual_output[0] == 'allegations'
+            assert actual_output[1] == expected_output

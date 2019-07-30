@@ -67,7 +67,8 @@ def foia_response_upload():
     transformer = TransformerFactory.get_transformer(response_type)
     transformation_result = transformer.transform(response_type, file_content)
     logger.info(f'Storing transformed file')
-    storage.store_string(f'{response_type}.csv', transformation_result, f'ui-{current_date}/transformed')
+    for result in transformation_result:
+        storage.store_string(f'{result[0]}.csv', result[1], f'ui-{current_date}/transformed')
 
     logger.info('Successfully uploaded FOIA file')
     return Response(status=200, response='Success')

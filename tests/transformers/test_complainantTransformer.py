@@ -25,5 +25,6 @@ class TestComplainantTransformer(IFTestBase):
             input_str = input_file.read()
             expected_output = expected_output_file.read()
 
-            actual_output = ComplainantTransformer().transform('', input_str)
-            assert actual_output == expected_output
+            actual_output = ComplainantTransformer().transform('', input_str)[0]
+            assert actual_output[0] == 'complainants'
+            assert actual_output[1] == expected_output

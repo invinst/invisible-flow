@@ -2,6 +2,7 @@ import datetime
 from io import StringIO
 
 import pandas as pd
+from typing import Tuple, List
 
 from invisible_flow.transformers.transformer_base import TransformerBase
 
@@ -14,7 +15,7 @@ class ComplainantTransformer(TransformerBase):
         row['age'] = datetime.datetime.now().year - row['BIRTH_YEAR']
         return row
 
-    def transform(self, response_type: str, file_content: str) -> str:
+    def transform(self, response_type: str, file_content: str) -> List[Tuple[str, str]]:
         string_io_csv = StringIO(file_content)
 
         complainant_df = pd.read_csv(string_io_csv)
@@ -31,4 +32,4 @@ class ComplainantTransformer(TransformerBase):
             .drop(columns='BIRTH_YEAR')
 
         # index=False removes leading column in dataframe that represents the df row number
-        return final_complainant_df.to_csv(index=False)
+        return [("complainants", final_complainant_df.to_csv(index=False))]

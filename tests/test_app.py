@@ -38,8 +38,7 @@ class TestInvisibleFlowApp:
     def test_foia_response_upload_uploads_to_memory(self, client):
         # todo change this to a decorator
         with mock.patch('invisible_flow.app.StorageFactory.get_storage') as storage_factory_mock, \
-                mock.patch('invisible_flow.app.TransformerFactory.get_transformer')\
-                as get_transformer_mock:
+                mock.patch('invisible_flow.app.TransformerFactory.get_transformer') as get_transformer_mock:
             storage_mock = LocalStorage()
             storage_factory_mock.return_value = storage_mock
             storage_mock.store = MagicMock()
@@ -50,7 +49,7 @@ class TestInvisibleFlowApp:
 
             case_info_transformer_mock.transform = MagicMock()
             transform_mock = case_info_transformer_mock.transform
-            transform_mock.return_value = 'transformed content'
+            transform_mock.return_value = [('accused', 'transformed content')]
 
             file_name = '{}.csv'.format(FOIA_RESPONSE_FIELD_NAME)
             data = {
