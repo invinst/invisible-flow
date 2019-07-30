@@ -18,9 +18,9 @@ class AccusedTransformer(TransformerBase):
 
     def csv_to_entity_name_entity_list_tuples(self, accused_df) -> List[Tuple[str, dataclass]]:
         # what if we push each entity into a collection for use later
-        #loop across rows of csv_content
-            # 4 collections one for each entity
-            # return a list of tuples [(name, [entity, entity]), (name, [entity, entity])]
+        # loop across rows of csv_content
+        # 4 collections one for each entity
+        # return a list of tuples [(name, [entity, entity]), (name, [entity, entity])]
         return [
             (
                 "allegationcategory",
