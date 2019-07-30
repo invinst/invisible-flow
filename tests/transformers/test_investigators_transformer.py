@@ -7,14 +7,13 @@ from invisible_flow.transformers.investigator_transformer import InvestigatorTra
 
 class TestInvestigatorTransformer:
     expected_output_path = os.path.join(
-        '.', 'tests','resources', 'investigator_transform_output.csv')
+        '.', 'tests', 'resources', 'investigator_transform_output.csv')
     investigator_csv_path = os.path.join(
         '.', 'tests', 'resources', 'sample_investigator_request.csv')
 
     def test_transform_investigator_csv_to_investigator_entity_list(self):
         with open(self.investigator_csv_path) as file:
-            actual = InvestigatorTransformer.transform_investigator_csv_to_entity_list(
-                file.read())
+            actual = InvestigatorTransformer.transform_investigator_csv_to_entity_list(file.read())
             expected = [Investigator(last_name='DALKIN',
                                      first_name='ANDREW',
                                      middle_initial='',
@@ -44,14 +43,24 @@ class TestInvestigatorTransformer:
         source_arrays = [['DALKIN', 'ANDREW', '', 'M', 'WHI', '17-MAY-17',
                           0], ['CROSS', 'FREDERICK', '', 'M', 'BLA', '5-MAY-10', 0]]
         expected = pd.DataFrame(source_arrays, columns=column_names)
-        actual = InvestigatorTransformer.transform_invesitgator_entities_to_df(
+        actual = InvestigatorTransformer.transform_investigator_entities_to_df(
             investigator_list)
         assert expected.equals(actual)
 
     def test_transform_investigator_csv_to_investigator_csv(self):
-        with open(self.investigator_csv_path) as input_file,\
+        with open(self.investigator_csv_path) as input_file, \
                 open(self.expected_output_path) as expected_output_file:
             initial_investigator_content = input_file.read()
-            actual_output = InvestigatorTransformer.transform_investigator_csv_to_investigator_csv(initial_investigator_content)
+            actual_output = InvestigatorTransformer.transform_investigator_csv_to_investigator_csv(
+                initial_investigator_content)
             expected_output = expected_output_file.read()
             assert actual_output == expected_output
+
+    def test_transform_returns_filename_and_contents(self):
+        with open(self.investigator_csv_path) as input_file, \
+                open(self.expected_output_path) as expected_output_file:
+            initial_investigator_content = input_file.read()
+
+            expected = expected_output_file.read()
+            actual = InvestigatorTransformer().transform(None, initial_investigator_content)
+            assert actual == expected

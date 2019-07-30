@@ -20,19 +20,18 @@ class InvestigatorTransformer(TransformerBase):
         df = df.replace(pd.np.nan, '', regex=True)
         return [InvestigatorTransformer.row_to_investigator(row) for _, row in df.iterrows()]
 
-    def transform_invesitgator_entities_to_df(entities):
+    def transform_investigator_entities_to_df(entities):
         column_names = [prop.name for prop in getattr(
             Investigator, "__attrs_attrs__", None)]
-        get_property_values = lambda invest_entity, column_list: [getattr(invest_entity,prop) for prop in column_list]
-        investigator_entity_values = list(map(lambda obj:get_property_values(obj, column_names), entities))
-        df = pd.DataFrame(investigator_entity_values, columns= column_names)
+        get_property_values = lambda invest_entity, column_list: [getattr(invest_entity, prop) for prop in column_list]
+        investigator_entity_values = list(map(lambda obj: get_property_values(obj, column_names), entities))
+        df = pd.DataFrame(investigator_entity_values, columns=column_names)
         return df
 
     def transform_investigator_csv_to_investigator_csv(csv_content):
-         investigator_entity_list = InvestigatorTransformer.transform_investigator_csv_to_entity_list(csv_content)
-         df = InvestigatorTransformer.transform_invesitgator_entities_to_df(investigator_entity_list)
-         return df.to_csv(index=False)
-
+        investigator_entity_list = InvestigatorTransformer.transform_investigator_csv_to_entity_list(csv_content)
+        df = InvestigatorTransformer.transform_investigator_entities_to_df(investigator_entity_list)
+        return df.to_csv(index=False)
 
     def transform(self, response_type, file_content: str):
-        return InvestigatorTransformer.transform_investigator_csv_to_entity_list(csv_content=file_content)
+        return InvestigatorTransformer.transform_investigator_csv_to_investigator_csv(csv_content=file_content)

@@ -1,3 +1,4 @@
 from invisible_flow.transformers.case_info_allegations_transformer import CaseInfoAllegationsTransformer
+from invisible_flow.transformers.investigator_transformer import InvestigatorTransformer
 
-__all__ = ['CaseInfoAllegationsTransformer']
+__all__ = ['CaseInfoAllegationsTransformer', 'InvestigatorTransformer']
