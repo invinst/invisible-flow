@@ -17,16 +17,20 @@ class InvestigatorTransformer(TransformerBase):
     def transform_investigator_csv_to_entity_list(csv_content):
         csv_content_IO = StringIO(csv_content)
         df = pd.read_csv(csv_content_IO)
-        df = df.replace(pd.np.nan, '', regex=True)
+        df = df.fillna('')
         return [InvestigatorTransformer.row_to_investigator(row) for _, row in df.iterrows()]
 
     def transform_investigator_entities_to_df(entities):
         column_names = [prop.name for prop in getattr(
             Investigator, "__attrs_attrs__", None)]
-        get_property_values = lambda invest_entity, column_list: [getattr(invest_entity, prop) for prop in column_list]
-        investigator_entity_values = list(map(lambda obj: get_property_values(obj, column_names), entities))
+
+        investigator_entity_values = \
+            list(map(lambda obj: InvestigatorTransformer.get_property_values(obj, column_names), entities))
         df = pd.DataFrame(investigator_entity_values, columns=column_names)
         return df
+
+    def get_property_values(investigator_entity, column_list):
+        return [getattr(investigator_entity, prop) for prop in column_list]
 
     def transform_investigator_csv_to_investigator_csv(csv_content):
         investigator_entity_list = InvestigatorTransformer.transform_investigator_csv_to_entity_list(csv_content)
