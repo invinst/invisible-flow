@@ -1,2 +1,2 @@
-appointed_date,first_name,gender,last_name,middle_initial,officer_id,race
-17-MAY-17,ANDREW,M,DALKIN,,0,WHI
+last_name,first_name,middle_initial,gender,race,appointed_date,officer_id
+DALKIN,ANDREW,,M,WHI,17-MAY-17,0
