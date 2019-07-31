@@ -8,7 +8,7 @@ from invisible_flow.transformers.transformer_base import TransformerBase
 
 class AccusedTransformer(TransformerBase):
 
-    def csv_to_entity_name_csv_tuples(self, csv_content) -> List[Tuple[str, str]]:
+    def transform(self, response_type: str, csv_content: str) -> List[Tuple[str, str]]:
         string_io_csv = StringIO(csv_content)
         accused_df = pd.read_csv(string_io_csv)
         allegationcategory_columns = [
@@ -72,6 +72,3 @@ class AccusedTransformer(TransformerBase):
                 }).to_csv(index=False)
             )
         ]
-
-    def transform(self, one, two):
-        pass

@@ -7,7 +7,7 @@ from tests.helpers.if_test_base import IFTestBase
 
 class TestAccusedTransformer:
 
-    def test_csv_to_entity_name_csv_tuples_head(self):
+    def test_transform_head(self):
         transformer = AccusedTransformer()
         head_accused_path = os.path.join(IFTestBase.resource_directory, 'accused_head.csv')
 
@@ -18,5 +18,5 @@ class TestAccusedTransformer:
                 ('officerbadgenumber', 'officer_id,star,cr_id\n1088.0,1986.0,259794\n56009.0,9331.0,259794\n,,259797\n50854.0,14380.0,259804\n50854.0,14380.0,259804\n50854.0,14380.0,259804\n50854.0,14380.0,259804\n39162.0,15738.0,259804\n50854.0,14380.0,259804\n'),  # noqa: E501
                 ('policeunit', 'tags,unit_name,cr_id\n3.0,,259794\n3.0,,259794\n,,259797\n153.0,,259804\n153.0,,259804\n153.0,,259804\n153.0,,259804\n7.0,,259804\n153.0,,259804\n')  # noqa: E501
             ]
-            actual_result = transformer.csv_to_entity_name_csv_tuples(file.read())
+            actual_result = transformer.transform('accused', file.read())
             assert actual_result == expected_result
