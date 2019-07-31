@@ -1,4 +1,5 @@
-import pandas as pd
+import os
+
 from invisible_flow.transformers.accused_transformer import AccusedTransformer
 
 from invisible_flow.entities.data_allegationcategory import AllegationCategory
@@ -7,103 +8,74 @@ from invisible_flow.entities.data_officerbadgenumber import OfficerBadgeNumber
 from invisible_flow.entities.data_policeunit import PoliceUnit
 
 
+from tests.helpers.if_test_base import IFTestBase
+
+
 class TestAccusedTransformer:
 
-    def test_csv_to_entity_name_entity_list_tuples(self):
+    def test_csv_to_entity_name_entity_list_tuples_head(self):
         transformer = AccusedTransformer()
-        df = pd.DataFrame(
-            [
-                [
-                    'moo1',
-                    'cow1',
-                    True,
-                    '24',
-                    1994,
-                    'Jeff',
-                    'M',
-                    'Burroughs',
-                    'N',
-                    'WHI',
-                    'SERGEANT OF POLICE',
-                    '122',
-                    '654',
-                    '3',
-                    'detail unit'
-                ],
-                [
-                    'moo2',
-                    'cow2',
-                    True,
-                    '25',
-                    1994,
-                    'Joe',
-                    'M',
-                    'Mo',
-                    'N',
-                    'WHI',
-                    'POLICE OFFICER',
-                    '122',
-                    '654',
-                    '3',
-                    'detail unit'
-                ]
-            ],
-            columns=[
-                'ALLEGATION_CATEGORY',
-                'ALLEGATION_CATEGORY_CD',
-                'EMPLOYEE_ON_DUTY',
-                'LOG_NO',
-                'BIRTH_YEAR',
-                'OFFICER_FIRST_NAME',
-                'SEX_CODE_CD',
-                'OFFICER_LAST_NAME',
-                'MIDDLE_INITIAL',
-                'RACE_CODE_CD',
-                'EMPLOYEE_POSITION',
-                'EMPLOYEE_NO',
-                'STAR_NO',
-                'EMPLOYEE_DETAIL_UNIT',
-                'EMPLOYEE_ASSIGN_UNIT'
-            ]
-        )
+        head_accused_path = os.path.join(IFTestBase.resource_directory, 'accused_head.csv')
 
-        actual_result = transformer.csv_to_entity_name_entity_list_tuples(df)
-        expected_result = [
-            (
-                'allegationcategory',
-                AllegationCategory(
-                    category='0    moo1\n1    moo2\nName: ALLEGATION_CATEGORY, dtype: object',
-                    category_code='0    cow1\n1    cow2\nName: ALLEGATION_CATEGORY_CD, dtype: object',
-                    on_duty=False,
-                    cr_id='0    24\n1    25\nName: LOG_NO, dtype: object'
+        with open(head_accused_path) as file:
+            actual_result = transformer.csv_to_entity_name_entity_list_tuples(file.read())
+
+            # print('***********')
+            print(actual_result[0][1])
+            # print('***********')
+
+    def test_csv_to_entity_name_entity_list_tuples_single(self):
+        transformer = AccusedTransformer()
+        head_accused_path = os.path.join(IFTestBase.resource_directory, 'accused_single_row.csv')
+
+        with open(head_accused_path) as file:
+
+            actual_result = transformer.csv_to_entity_name_entity_list_tuples(file.read())
+            expected_result = [
+                (
+                    'allegationcategory',
+                    AllegationCategory(
+                        category='0    EXCESSIVE FORCE / ON DUTY - INJURY\nName: ALLEGATION_CATEGORY, dtype: object',
+                        category_code='0    05A\nName: ALLEGATION_CATEGORY_CD, dtype: object',
+                        on_duty=False,
+                        cr_id='0    259794\nName: LOG_NO, dtype: int64')
+                ), (
+                    'officer',
+                    Officer(
+                        birth_year='0    1946\nName: BIRTH_YEAR, dtype: int64',
+                        first_name='0    EARL\nName: OFFICER_FIRST_NAME, dtype: object',
+                        gender='0    M\nName: SEX_CODE_CD, dtype: object',
+                        last_name='0    WASHINGTON\nName: OFFICER_LAST_NAME, dtype: object',
+                        middle_initial='0    B\nName: MIDDLE_INITIAL, dtype: object',
+                        race='0    BLK\nName: RACE_CODE_CD, dtype: object',
+                        rank='0    SERGEANT OF POLICE\nName: EMPLOYEE_POSITION, dtype: object',
+                        cr_id='0    259794\nName: LOG_NO, dtype: int64')
+                ), (
+                    'officerbadgenumber',
+                    OfficerBadgeNumber(
+                        officer_id='0    1088\nName: EMPLOYEE_NO, dtype: int64',
+                        star='0    1986\nName: STAR_NO, dtype: int64',
+                        cr_id='0    259794\nName: LOG_NO, dtype: int64')
+                ), (
+                    'policeunit',
+                    PoliceUnit(
+                        tags='0    3\nName: EMPLOYEE_DETAIL_UNIT, dtype: int64',
+                        unit_name='0   NaN\nName: EMPLOYEE_ASSIGN_UNIT, dtype: float64',
+                        cr_id='0    259794\nName: LOG_NO, dtype: int64')
                 )
-            ),
-            (
-                'officer',
-                Officer(
-                    birth_year='0    1994\n1    1994\nName: BIRTH_YEAR, dtype: int64',
-                    first_name='0    Jeff\n1     Joe\nName: OFFICER_FIRST_NAME, dtype: object',
-                    gender='0    M\n1    M\nName: SEX_CODE_CD, dtype: object',
-                    last_name='0    Burroughs\n1           Mo\nName: OFFICER_LAST_NAME, dtype: object',
-                    middle_initial='0    N\n1    N\nName: MIDDLE_INITIAL, dtype: object',
-                    race='0    WHI\n1    WHI\nName: RACE_CODE_CD, dtype: object',
-                    rank='0    SERGEANT OF POLICE\n1        POLICE OFFICER\nName: EMPLOYEE_POSITION, dtype: object',
-                    cr_id='0    24\n1    25\nName: LOG_NO, dtype: object')
-            ),
-            (
-                'officerbadgenumber',
-                OfficerBadgeNumber(
-                    officer_id='0    122\n1    122\nName: EMPLOYEE_NO, dtype: object',
-                    star='0    654\n1    654\nName: STAR_NO, dtype: object',
-                    cr_id='0    24\n1    25\nName: LOG_NO, dtype: object')
-            ),
-            (
-                'policeunit',
-                PoliceUnit(
-                    tags='0    3\n1    3\nName: EMPLOYEE_DETAIL_UNIT, dtype: object',
-                    unit_name='0    detail unit\n1    detail unit\nName: EMPLOYEE_ASSIGN_UNIT, dtype: object',
-                    cr_id='0    24\n1    25\nName: LOG_NO, dtype: object')
-            )
-        ]
+            ]
+            assert actual_result == expected_result
 
-        assert actual_result == expected_result
+    def test_csv_to_entity_name_csv_tuples_head(self):
+        transformer = AccusedTransformer()
+        head_accused_path = os.path.join(IFTestBase.resource_directory, 'accused_head.csv')
+
+        with open(head_accused_path) as file:
+            expected_result = [
+                ('allegationcategory', 'category,category_code,cr_id\nEXCESSIVE FORCE / ON DUTY - INJURY,05A,259794\nEXCESSIVE FORCE / ON DUTY - INJURY,05A,259794\nUNNECESSARY PHYSICAL CONTACT -ON DUTY,05ZZL,259797\nEXCESSIVE FORCE - USE OF FIREARM / OFF DUTY - INJURY,05G,259804\nEXCESSIVE FORCE - USE OF FIREARM / OFF DUTY - INJURY,05G,259804\nEXCESSIVE FORCE - USE OF FIREARM / OFF DUTY - INJURY,05G,259804\nEXCESSIVE FORCE - USE OF FIREARM / OFF DUTY - INJURY,05G,259804\nEXCESSIVE FORCE - USE OF FIREARM / OFF DUTY - INJURY,05G,259804\nEXCESSIVE FORCE - USE OF FIREARM / OFF DUTY - INJURY,05G,259804\n'),  # noqa: E501
+                ('officer', 'birth_year,first_name,gender,last_name,middle_initial,race,rank,cr_id\n1946.0,EARL,M,WASHINGTON,B,BLK,SERGEANT OF POLICE,259794\n1963.0,TOMMY,M,BOUIE,D,BLK,POLICE OFFICER,259794\n,,,,,,,259797\n1955.0,KENNETH,M,MALKOWSKI,J,WHI,POLICE OFFICER,259804\n1955.0,KENNETH,M,MALKOWSKI,J,WHI,POLICE OFFICER,259804\n1955.0,KENNETH,M,MALKOWSKI,J,WHI,POLICE OFFICER,259804\n1955.0,KENNETH,M,MALKOWSKI,J,WHI,POLICE OFFICER,259804\n1963.0,ARTHUR,M,DAVIS JR,,BLK,POLICE OFFICER,259804\n1955.0,KENNETH,M,MALKOWSKI,J,WHI,POLICE OFFICER,259804\n'),  # noqa: E501
+                ('officerbadgenumber', 'officer_id,star,cr_id\n1088.0,1986.0,259794\n56009.0,9331.0,259794\n,,259797\n50854.0,14380.0,259804\n50854.0,14380.0,259804\n50854.0,14380.0,259804\n50854.0,14380.0,259804\n39162.0,15738.0,259804\n50854.0,14380.0,259804\n'),  # noqa: E501
+                ('policeunit', 'tags,unit_name,cr_id\n3.0,,259794\n3.0,,259794\n,,259797\n153.0,,259804\n153.0,,259804\n153.0,,259804\n153.0,,259804\n7.0,,259804\n153.0,,259804\n')  # noqa: E501
+            ]
+            actual_result = transformer.csv_to_entity_name_csv_tuples(file.read())
+            assert actual_result == expected_result
