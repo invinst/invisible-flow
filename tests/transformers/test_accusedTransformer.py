@@ -17,10 +17,10 @@ class TestAccusedTransformer:
 
         with open(head_accused_path) as file:
             expected_result = [
-                ('allegationcategory', open(allegationcategory_accused_path).read()),
-                ('officer', open(officer_accused_path).read()),
-                ('officerbadgenumber', open(officerbadgenumber_accused_path).read()),
-                ('policeunit', open(policeunit_accused_path).read())
+                ('data_allegationcategory', open(allegationcategory_accused_path).read()),
+                ('data_officer', open(officer_accused_path).read()),
+                ('data_officerbadgenumber', open(officerbadgenumber_accused_path).read()),
+                ('data_policeunit', open(policeunit_accused_path).read())
             ]
             actual_result = transformer.transform('accused', file.read())
             assert actual_result == expected_result
