@@ -13,33 +13,20 @@ Most of the background you need to complete these stories will be in the "defini
 - [Important links](https://docs.google.com/document/d/1fGi61CmjcWeY6xFlV0qHKrPLH4AqJkDkd70YWtOaQIg/edit?usp=sharing) including an overview of the current data pipeline
 - [Onboarding notes](https://docs.google.com/document/d/1QIxJwsO7xY1-SbfmNyFxXGcDqBtex4QeeDGfRtrTMHA/edit?usp=sharing)
 
-## Local environment setup:
-1. `pip install`
-2. `pre-commit install`
-
 ### Software Requirements:
 
-1. Docker
-    - You can use `brew cask install docker`
-    - You can download it from their changelogs. [mac](https://docs.docker.com/docker-for-mac/release-notes/), [windows](https://docs.docker.com/docker-for-windows/release-notes/)
 2. Python 3.7+ 
 3. An IDE (like PyCharm)
 
-### Running the program
-
-1. Run `python3 -m venv venv` then `source venv/bin/activate` to create and start your Python virtual environment.
-2. Install the dependencies with `pip install -r requirements.txt`.
-3. Import and switch project interpreter to Python 3.7 (invisible-flow) in the IDE.
-4. Before you can bootstrap and run the app, you will need the /data files. Once you have these, you can run `docker-compose up`. The first time this runs, it will dump the schema and test data into your docker postgis container, which may take a few minutes. You can also run the container in the background with `docker-compose up -d`.
-
-You can verify that the data has been migrated successfully by connecting to the docker container and exploring the database:
-
-```
-$ docker exec -it invisible-flow_cpdb_1 bash
-$ psql invisible cpdb
-$ \dt # To list all tables
-$ SELECT * FROM data_allegation LIMIT 10; # To show some data.
-```
+## Local environment setup:
+1. Make sure python 3 is installed
+1. Activate the python virtual environment:
+    1. `python3 -m venv venv`
+    1. `source venv/bin/activate` 
+1. `pip3 install -r requirements.txt`
+1. `pre-commit install`
+1. Switch project interpreter to the venv in your IDE
+    - Pycharm instructions can be found [here](https://www.jetbrains.com/help/pycharm/creating-virtual-environment.html)
 
 You can run the app one of two ways:
 
@@ -53,7 +40,7 @@ $ flask run
 2. To run it the same way it's run on GAE, run `gunicorn -b :$PORT invisible_flow.app:app -c gunicorn.config.py`
 
 ### Running the tests
-* To run the tests execute `pytest`
+* To run the tests execute `pytest tests`
 * arguments
   * m [argument] - run tests with [argument] mark
      * To run the tests with a certain test focused, mark the focused test with `@pytest.mark.focus`
