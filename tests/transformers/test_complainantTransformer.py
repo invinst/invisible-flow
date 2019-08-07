@@ -28,5 +28,3 @@ class TestComplainantTransformer(IFTestBase):
             actual_output = ComplainantTransformer().transform('', input_str)[0]
             assert actual_output[0] == 'complainants'
             assert actual_output[1] == expected_output
-
-

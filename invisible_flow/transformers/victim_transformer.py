@@ -1,8 +1,7 @@
 from io import StringIO
+from typing import List, Tuple
 
 import pandas as pd
-from typing import List, Tuple
-from datetime import datetime
 
 from invisible_flow.transformers.transformer_base import TransformerBase
 
@@ -29,9 +28,9 @@ class VictimTransformer(TransformerBase):
             .drop(columns=['COMPLAINT_DATE', 'IAD_OPS', 'PARTY_TYPE', 'PARTY_SUBTYPE', 'PARTY_INJURED',
                            'INJURY_CONDITION', 'INJURY_DESCRIPTION', 'SEX']) \
             .rename(columns={
-            'LOG_NO': 'cr_id',
-            'RACE': 'race',
-            'BIRTH_YEAR': 'birth_year'
-        })
+                'LOG_NO': 'cr_id',
+                'RACE': 'race',
+                'BIRTH_YEAR': 'birth_year'
+            })
 
         return [(response_type, final_victim_df.to_csv(index=False))]
