@@ -18,7 +18,8 @@ class CaseInfoAllegationsTransformer(TransformerBase):
             incident_date=str(df['COMPLAINT_DATE']),
             is_officer_complaint=str(df['COMPLAINANT_TYPE']) == 'CPD_EMPLOYEE',
             location=str(df['LOCATION_CODE']),
-            summary=""
+            summary="",
+            cr_id=str(df['LOG_NO'])
         )
 
     @staticmethod
@@ -37,8 +38,10 @@ class CaseInfoAllegationsTransformer(TransformerBase):
             'incident_date',
             'is_officer_complaint',
             'location',
-            'summary'
+            'summary',
+            'cr_id'
         ]
+
         return pd.DataFrame([allegation.to_array() for allegation in allegations], columns=column_names)
 
     @staticmethod

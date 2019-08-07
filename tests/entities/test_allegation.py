@@ -11,7 +11,8 @@ class TestAllegation:
             incident_date='incident_date',
             is_officer_complaint=True,
             location='',
-            summary=''
+            summary='',
+            cr_id='1053951'
         )
         allegation_array = allegation.to_array()
         expected_array = [
@@ -22,6 +23,7 @@ class TestAllegation:
             'incident_date',
             True,
             '',
-            ''
+            '',
+            '1053951'
         ]
         assert expected_array == allegation_array
