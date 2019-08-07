@@ -4,6 +4,7 @@ from invisible_flow.transformers.transformer_base import TransformerBase
 from invisible_flow.transformers import CaseInfoAllegationsTransformer, InvestigatorTransformer, AccusedTransformer
 from invisible_flow.transformers.victim_transformer import VictimTransformer
 
+
 class TransformerFactory:
 
     @staticmethod
