@@ -1,0 +1,8 @@
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.3.0  # Use the ref you want to point at
+    hooks:
+    -   id: flake8
+-   repo: https://github.com/pre-commit/mirrors-mypy
+    rev: ''  # Use the sha / tag you want to point at
+    hooks:
+    -   id: mypy

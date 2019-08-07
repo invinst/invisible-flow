@@ -14,6 +14,8 @@ Most of the background you need to complete these stories will be in the "defini
 - [Onboarding notes](https://docs.google.com/document/d/1QIxJwsO7xY1-SbfmNyFxXGcDqBtex4QeeDGfRtrTMHA/edit?usp=sharing)
 
 ## Local environment setup:
+1. `pip install`
+2. `pre-commit install`
 
 ### Software Requirements:
 
