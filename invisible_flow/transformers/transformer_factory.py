@@ -1,8 +1,8 @@
 from invisible_flow.transformers.complainant_transformer import ComplainantTransformer
 from invisible_flow.transformers.transformer_base import TransformerBase
 
-from invisible_flow.transformers import CaseInfoAllegationsTransformer, InvestigatorTransformer, AccusedTransformer
-from invisible_flow.transformers.victim_transformer import VictimTransformer
+from invisible_flow.transformers import CaseInfoAllegationsTransformer, InvestigatorTransformer, AccusedTransformer, \
+    VictimTransformer
 
 
 class TransformerFactory:
