@@ -16,7 +16,7 @@ class VictimTransformer(TransformerBase):
 
     def change_sex_to_one_letter(self, row: pd.Series):
         sex_dict = {'MALE': 'M', 'FEMALE': 'F'}
-        row['gender'] = sex_dict.setdefault(row['SEX'], '')
+        row['gender'] = sex_dict.get(row['SEX'], '')
         return row
 
     def transform(self, response_type: str, file_content: str) -> List[Tuple[str, str]]:
