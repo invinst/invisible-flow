@@ -1,8 +1,8 @@
 from invisible_flow.transformers.complainant_transformer import ComplainantTransformer
 from invisible_flow.transformers.transformer_base import TransformerBase
-from invisible_flow.transformers import CaseInfoAllegationsTransformer, InvestigatorTransformer
-from invisible_flow.transformers.victim_transformer import VictimTransformer
 
+from invisible_flow.transformers import CaseInfoAllegationsTransformer, InvestigatorTransformer, AccusedTransformer
+from invisible_flow.transformers.victim_transformer import VictimTransformer
 
 class TransformerFactory:
 
@@ -16,5 +16,7 @@ class TransformerFactory:
             return ComplainantTransformer()
         elif response_type == 'victim':
             return VictimTransformer()
+        elif response_type == 'accused':
+            return AccusedTransformer()
         else:
             raise Exception('Unable to handle this type of file')
