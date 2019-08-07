@@ -2,6 +2,7 @@ from invisible_flow.transformers.complainant_transformer import ComplainantTrans
 from invisible_flow.transformers.transformer_base import TransformerBase
 
 from invisible_flow.transformers import CaseInfoAllegationsTransformer, InvestigatorTransformer, AccusedTransformer
+from invisible_flow.transformers.victim_transformer import VictimTransformer
 
 
 class TransformerFactory:
@@ -14,6 +15,8 @@ class TransformerFactory:
             return InvestigatorTransformer()
         elif response_type == 'complainant':
             return ComplainantTransformer()
+        elif response_type == 'victim':
+            return VictimTransformer()
         elif response_type == 'accused':
             return AccusedTransformer()
         else:
