@@ -3,6 +3,7 @@ data/
 uploads/
 local_upload/
 .mypy_cache/
+node_modules/
 
 # Editor temporary/working/backup files #
 #########################################
