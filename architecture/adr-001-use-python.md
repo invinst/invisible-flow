@@ -1,4 +1,4 @@
-# Use Python>
+# Use Python
 
 ## Status
 
