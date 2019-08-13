@@ -16,7 +16,4 @@ describe("App goes to status", function () {
     const e = getByTestId("startScrape");
     expect(e.tagName).toBe("BUTTON");
   });
-  it('scrape button should redirect to scrape page', function () {
-    // test to show that the user hit scrape page
-  });
 });
