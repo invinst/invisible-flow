@@ -1,6 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import Routes from './routes.jsx';
+import { BrowserRouter, Link } from 'react-router-dom';
+
+ReactDOM.render(
+    <BrowserRouter>
+        <div>
+            <ul>
+                <li>
+                    <Link to="/">Home</Link>
+                </li>
+                <li>
+                    <Link to="/scrapeStatus">Scraping Status</Link>
+                </li>
+                <li>
+                    <Link to="/tacos">Tacos</Link>
+                </li>
+            </ul>
+
+            <hr />
+
+            <Routes />
+        </div>
+    </BrowserRouter>
+    , document.getElementById('root'));
