@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { render } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 import App from './App';
 
 it('renders without crashing', () => {
@@ -15,8 +15,5 @@ describe("App goes to status", function () {
     const { getByTestId } = render(<App />);
     const e = getByTestId("startScrape");
     expect(e.tagName).toBe("BUTTON");
-  });
-  it('scrape button should redirect to scrape page', function () {
-    // test to show that the user hit scrape page
   });
 });
