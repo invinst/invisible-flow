@@ -1,8 +1,8 @@
-# Use Reach Router
+# Use React Router
 
 ## Status
 
-proposed
+approved
 
 ## Context
 
