@@ -11,10 +11,11 @@ removes an entire class of bugs caused through misunderstanding or refactors tha
 
 ## Decision
 
-<what is the change that we're actually proposing or doing.>
+Add TypeScript library with expectation that we will add ts to our current code and use it in all work going forward.
 
 ## Consequences
 
 - Better IDE support 
 - Clarity around what can be done with a particular object
 - Learning how to use typescript and incorporate it in daily work
+- Need to add typescript to current code
