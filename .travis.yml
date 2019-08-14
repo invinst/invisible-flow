@@ -40,7 +40,7 @@ matrix:
         project_id: "$GAE_PROJECT_ID"
         credentials: ../gae-keyfile-dev.json
         bucket: invisible-flow-dev
-        local-dir: src
+        local-dir: build
         on:
           repo: invinst/invisible-flow
           all_branches: true
