@@ -36,7 +36,7 @@ matrix:
       secret_access_key:
         secure: RCzqRcFdpkVpRDeLwqUkuvPm+hhP07Le3WGyMe7JYCVj+15aT0WOrA60XPQiNwYQ1eydtHxqrtAakiWA4xX1ebSxkeEywZFmfWVow42MvGNCGIupc92z/Ilmo9nAQ2XAaMSXu5QmEOV5LrlZortus7TLGQOtjRJvaCcgQYbawPRm0/YfYjqnn7oJsuhEvAIcK5QLwSqBCqEUyiReO2pZi1nHkTHP5vuwSi1jJqnC7Q/8k8rzuYwQhlfPu9qAEYKDL2otHZHsr2kB7KPyiX7oFF39PQfTrh+k2jCLyv5pavfCaoNyIYdjjxxwmTQ1JDUVXKTWacWLD0rtj0oyIckwxp7/DTy1KdOWgPTwJFKAzboXNpskxNj8LQiBaEdaKvOn2/Kk2rHLDY/H9eeAXCprefy7uEE5AarZe7WY3zam7n1q2U5oUA4u6EJp10XP1PAj2coirKS8YmNONtouzhneFnw+Sf/9rImrF0Vd+oOUBnILGan4AD/xyoya9zSDbT5I9XL2H+Tp+Tk8vE6o6IrR5T5MKq1vErQRnEguxHA+olGm0FMOwqV+krvm8hn7u7buoV5qVg3Lgtpb3Hz4I1iLLTRjExEDLzqfDe0MsA/ucPKzlULxY2OekyJJi4IyNZeZOJBqOYzUlFGEWoclH/iEqka2uoHT96szBEmpvA/JQ00=
       bucket: invisible-flow-dev
-#      local-dir: build
+      local-dir: build2
       on:
         repo: invinst/invisible-flow
         all_branches: true
