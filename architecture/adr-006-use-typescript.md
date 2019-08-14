@@ -17,3 +17,4 @@ removes an entire class of bugs caused through misunderstanding or refactors tha
 
 - Better IDE support 
 - Clarity around what can be done with a particular object
+- Learning how to use typescript and incorporate it in daily work
