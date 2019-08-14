@@ -45,7 +45,6 @@ matrix:
         local-dir: build
         on:
           repo: invinst/invisible-flow
-          all_branches: true
         skip_cleanup: true
         acl: public-read
 env:
