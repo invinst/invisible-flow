@@ -1,32 +1,48 @@
 dist: xenial
 matrix:
   include:
-    - language: python
-      python:
-        - '3.7'
-      cache: pip
-      install:
-        - pip install -r requirements.txt
-      script:
-        - flake8 .
-        - mypy invisible_flow
-        - pytest --cov=invisible_flow tests
-      deploy:
-        provider: gae
-        keyfile: "$GAE_KEYFILE"
-        project: "$GAE_PROJECT_ID"
-        version: "$GAE_VERSION"
-    - language: node_js
-      node_js:
-        - 8
-      cache:
-        directories:
-          - node_modules
-      before_script: cd frontend
-      script:
-        - npm install
-        - npm run test
-
+  - language: python
+    python:
+    - '3.7'
+    cache: pip
+    install:
+    - pip install -r requirements.txt
+    script:
+    - flake8 .
+    - mypy invisible_flow
+    - pytest --cov=invisible_flow tests
+    deploy:
+      provider: gae
+      keyfile: "$GAE_KEYFILE"
+      project: "$GAE_PROJECT_ID"
+      version: "$GAE_VERSION"
+  - language: node_js
+    node_js:
+    - 8
+    cache:
+      directories:
+      - node_modules
+    before_install:
+    - cd frontend
+    install:
+    - npm install
+    before_script: cd frontend
+    script:
+    - npm run test
+    before_deploy:
+    - npm run build
+    deploy:
+      provider: gcs
+      access_key_id: GOOGXL7VDB6VBBPO43EJR5PF
+      secret_access_key:
+        secure: RCzqRcFdpkVpRDeLwqUkuvPm+hhP07Le3WGyMe7JYCVj+15aT0WOrA60XPQiNwYQ1eydtHxqrtAakiWA4xX1ebSxkeEywZFmfWVow42MvGNCGIupc92z/Ilmo9nAQ2XAaMSXu5QmEOV5LrlZortus7TLGQOtjRJvaCcgQYbawPRm0/YfYjqnn7oJsuhEvAIcK5QLwSqBCqEUyiReO2pZi1nHkTHP5vuwSi1jJqnC7Q/8k8rzuYwQhlfPu9qAEYKDL2otHZHsr2kB7KPyiX7oFF39PQfTrh+k2jCLyv5pavfCaoNyIYdjjxxwmTQ1JDUVXKTWacWLD0rtj0oyIckwxp7/DTy1KdOWgPTwJFKAzboXNpskxNj8LQiBaEdaKvOn2/Kk2rHLDY/H9eeAXCprefy7uEE5AarZe7WY3zam7n1q2U5oUA4u6EJp10XP1PAj2coirKS8YmNONtouzhneFnw+Sf/9rImrF0Vd+oOUBnILGan4AD/xyoya9zSDbT5I9XL2H+Tp+Tk8vE6o6IrR5T5MKq1vErQRnEguxHA+olGm0FMOwqV+krvm8hn7u7buoV5qVg3Lgtpb3Hz4I1iLLTRjExEDLzqfDe0MsA/ucPKzlULxY2OekyJJi4IyNZeZOJBqOYzUlFGEWoclH/iEqka2uoHT96szBEmpvA/JQ00=
+      bucket: invisible-flow-dev
+      local-dir: build
+      on:
+        repo: invinst/invisible-flow
+        all_branches: true
+      skip_cleanup: true
+      acl: public-read
 env:
   global:
     secure: QtSkwjcslKJ7LyjP0cLuiIBbL6P+aii0xN+2sk2YS3IK4jDVyagyPcDmXAGml7uqXZjgSj6TBoJP8t51S9OJSG4HZhfcG5cj62q/RiglONSQzqHKOCaBfEypd8Nrtkx31MMQLmpJuIHrZtQUhHN1vBYDzdo0Iti/5CukgSqb67RuxL1aGmXkUkAJwd8JTmgH85dfZ+E5sD4Ns3LU3F5IQqk7gJ/y9gLMmV8wiUWStBwTeQCV8Kp9qVMFUonHAB5OzEuYRaasYr05XlcyByxWOJPhcPHEkXs1KGobhjph07UxZ49ORzrvtj6Go0hDLkti5Nenpltc1w4nrXg7AsNC4eACZ0WzSTmqXJ5g9UPzUgElxj1bnfqQSokL9Fxq/rZc3nObbnfdimSRXqbs8MOXPlyLM3CEU3kpkm6zAybZEXGBqAE763EJy9FNVptz4rdU0PDpwuCwi1e2QwXZhu8xc/Y93p5fT5QJqT4RL0hhv5S54XmSXH9YPx+7vxZcRbCeOi0UVg0CDer1gtImGZCiPwer8BvqP8RCcSYzQIJ4mhI764HpIOnFI4kgn9VAxnIe6HZCTZM88vc9znmk4Am/+HEnivhDoSOW6XFnvcUz3N81pX28zdIG9l8EsMvV7Ls+cVeNhiRcRCovI2XQqiwlS9tj8IxiuEt9sJXuSE/c3K0=
