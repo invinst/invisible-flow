@@ -1,4 +1,4 @@
-# Use React Router
+# Choose a router for React
 
 ## Status
 
@@ -14,13 +14,13 @@ about the scrape operation.
 
 So why should we use Reach-Router over the React-Router or No Router?
 Reach-Router:
-    + Smaller than React-Router (less than 4k)
-    + Always save to the session the forms created
+    + Smaller than React-Router (less than 4k)  
+    + Always save to the session the forms created  
     - New tech, developers have little/no experience
 
 React-Router:
-    = History blocking
-    + Jeff and Jovanka have experience with this router
+    = History blocking  
+    + Jeff and Jovanka have experience with this router  
     *CHOSEN*
 
 No Router:
@@ -28,9 +28,11 @@ No Router:
 
 ## Decision
 
-Adding a router so that we can display multiple pages/paths to the user as needed.
+Adding a router so that we can display multiple pages/paths to the user as needed and easily test page transitions.
 
 ## Consequences
 
-Having multiple pages with differing needs, for example, inputting foia request data, 
-or showing status of COPA scraping job
+- Having multiple pages with differing needs, for example, inputting foia request data, 
+or showing status of COPA scraping job.
+
+

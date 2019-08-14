@@ -6,7 +6,10 @@ accepted
 
 ## Context
 
-Needed a React front end with testing all built in.
+- Needed a front end with testing capabilities built in so that we can more easily test our code.
+- React is preferred because people at Thoughtworks tend to have more experience with it, so
+it allows us to attract devs interested in learning react.
+
 
 ## Decision
 
@@ -14,6 +17,4 @@ Use create-react-app to set up frontend application and testing infrastructure
 
 ## Consequences
 
-Getting started with TDD since testing is all built in we can start coding out of the box
-without creating and maintaining all the needed infrastrcture to support the application and 
-testing
+- TDD is easier because testing works without forcing us to maintain custom testing tools
