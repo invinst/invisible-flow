@@ -3,6 +3,8 @@ from invisible_flow.transformers.investigator_transformer import InvestigatorTra
 from invisible_flow.transformers.accused_transformer import AccusedTransformer
 from invisible_flow.transformers.victim_transformer import VictimTransformer
 from invisible_flow.transformers.transformer_factory import TransformerFactory
+from invisible_flow.transformers.copa_scrape_transformer import CopaScrapeTransformer
 
 __all__ = ['AccusedTransformer', 'CaseInfoAllegationsTransformer',
-           'InvestigatorTransformer', 'TransformerFactory', 'VictimTransformer']
+           'InvestigatorTransformer', 'TransformerFactory', 'VictimTransformer',
+           'CopaScrapeTransformer']
