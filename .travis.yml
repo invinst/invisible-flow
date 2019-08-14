@@ -22,9 +22,10 @@ matrix:
       cache:
         directories:
           - node_modules
+      before_script: cd frontend
       script:
-        - npm install --prefix frontend
-        - npm run --prefix frontend test
+        - npm install frontend
+        - npm run frontend test
 
 env:
   global:
