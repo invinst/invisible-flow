@@ -1,52 +1,55 @@
 dist: xenial
 matrix:
   include:
-  - language: python
-    python:
-    - '3.7'
-    cache: pip
-    install:
-    - pip install -r requirements.txt
-    script:
-    - flake8 .
-    - mypy invisible_flow
-    - pytest --cov=invisible_flow tests
-    deploy:
-      provider: gae
-      keyfile: "$GAE_KEYFILE"
-      project: "$GAE_PROJECT_ID"
-      version: "$GAE_VERSION"
-  - language: node_js
-    node_js:
-    - 8
-    cache:
-      directories:
-      - node_modules
-    before_install:
-    - cd frontend
-    install:
-    - npm install
-    script:
-    - npm run test
-    before_deploy:
-    - npm run build
-    - ls
-    - ls ..
-    deploy:
-      provider: gcs
-      edge:
-        branch: gcs-ng
-      project_id: "$GAE_PROJECT_ID"
-      credentials: "$GAE_KEYFILE"
-      bucket: invisible-flow-dev
-      local-dir: src
-      on:
-        repo: invinst/invisible-flow
-        all_branches: true
-      skip_cleanup: true
-      acl: public-read
+    - language: python
+      python:
+        - '3.7'
+      cache: pip
+      before_install:
+        - openssl aes-256-cbc -k $SS_PW -in gae-keyfile-dev.json.enc -out gae-keyfile-dev.json -d
+      install:
+        - pip install -r requirements.txt
+      script:
+        - flake8 .
+        - mypy invisible_flow
+        - pytest --cov=invisible_flow tests
+      deploy:
+        provider: gae
+        keyfile: "$GAE_KEYFILE"
+        project: "$GAE_PROJECT_ID"
+        version: "$GAE_VERSION"
+    - language: node_js
+      node_js:
+        - 8
+      cache:
+        directories:
+          - node_modules
+      before_install:
+        - openssl aes-256-cbc -k $SS_PW -in gae-keyfile-dev.json.enc -out gae-keyfile-dev.json -d
+        - cd frontend
+      install:
+        - npm install
+      script:
+        - npm run test
+      before_deploy:
+        - npm run build
+        - ls
+        - ls ..
+      deploy:
+        provider: gcs
+        edge:
+          branch: gcs-ng
+        project_id: "$GAE_PROJECT_ID"
+        credentials: "$GAE_KEYFILE"
+        bucket: invisible-flow-dev
+        local-dir: src
+        on:
+          repo: invinst/invisible-flow
+          all_branches: true
+        skip_cleanup: true
+        acl: public-read
 env:
   global:
     secure: QtSkwjcslKJ7LyjP0cLuiIBbL6P+aii0xN+2sk2YS3IK4jDVyagyPcDmXAGml7uqXZjgSj6TBoJP8t51S9OJSG4HZhfcG5cj62q/RiglONSQzqHKOCaBfEypd8Nrtkx31MMQLmpJuIHrZtQUhHN1vBYDzdo0Iti/5CukgSqb67RuxL1aGmXkUkAJwd8JTmgH85dfZ+E5sD4Ns3LU3F5IQqk7gJ/y9gLMmV8wiUWStBwTeQCV8Kp9qVMFUonHAB5OzEuYRaasYr05XlcyByxWOJPhcPHEkXs1KGobhjph07UxZ49ORzrvtj6Go0hDLkti5Nenpltc1w4nrXg7AsNC4eACZ0WzSTmqXJ5g9UPzUgElxj1bnfqQSokL9Fxq/rZc3nObbnfdimSRXqbs8MOXPlyLM3CEU3kpkm6zAybZEXGBqAE763EJy9FNVptz4rdU0PDpwuCwi1e2QwXZhu8xc/Y93p5fT5QJqT4RL0hhv5S54XmSXH9YPx+7vxZcRbCeOi0UVg0CDer1gtImGZCiPwer8BvqP8RCcSYzQIJ4mhI764HpIOnFI4kgn9VAxnIe6HZCTZM88vc9znmk4Am/+HEnivhDoSOW6XFnvcUz3N81pX28zdIG9l8EsMvV7Ls+cVeNhiRcRCovI2XQqiwlS9tj8IxiuEt9sJXuSE/c3K0=
-before_install:
-  - openssl aes-256-cbc -k $SS_PW -in gae-keyfile-dev.json.enc -out gae-keyfile-dev.json -d
+#before_install:
+#  - openssl aes-256-cbc -k $SS_PW -in gae-keyfile-dev.json.enc -out gae-keyfile-dev.json -d
