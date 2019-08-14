@@ -31,6 +31,7 @@ matrix:
     before_deploy:
     - npm run build
     - ls
+    - ls ..
     deploy:
       provider: gcs
       edge:
