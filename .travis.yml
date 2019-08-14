@@ -24,8 +24,8 @@ matrix:
           - node_modules
       before_script: cd frontend
       script:
-        - npm install frontend
-        - npm run frontend test
+        - npm install
+        - npm run test
 
 env:
   global:
