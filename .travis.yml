@@ -26,7 +26,6 @@ matrix:
     - cd frontend
     install:
     - npm install
-    before_script: cd frontend
     script:
     - npm run test
     before_deploy:
