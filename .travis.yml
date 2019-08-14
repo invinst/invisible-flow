@@ -33,14 +33,12 @@ matrix:
         - npm run test
       before_deploy:
         - npm run build
-        - ls
-        - ls ..
       deploy:
         provider: gcs
         edge:
           branch: gcs-ng
         project_id: "$GAE_PROJECT_ID"
-        credentials: "$GAE_KEYFILE"
+        credentials: ../gae-keyfile-dev.json
         bucket: invisible-flow-dev
         local-dir: src
         on:
