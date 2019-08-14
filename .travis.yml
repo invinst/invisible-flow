@@ -19,6 +19,8 @@ matrix:
         project: "$GAE_PROJECT_ID"
         version: "$GAE_VERSION"
     - language: node_js
+      env:
+        - PUBLIC_URL=https://storage.cloud.google.com/invisible-flow-dev/
       node_js:
         - 8
       cache:
