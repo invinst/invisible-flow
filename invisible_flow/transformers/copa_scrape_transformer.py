@@ -2,7 +2,7 @@ import pandas as pd
 
 from typing import Tuple, List, Dict
 
-
+from invisible_flow.storage.storage_factory import StorageFactory
 from invisible_flow.transformers.transformer_base import TransformerBase
 from invisible_flow.api.copa_scrape import CopaScrape
 
@@ -29,8 +29,11 @@ class CopaScrapeTransformer(TransformerBase):
                 pd.read_json(split_results['no_copa'].to_json(orient='records'), orient='records').to_csv(index=False)
         }
 
-    def upload_to_gcs(self, files_to_upload: object):
+    def upload_to_gcs(self, conversion_results: Dict):
         # upload the strings in files_to_upload to gcs
+        storage = StorageFactory.get_storage()
+        for result in conversion_results:
+            storage.store_string(f'{result}.csv', conversion_results[result], f'cleaned')
         pass
 
     def transform(self, response_type: str, file_content: str) -> List[Tuple[str, str]]:
