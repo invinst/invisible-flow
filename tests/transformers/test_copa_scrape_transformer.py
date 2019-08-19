@@ -59,6 +59,9 @@ class TestCopaScrapeTransformer(IFTestBase):
         no_copa_split_csv = os.path.join(IFTestBase.resource_directory, 'no_copa_scraped_split.csv')
         transformer = CopaScrapeTransformer()
         mock_converted_output = {"copa": open(copa_split_csv).read(), "no_copa": open(no_copa_split_csv).read()}
-        with patch.object(LocalStorage, 'store_string') as mock:
-            transformer.upload_to_gcs(mock_converted_output)
+        with patch('invisible_flow.app.StorageFactory.get_storage') as storage_factory_mock:
+            with patch.object(LocalStorage, 'store_string') as mock:
+                storage_mock = LocalStorage()
+                storage_factory_mock.return_value = storage_mock
+                transformer.upload_to_gcs(mock_converted_output)
         mock.assert_called()
