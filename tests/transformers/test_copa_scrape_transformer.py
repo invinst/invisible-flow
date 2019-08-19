@@ -1,7 +1,13 @@
+import os
+import pandas as pd
+
 from invisible_flow.transformers.copa_scrape_transformer import CopaScrapeTransformer
 
+from tests.helpers.if_test_base import IFTestBase
 
-class TestCopaScrapeTransformer:
+
+class TestCopaScrapeTransformer(IFTestBase):
+
     def test_split_passes(self):
         self.copa = False
         self.no_copa = False
@@ -35,3 +41,13 @@ class TestCopaScrapeTransformer:
 
         assert self.copa
         assert self.no_copa
+
+    def test_convert_to_csv(self):
+        copa_scraped_split = os.path.join(IFTestBase.resource_directory, 'copa_scraped_split.json')
+        copa_split_csv = os.path.join(IFTestBase.resource_directory, 'copa_scraped_split.csv')
+        no_copa_split_csv = os.path.join(IFTestBase.resource_directory, 'no_copa_scraped_split.csv')
+        transformer = CopaScrapeTransformer()
+        raw_data = pd.read_json(open(copa_scraped_split).read(), orient='records')
+        actual = transformer.convert_to_csv(raw_data)
+        assert actual['copa'] == open(copa_split_csv).read()
+        assert actual['no_copa'] == open(no_copa_split_csv).read()
