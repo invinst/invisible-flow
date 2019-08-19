@@ -33,7 +33,8 @@ class CopaScrapeTransformer(TransformerBase):
         # upload the strings in files_to_upload to gcs
         storage = StorageFactory.get_storage()
         for result in conversion_results:
-            storage.store_string(f'{result}.csv', conversion_results[result], f'cleaned')
+            filename = "copa" if result == "copa" else "other-assignment"
+            storage.store_string(f'{filename}.csv', conversion_results[result], f'cleaned')
         pass
 
     def transform(self, response_type: str, file_content: str) -> List[Tuple[str, str]]:
