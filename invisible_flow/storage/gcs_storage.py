@@ -20,7 +20,8 @@ class GCStorage(StorageBase):
         blob.upload_from_string(file_content, 'text/csv')
 
     def get(self, filename, path):
-        pass
+        return self.bucket.get_blob(path + filename)
+
 
     def store_metadata(self, filename: str, metadata_text: str) -> None:
         blob = self.bucket.blob(filename)

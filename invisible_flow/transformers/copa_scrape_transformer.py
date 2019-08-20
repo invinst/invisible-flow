@@ -9,6 +9,9 @@ from invisible_flow.api.copa_scrape import CopaScrape
 
 class CopaScrapeTransformer(TransformerBase):
 
+    def __init__(self):
+        self.storage = StorageFactory.get_storage()
+
     def split(self) -> Dict[str, List]:
         scraper = CopaScrape()
         data = scraper.scrape_data()
@@ -30,12 +33,15 @@ class CopaScrapeTransformer(TransformerBase):
         }
 
     def upload_to_gcs(self, conversion_results: Dict):
-        # upload the strings in files_to_upload to gcs
-        storage = StorageFactory.get_storage()
         for result in conversion_results:
             filename = "copa" if result == "copa" else "other-assignment"
-            storage.store_string(f'{filename}.csv', conversion_results[result], f'cleaned')
+            self.storage.store_string(f'{filename}.csv', conversion_results[result], f'cleaned')
         pass
 
-    def transform(self, response_type: str, file_content: str) -> List[Tuple[str, str]]:
+    def transform(self, response_type: str, file_content: str):
+        blob = self.storage.get('copa.csv', 'cleaned/')
+        if blob is None:
+            print("results not found")
+        else:
+            print("results found")
         pass
