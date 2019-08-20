@@ -1,6 +1,6 @@
 import pandas as pd
 
-from typing import Tuple, List, Dict
+from typing import List, Dict
 
 from invisible_flow.storage.storage_factory import StorageFactory
 from invisible_flow.transformers.transformer_base import TransformerBase
