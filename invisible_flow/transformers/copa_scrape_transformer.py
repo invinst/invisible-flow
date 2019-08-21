@@ -1,4 +1,5 @@
 import pandas as pd
+import json
 
 from typing import List, Dict
 
@@ -27,21 +28,22 @@ class CopaScrapeTransformer(TransformerBase):
     def convert_to_csv(self, split_results: Dict) -> Dict[str, str]:
         return {
             'copa':
-                pd.read_json(split_results['copa'].to_json(orient='records'), orient='records').to_csv(index=False),
+                pd.DataFrame.from_records(split_results['copa']).to_csv(index=False),
             'no_copa':
-                pd.read_json(split_results['no_copa'].to_json(orient='records'), orient='records').to_csv(index=False)
+                pd.DataFrame.from_records(split_results['no_copa']).to_csv(index=False)
         }
 
     def upload_to_gcs(self, conversion_results: Dict):
         for result in conversion_results:
             filename = "copa" if result == "copa" else "other-assignment"
             self.storage.store_string(f'{filename}.csv', conversion_results[result], f'cleaned')
-        pass
 
     def transform(self, response_type: str, file_content: str):
         blob = self.storage.get('copa.csv', 'cleaned/')
         if blob is None:
-            print("results not found")
+            split_results = self.split()
+            self.upload_to_gcs(self.convert_to_csv(split_results))
+            cleaned_copa = split_results['copa']
+            print("not found")
         else:
             print("results found")
-        pass
