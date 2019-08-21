@@ -20,8 +20,9 @@ class LocalStorage(StorageBase):
             file.close()
 
     def get(self, filename, path):
-        with open(os.path.join(self.local_upload_directory, path, filename)) as file:
-            if file:
+        try:
+            with open(os.path.join(self.local_upload_directory, path, filename)) as file:
                 return file.read()
-            else:
-                return None
+        except FileNotFoundError:
+            print('file not found error')
+            return None
