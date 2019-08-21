@@ -1,5 +1,3 @@
-import pandas as pd
-
 from typing import List, Dict
 
 from invisible_flow.storage.storage_factory import StorageFactory
@@ -11,25 +9,12 @@ class CopaScrapeTransformer(TransformerBase):
 
     def __init__(self):
         self.storage = StorageFactory.get_storage()
+        self.scraper = CopaScrape()
 
     def split(self) -> Dict[str, List]:
-        scraper = CopaScrape()
-        data = scraper.scrape_data()
-        copa = []
-        no_copa = []
-        for row in data:
-            if row['assignment'] == 'COPA':
-                copa.append(row)
-            else:
-                no_copa.append(row)
-        return {'copa': copa, 'no_copa': no_copa}
-
-    def convert_to_csv(self, split_results: Dict) -> Dict[str, str]:
         return {
-            'copa':
-                pd.DataFrame.from_records(split_results['copa']).to_csv(index=False),
-            'no_copa':
-                pd.DataFrame.from_records(split_results['no_copa']).to_csv(index=False)
+            'copa': self.scraper.scrape_copa_csv(),
+            'no_copa': self.scraper.scrape_not_copa_csv()
         }
 
     def upload_to_gcs(self, conversion_results: Dict):
@@ -40,9 +25,10 @@ class CopaScrapeTransformer(TransformerBase):
     def transform(self, response_type: str, file_content: str):
         blob = self.storage.get('copa.csv', 'cleaned/')
         if blob is None:
-            split_results = self.split()
-            self.upload_to_gcs(self.convert_to_csv(split_results))
-            cleaned_copa = split_results['copa']
-            print("not found ", cleaned_copa)
-        else:
-            print("results found")
+            self.upload_to_gcs(self.split())
+
+        allegation_rows = self.scraper.scrape_copa_ready_for_entity()
+        self.storage.store_string('copa.csv', allegation_rows, 'transformed')
+
+        misc_data = self.scraper.scrape_copa_not_in_entity()
+        self.storage.store_string('misc-data.csv', misc_data, 'transformed')
