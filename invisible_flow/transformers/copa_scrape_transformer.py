@@ -1,5 +1,4 @@
 import pandas as pd
-import json
 
 from typing import List, Dict
 
@@ -44,6 +43,6 @@ class CopaScrapeTransformer(TransformerBase):
             split_results = self.split()
             self.upload_to_gcs(self.convert_to_csv(split_results))
             cleaned_copa = split_results['copa']
-            print("not found")
+            print("not found ", cleaned_copa)
         else:
             print("results found")
