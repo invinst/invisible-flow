@@ -1,5 +1,4 @@
 import pandas as pd
-import json
 
 from typing import List, Dict
 
@@ -12,6 +11,11 @@ class CopaScrapeTransformer(TransformerBase):
 
     def __init__(self):
         self.storage = StorageFactory.get_storage()
+
+    def save_scraped_data(self):
+        scraper = CopaScrape()
+        data = scraper.scrape_data()
+        print(pd.DataFrame.from_records(data))
 
     def split(self) -> Dict[str, List]:
         scraper = CopaScrape()
