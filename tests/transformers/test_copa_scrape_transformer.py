@@ -33,6 +33,8 @@ class TestCopaScrapeTransformer(IFTestBase):
                 get_storage_mock.return_value = LocalStorage()
                 self.transformer.upload_to_gcs(mock_converted_output)
         mock.assert_called()
+        get_storage_mock.__exit__()
+        mock.__exit__()
 
     def test_transform(self):
         with patch('invisible_flow.app.StorageFactory.get_storage') as get_storage_mock:
@@ -40,3 +42,5 @@ class TestCopaScrapeTransformer(IFTestBase):
                 get_storage_mock.return_value = LocalStorage()
                 self.transformer.transform(None, None)
         assert mock.call_count == 2
+        get_storage_mock.__exit__()
+        mock.__exit__()
