@@ -1,6 +1,6 @@
 import os
 
-from mock import patch
+from mock import call, patch
 import pytest
 
 from invisible_flow.storage import LocalStorage
@@ -33,14 +33,18 @@ class TestCopaScrapeTransformer(IFTestBase):
                 get_storage_mock.return_value = LocalStorage()
                 self.transformer.upload_to_gcs(mock_converted_output)
         mock.assert_called()
-        get_storage_mock.__exit__()
-        mock.__exit__()
 
     def test_transform(self):
         with patch('invisible_flow.app.StorageFactory.get_storage') as get_storage_mock:
             with patch.object(LocalStorage, 'store_string') as mock:
-                get_storage_mock.return_value = LocalStorage()
-                self.transformer.transform(None, None)
-        assert mock.call_count == 2
-        get_storage_mock.__exit__()
-        mock.__exit__()
+                with patch('invisible_flow.api.CopaScrape.scrape_copa_ready_for_entity') as mock_scrape_entity:
+                    with patch('invisible_flow.api.CopaScrape.scrape_copa_not_in_entity') as mock_scrape_misc:
+                        get_storage_mock.return_value = LocalStorage()
+                        mock_scrape_entity.return_value = b'some content'
+                        mock_scrape_misc.return_value = b'some content'
+                        self.transformer.transform(None, None)
+        calls = [
+            call("copa.csv", b"some content", 'transformed'),
+            call("misc-data.csv", b"some content", 'transformed')
+        ]
+        mock.assert_has_calls(calls)
