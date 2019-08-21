@@ -21,4 +21,7 @@ class LocalStorage(StorageBase):
 
     def get(self, filename, path):
         with open(os.path.join(self.local_upload_directory, path, filename)) as file:
-            return file.read()
+            if file:
+                return file.read()
+            else:
+                return None
