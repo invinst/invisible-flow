@@ -52,6 +52,7 @@ def foia_response_upload():
         return Response(status=415, response='Unsupported file type. Please upload a .csv .xls or .xlsx file.')
 
     storage = StorageFactory.get_storage()
+    TransformerFactory().get_transformer('copa').transform(None, None)
     response_type = request_context.form['response_type']
     logger.info(f'Received foia request of type {response_type}')
 
