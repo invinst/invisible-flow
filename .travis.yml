@@ -19,7 +19,7 @@ matrix:
         project: "$GAE_PROJECT_ID"
         version: "$GAE_VERSION"
       env:
-        - GIT_COMMIT_ID=$TRAVIS_COMMIT
+        - GIT_COMMIT_ID=`echo $TRAVIS_COMMIT`
     - language: node_js
       env:
         - PUBLIC_URL=https://storage.cloud.google.com/invisible-flow-dev/
