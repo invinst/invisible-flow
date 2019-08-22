@@ -1,8 +1,9 @@
 from logging import getLogger
 from logging.config import dictConfig
 
-from flask import Flask, render_template, Response, Request
+from flask import render_template, Response, Request
 
+from invisible_flow.app_factory import app
 from invisible_flow.globals_factory import GlobalsFactory
 from invisible_flow.storage.storage_factory import StorageFactory
 from invisible_flow.transformers.transformer_factory import TransformerFactory
@@ -28,8 +29,6 @@ dictConfig({
         'handlers': ['wsgi']
     }
 })
-
-app = Flask(__name__)
 
 logger = getLogger(__name__)
 
