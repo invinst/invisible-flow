@@ -1,7 +1,9 @@
+import os
 import pandas as pd
 
 from typing import List, Dict
 
+from invisible_flow.globals_factory import GlobalsFactory
 from invisible_flow.storage.storage_factory import StorageFactory
 from invisible_flow.transformers.transformer_base import TransformerBase
 from invisible_flow.api.copa_scrape import CopaScrape
@@ -12,9 +14,18 @@ class CopaScrapeTransformer(TransformerBase):
     def __init__(self):
         self.storage = StorageFactory.get_storage()
 
+    def save_scraped_data(self):
+        scraper = CopaScrape()
+        csv = scraper.scrape_data_csv()
+        current_date = GlobalsFactory.get_current_datetime_utc().isoformat(sep='_').replace(':', '-')
+        self.storage.store_string('initial_data.csv', csv, f'Scrape-{current_date}/initial_data')
+        commit = os.environ.get('TRAVIS_COMMIT')
+        metadata = b'{"git": ' + bytes(commit, encoding='UTF-8') + b', "source": "SCRAPER/copa"}'
+        self.storage.store_string('metadata.json', metadata, f'Scrape-{current_date}/initial_data')
+
     def split(self) -> Dict[str, List]:
         scraper = CopaScrape()
-        data = scraper.scrape_data()
+        data = scraper.scrape_data_json()
         copa = []
         no_copa = []
         for row in data:
