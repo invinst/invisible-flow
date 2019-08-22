@@ -7,7 +7,6 @@ def function_to_wrap(a):
     return a + 10
 
 
-# @patch('invisible_flow.jobs.jobify.db')
 @patch('invisible_flow.jobs.jobify.JobRecord')
 @patch('invisible_flow.jobs.jobify.insert_job_record_into_database')
 class TestJobify:
