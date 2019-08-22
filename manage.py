@@ -5,7 +5,7 @@
 import tempfile
 
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy  # type:ignore
 
 from invisible_flow.app_factory import app
 from invisible_flow.constants import JOB_DB_BIND_KEY

@@ -1,4 +1,4 @@
-from sqlalchemy.orm import validates
+from sqlalchemy.orm import validates  # type: ignore
 
 from invisible_flow.constants import JOB_DB_BIND_KEY, VALID_STATUSES
 from manage import db
