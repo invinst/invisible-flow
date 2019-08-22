@@ -19,7 +19,7 @@ matrix:
         project: "$GAE_PROJECT_ID"
         version: "$GAE_VERSION"
         skip_cleanup: true
-      after_script:
+      after_success:
         - echo "${TRAVIS_COMMIT}" > /tmp/commit
     - language: node_js
       env:
