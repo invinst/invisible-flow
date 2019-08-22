@@ -21,6 +21,7 @@ matrix:
     - language: node_js
       env:
         - PUBLIC_URL=https://storage.cloud.google.com/invisible-flow-dev/
+        - GIT_COMMIT_ID=$TRAVIS_COMMIT
       node_js:
         - 8
       cache:
