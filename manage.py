@@ -1,7 +1,3 @@
-# # SQLALCHEMY_DATABASE_URI = 'postgres://localhost/main'
-# SQLALCHEMY_BINDS = {
-#     'jobdb':      'sqlite:////path/to/appmeta.db'
-# }
 import tempfile
 
 from flask import Flask
