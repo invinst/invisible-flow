@@ -19,7 +19,7 @@ class CopaScrapeTransformer(TransformerBase):
         csv = scraper.scrape_data_csv()
         current_date = GlobalsFactory.get_current_datetime_utc().isoformat(sep='_').replace(':', '-')
         self.storage.store_string('initial_data.csv', csv, f'Scrape-{current_date}/initial_data')
-        commit = os.environ.get('TRAVIS_COMMIT')
+        commit = open('/tmp/commit').read()
         metadata = b'{"git": ' + bytes(commit, encoding='UTF-8') + b', "source": "SCRAPER/copa"}'
         self.storage.store_string('metadata.json', metadata, f'Scrape-{current_date}/initial_data')
 
