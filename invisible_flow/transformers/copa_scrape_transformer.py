@@ -21,6 +21,7 @@ class CopaScrapeTransformer(TransformerBase):
         self.storage.store_string('initial_data.csv', csv, f'Scrape-{current_date}/initial_data')
         try:
             package_directory = '/home/travis/build/invinst/invisible-flow'
+            print(os.getcwd())
             commit = open(os.path.join(package_directory, 'commit')).read()
         except FileNotFoundError:
             commit = 'No file found'
