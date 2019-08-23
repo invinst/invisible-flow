@@ -14,7 +14,7 @@ matrix:
         - mypy invisible_flow
         - pytest --cov=invisible_flow tests
       before_deploy:
-        - echo "${TRAVIS_COMMIT}" > ~/commit
+        - echo "${TRAVIS_COMMIT}" > commit
       deploy:
         provider: gae
         keyfile: "$GAE_KEYFILE"
