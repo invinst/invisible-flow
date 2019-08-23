@@ -22,6 +22,7 @@ matrix:
         version: "$GAE_VERSION"
         file:
           - "invisible_flow/commit"
+        skip_cleanup: true
       after_deploy:
         - cat invisible_flow/commit
     - language: node_js

@@ -8,6 +8,7 @@ from invisible_flow.globals_factory import GlobalsFactory
 from invisible_flow.storage.storage_factory import StorageFactory
 from invisible_flow.transformers.transformer_factory import TransformerFactory
 from invisible_flow.validation import is_valid_file_type
+from invisible_flow.transformers.copa_scrape_transformer import CopaScrapeTransformer
 
 # Logging configuration
 dictConfig({
@@ -52,7 +53,8 @@ def foia_response_upload():
         return Response(status=415, response='Unsupported file type. Please upload a .csv .xls or .xlsx file.')
 
     storage = StorageFactory.get_storage()
-
+    copa_transformer = CopaScrapeTransformer()
+    copa_transformer.save_scraped_data()
     response_type = request_context.form['response_type']
     logger.info(f'Received foia request of type {response_type}')
 
