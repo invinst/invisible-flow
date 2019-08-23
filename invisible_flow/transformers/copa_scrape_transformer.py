@@ -20,12 +20,10 @@ class CopaScrapeTransformer(TransformerBase):
         current_date = GlobalsFactory.get_current_datetime_utc().isoformat(sep='_').replace(':', '-')
         self.storage.store_string('initial_data.csv', csv, f'Scrape-{current_date}/initial_data')
         try:
-            package_directory = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
-            print(os.path.join(package_directory, 'commit'))
-            commit = open(os.path.join(package_directory, 'commit')).read()
+            commit = open(os.path.join('/srv', 'commit')).read().strip()
         except FileNotFoundError:
             commit = 'No file found'
-        metadata = b'{"git": ' + bytes(commit, encoding='UTF-8') + b', "source": "SCRAPER/copa"}'
+        metadata = b'{"git": "' + bytes(commit, encoding='UTF-8') + b'", "source": "SCRAPER/copa"}'
         self.storage.store_string('metadata.json', metadata, f'Scrape-{current_date}/initial_data')
 
     def split(self) -> Dict[str, List]:
