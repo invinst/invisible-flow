@@ -22,7 +22,7 @@ matrix:
         version: "$GAE_VERSION"
         file:
           - "commit"
-      after_success:
+      after_deploy:
         - cat /home/travis/build/invinst/invisible-flow/commit
     - language: node_js
       env:
