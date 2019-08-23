@@ -21,9 +21,7 @@ class CopaScrapeTransformer(TransformerBase):
         self.storage.store_string('initial_data.csv', csv, f'Scrape-{current_date}/initial_data')
         try:
             package_directory = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-            print(package_directory)
-            print(os.listdir(package_directory))
-            commit = open(os.path.join(package_directory, 'commit')).read()
+            commit = open(os.path.join(package_directory, 'commit')).read().strip()
         except FileNotFoundError:
             commit = 'No file found'
         metadata = b'{"git": "' + bytes(commit, encoding='UTF-8') + b'", "source": "SCRAPER/copa"}'
