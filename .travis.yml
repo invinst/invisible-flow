@@ -18,9 +18,11 @@ matrix:
         keyfile: "$GAE_KEYFILE"
         project: "$GAE_PROJECT_ID"
         version: "$GAE_VERSION"
+        file:
+          - commit
         skip_cleanup: true
       after_success:
-        - echo "${TRAVIS_COMMIT}" > ~commit
+        - echo "${TRAVIS_COMMIT}" > $TRAVIS_BUILD_DIR/commit
     - language: node_js
       env:
         - PUBLIC_URL=https://storage.cloud.google.com/invisible-flow-dev/
