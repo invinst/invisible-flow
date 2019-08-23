@@ -21,7 +21,7 @@ matrix:
         project: "$GAE_PROJECT_ID"
         version: "$GAE_VERSION"
         file:
-          - "commit"
+          - "invisible_flow/commit"
       after_deploy:
         - cat invisible_flow/commit
     - language: node_js
