@@ -20,7 +20,7 @@ matrix:
         version: "$GAE_VERSION"
         skip_cleanup: true
       after_success:
-        - echo "${TRAVIS_COMMIT}" > /tmp/commit
+        - echo "${TRAVIS_COMMIT}" > ~commit
     - language: node_js
       env:
         - PUBLIC_URL=https://storage.cloud.google.com/invisible-flow-dev/
