@@ -22,6 +22,7 @@ class CopaScrapeTransformer(TransformerBase):
         try:
             package_directory = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
             print(package_directory)
+            print(os.listdir(package_directory))
             commit = open(os.path.join(package_directory, 'commit')).read()
         except FileNotFoundError:
             commit = 'No file found'
