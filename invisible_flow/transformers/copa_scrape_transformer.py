@@ -20,8 +20,7 @@ class CopaScrapeTransformer(TransformerBase):
         current_date = GlobalsFactory.get_current_datetime_utc().isoformat(sep='_').replace(':', '-')
         self.storage.store_string('initial_data.csv', csv, f'Scrape-{current_date}/initial_data')
         try:
-            package_directory = '/srv/invisible-flow'
-            print(os.listdir(os.path.join(os.getcwd(), 'invisible_flow')))
+            package_directory = '/srv'
             commit = open(os.path.join(package_directory, 'commit')).read()
         except FileNotFoundError:
             commit = 'No file found'
