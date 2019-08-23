@@ -19,6 +19,9 @@ class LocalStorage(StorageBase):
             file.write(file_content.encode('utf-8'))
             file.close()
 
+    def store_string_with_type(self, filename, file_content: str, path: str, file_type: str):
+        pass
+
     def get(self, filename, path):
         with open(os.path.join(self.local_upload_directory, path, filename)) as file:
             return file.read()

@@ -19,6 +19,10 @@ class GCStorage(StorageBase):
         blob = self.bucket.blob(os.path.join(path, filename))
         blob.upload_from_string(file_content, 'text/csv')
 
+    def store_string_with_type(self, filename, file_content: str, path, file_type):
+        blob = self.bucket.blob(os.path.join(path, filename))
+        blob.upload_from_string(file_content, file_type)
+
     def get(self, filename, path):
         return self.bucket.get_blob(path + filename)
 

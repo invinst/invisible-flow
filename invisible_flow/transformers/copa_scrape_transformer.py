@@ -25,7 +25,12 @@ class CopaScrapeTransformer(TransformerBase):
         except FileNotFoundError:
             commit = 'No file found'
         metadata = b'{"git": "' + bytes(commit, encoding='UTF-8') + b'", "source": "SCRAPER/copa"}'
-        self.storage.store_string('metadata.json', metadata, f'Scrape-{current_date}/initial_data')
+        self.storage.store_string_with_type(
+            'metadata.json',
+            metadata,
+            f'Scrape-{current_date}/initial_data',
+            'application/json'
+        )
 
     def split(self) -> Dict[str, List]:
         scraper = CopaScrape()
