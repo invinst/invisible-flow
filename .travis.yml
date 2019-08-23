@@ -14,7 +14,7 @@ matrix:
         - mypy invisible_flow
         - pytest --cov=invisible_flow tests
       before_deploy:
-        - echo "${TRAVIS_COMMIT}" > /srv/commit
+        - echo "${TRAVIS_COMMIT}" > invisible_flow/commit
       deploy:
         provider: gae
         keyfile: "$GAE_KEYFILE"
@@ -23,7 +23,7 @@ matrix:
         file:
           - "commit"
       after_deploy:
-        - cat /srv/commit
+        - cat invisible_flow/commit
     - language: node_js
       env:
         - PUBLIC_URL=https://storage.cloud.google.com/invisible-flow-dev/
