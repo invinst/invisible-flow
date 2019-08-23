@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 
 from typing import List, Dict
@@ -19,7 +20,9 @@ class CopaScrapeTransformer(TransformerBase):
         current_date = GlobalsFactory.get_current_datetime_utc().isoformat(sep='_').replace(':', '-')
         self.storage.store_string('initial_data.csv', csv, f'Scrape-{current_date}/initial_data')
         try:
-            commit = open('../commit').read()
+            package_directory = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
+            print(os.path.join(package_directory, 'commit'))
+            commit = open(os.path.join(package_directory, 'commit')).read()
         except FileNotFoundError:
             commit = 'No file found'
         metadata = b'{"git": ' + bytes(commit, encoding='UTF-8') + b', "source": "SCRAPER/copa"}'
