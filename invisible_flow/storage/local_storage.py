@@ -20,7 +20,7 @@ class LocalStorage(StorageBase):
             file.close()
 
     def store_string_with_type(self, filename, file_content: str, path: str, file_type: str):
-        pass
+        self.store_string(filename, file_content, path)
 
     def get(self, filename, path):
         with open(os.path.join(self.local_upload_directory, path, filename)) as file:
