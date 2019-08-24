@@ -1,16 +1,21 @@
 import subprocess
+import sys
 import time
 
 import requests
 
 
 def wait_for_server_to_start():
-    for i in range(50):
+    for i in range(5):
         print(f'waited {i * 2} seconds for server...')
-        r = requests.get('http://127.0.0.1:5000/status')
-        if r.status_code == 200:
-            return
-        time.sleep(2)
+
+        try:
+            r = requests.get('http://127.0.0.1:5000/status')
+            if r.status_code == 200:
+                return
+        except Exception as e:
+            print(f'received exception {e}')
+            time.sleep(2)
     print("Server took too long to start")
 
 
@@ -31,4 +36,4 @@ print('-----------------Test output')
 print(test_process.stdout)
 
 server_process.terminate()
-# sys.exit(test_process.returncode)
+sys.exit(test_process.returncode)
