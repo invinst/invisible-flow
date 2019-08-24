@@ -1,3 +1,4 @@
+import os
 import subprocess
 import sys
 import time
@@ -17,19 +18,21 @@ def wait_for_server_to_start():
             print(f'received exception {e}')
             time.sleep(2)
     print("Server took too long to start")
+    sys.exit(1)
 
 
 server_env = {
     'FLASK_APP': 'invisible_flow/app.py',
     'ENVIRONMENT': 'local',
 }
-python_executable = 'venv/bin/python'
+virtual_env_directory = os.environ['VIRTUAL_ENV']
+python_executable = f'{virtual_env_directory}/bin/python'
 # start the server
 server_process = subprocess.Popen(f'{python_executable} -m flask run', shell=True, env=server_env)
 
 wait_for_server_to_start()
 
-# Run the tests
+# # Run the tests
 test_process = subprocess.run('pytest api_tests/', shell=True, capture_output=True, text=True)
 
 print('-----------------Test output')
