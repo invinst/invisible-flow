@@ -33,6 +33,11 @@ dictConfig({
 logger = getLogger(__name__)
 
 
+@app.route('/status', methods=['GET'])
+def status():
+    return 'ok', 200
+
+
 @app.route('/', methods=['GET'])
 def index():
     return render_template('index.html')
