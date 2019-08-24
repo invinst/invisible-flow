@@ -13,6 +13,7 @@ matrix:
         - flake8 .
         - mypy invisible_flow
         - pytest --cov=invisible_flow tests
+        - python run-api-tests.py
       before_deploy:
         - echo "${TRAVIS_COMMIT}" > invisible_flow/commit
       deploy:
