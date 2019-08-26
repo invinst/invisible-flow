@@ -29,7 +29,7 @@ class CopaScrape:
                        "finding_code,police_shooting,race_of_complainants,sex_of_complainants,age_of_complainants," \
                        "race_of_involved_officers,sex_of_involved_officers,age_of_involved_officers," \
                        "years_on_force_of_officers,complaint_hour,complaint_day,complaint_month&" \
-                       "$where=assignment!=\"COPA\""
+                       "$where=assignment=\"COPA\""
         url = SCRAPE_URL + query_string
         return requests.get(url=url).content
 
