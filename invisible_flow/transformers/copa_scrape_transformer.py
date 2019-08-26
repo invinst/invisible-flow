@@ -1,5 +1,4 @@
 import os
-import pandas as pd
 
 from typing import List, Dict
 
@@ -20,18 +19,7 @@ class CopaScrapeTransformer(TransformerBase):
         scraper = CopaScrape()
         csv = scraper.scrape_data_csv()
         self.storage.store_string('initial_data.csv', csv, f'Scrape-{self.current_date}/initial_data')
-        try:
-            package_directory = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-            commit = open(os.path.join(package_directory, 'commit')).read().strip()
-        except FileNotFoundError:
-            commit = 'No file found'
-        metadata = b'{"git": "' + bytes(commit, encoding='UTF-8') + b'", "source": "SCRAPER/copa"}'
-        self.storage.store_string_with_type(
-            'metadata.json',
-            metadata,
-            f'Scrape-{self.current_date}/initial_data',
-            'application/json'
-        )
+        self.create_and_save_metadata('initial_data')
 
     def split(self) -> Dict[str, List]:
         return {
@@ -55,7 +43,22 @@ class CopaScrapeTransformer(TransformerBase):
             self.upload_to_gcs(self.split())
 
         allegation_rows = self.scraper.scrape_copa_ready_for_entity()
-        self.storage.store_string('copa.csv', allegation_rows, 'transformed')
+        self.storage.store_string('copa.csv', allegation_rows, f'Scrape-{self.current_date}/transformed')
 
         misc_data = self.scraper.scrape_copa_not_in_entity()
-        self.storage.store_string('misc-data.csv', misc_data, 'transformed')
+        self.storage.store_string('misc-data.csv', misc_data, f'Scrape-{self.current_date}/transformed')
+        self.create_and_save_metadata('transformed')
+
+    def create_and_save_metadata(self, data_folder: str):
+        try:
+            package_directory = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+            commit = open(os.path.join(package_directory, 'commit')).read().strip()
+        except FileNotFoundError:
+            commit = 'No file found'
+        metadata = b'{"git": "' + bytes(commit, encoding='UTF-8') + b'", "source": "SCRAPER/copa"}'
+        self.storage.store_string_with_type(
+            'metadata.json',
+            metadata,
+            f'Scrape-{self.current_date}/{data_folder}',
+            'application/json'
+        )

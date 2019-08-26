@@ -37,4 +37,3 @@ class CopaScrape:
         url = SCRAPE_URL + ".csv"
         resp = requests.get(url=url)
         return resp.content
-
