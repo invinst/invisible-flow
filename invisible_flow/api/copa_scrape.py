@@ -20,7 +20,7 @@ class CopaScrape:
         return requests.get(url=url).content
 
     def scrape_copa_ready_for_entity(self):
-        query_string = ".csv?$select=log_no,complaint_date,beat&$where=assignment!=\"COPA\""
+        query_string = ".csv?$select=log_no,complaint_date,beat&$where=assignment=\"COPA\""
         url = SCRAPE_URL + query_string
         return requests.get(url=url).content
 
