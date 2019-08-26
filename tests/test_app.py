@@ -1,6 +1,5 @@
 from datetime import datetime
 from io import BytesIO
-from unittest import mock
 from unittest.mock import call, patch, MagicMock
 
 import pytest
@@ -9,7 +8,8 @@ from flask.testing import FlaskClient
 from invisible_flow.app import app
 from invisible_flow.constants import FOIA_RESPONSE_FIELD_NAME
 from invisible_flow.storage import LocalStorage
-from invisible_flow.transformers import CaseInfoAllegationsTransformer
+from invisible_flow.storage.storage_factory import StorageFactory
+from invisible_flow.transformers import CaseInfoAllegationsTransformer, CopaScrapeTransformer
 
 
 class TestInvisibleFlowApp:
@@ -37,8 +37,8 @@ class TestInvisibleFlowApp:
     @patch('invisible_flow.app.GlobalsFactory.get_current_datetime_utc', lambda: datetime(2019, 3, 25, 5, 30, 50, 0))
     def test_foia_response_upload_uploads_to_memory(self, client):
         # todo change this to a decorator
-        with mock.patch('invisible_flow.app.StorageFactory.get_storage') as storage_factory_mock, \
-                mock.patch('invisible_flow.app.TransformerFactory.get_transformer') as get_transformer_mock:
+        with patch('invisible_flow.app.StorageFactory.get_storage') as storage_factory_mock, \
+                patch('invisible_flow.app.TransformerFactory.get_transformer') as get_transformer_mock:
             storage_mock = LocalStorage()
             storage_factory_mock.return_value = storage_mock
             storage_mock.store = MagicMock()
@@ -83,3 +83,15 @@ class TestInvisibleFlowApp:
 
         assert response.status_code == 415
         assert b'Unsupported' in response.data
+
+    def test_copa_scrape_endpoint_responds(self, client):
+        with patch('invisible_flow.app.TransformerFactory.get_transformer') as get_transformer_mock, \
+            patch.object(CopaScrapeTransformer, 'transform') as transform_mock, \
+                patch.object(StorageFactory, 'get_storage'):
+            get_transformer_mock.return_value = CopaScrapeTransformer()
+
+            response = client.get('/copa_scrape', content_type='html/text')
+
+            assert response.status_code == 200
+            assert b'Success' in response.data
+            transform_mock.assert_called()

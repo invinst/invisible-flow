@@ -22,6 +22,7 @@ dnspython==1.16.0
 docutils==0.14
 entrypoints==0.3
 eventlet==0.25.0
+fastapi==0.35.0
 flake8==3.7.7
 Flask==1.1.1
 Flask-Admin==1.5.3
@@ -33,6 +34,7 @@ Flask-Login==0.4.1
 Flask-OpenID==1.2.5
 Flask-SQLAlchemy==2.4.0
 flask-swagger==0.2.13
+Flask-Testing==0.7.1
 Flask-WTF==0.14.2
 funcsigs==1.0.0
 future==0.16.0
@@ -46,6 +48,8 @@ google-resumable-media==0.3.2
 googleapis-common-protos==1.6.0
 greenlet==0.4.15
 gunicorn==19.9.0
+h11==0.8.1
+httptools==0.0.13
 identify==1.4.5
 idna==2.8
 importlib-metadata==0.18
@@ -84,6 +88,7 @@ pyasn1==0.4.5
 pyasn1-modules==0.2.5
 pycodestyle==2.5.0
 pycryptodomex==3.8.2
+pydantic==0.30
 pyflakes==2.1.1
 Pygments==2.4.2
 pyparsing==2.4.0
@@ -102,6 +107,7 @@ setproctitle==1.1.10
 six==1.12.0
 smmap2==2.0.5
 SQLAlchemy==1.2.19
+starlette==0.12.7
 tabulate==0.8.3
 tenacity==4.12.0
 text-unidecode==1.2
@@ -113,8 +119,11 @@ typing-extensions==3.7.4
 tzlocal==1.5.1
 unicodecsv==0.14.1
 urllib3==1.25.3
+uvicorn==0.8.6
+uvloop==0.12.2
 virtualenv==16.7.2
 wcwidth==0.1.7
+websockets==7.0
 Werkzeug==0.15.4
 WTForms==2.2.1
 zipp==0.5.1

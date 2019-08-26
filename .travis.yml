@@ -13,6 +13,9 @@ matrix:
         - flake8 .
         - mypy invisible_flow
         - pytest --cov=invisible_flow tests
+        - python run-api-tests.py
+      before_deploy:
+        - echo "${TRAVIS_COMMIT}" > invisible_flow/commit
       deploy:
         provider: gae
         keyfile: "$GAE_KEYFILE"
@@ -20,6 +23,11 @@ matrix:
         version: "$GAE_VERSION"
       env:
         - GIT_COMMIT_ID=`echo $TRAVIS_COMMIT`
+        file:
+          - "invisible_flow/commit"
+        skip_cleanup: true
+      after_deploy:
+        - cat invisible_flow/commit
     - language: node_js
       env:
         - PUBLIC_URL=https://storage.cloud.google.com/invisible-flow-dev/
