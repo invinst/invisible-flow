@@ -43,6 +43,12 @@ def index():
     return render_template('index.html')
 
 
+@app.route('/copa_scrape', methods=['GET'])
+def copa_scrape():
+    TransformerFactory.get_transformer('copa').transform('copa', None)
+    return Response(status=200, response='Success')
+
+
 @app.route('/foia_response_upload', methods=['POST'])
 def foia_response_upload():
     request_context: Request = GlobalsFactory.get_request_context()

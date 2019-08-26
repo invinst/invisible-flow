@@ -13,12 +13,12 @@ class CopaScrapeTransformer(TransformerBase):
 
     def __init__(self):
         self.storage = StorageFactory.get_storage()
+        self.current_date = GlobalsFactory.get_current_datetime_utc().isoformat(sep='_').replace(':', '-')
 
     def save_scraped_data(self):
         scraper = CopaScrape()
         csv = scraper.scrape_data_csv()
-        current_date = GlobalsFactory.get_current_datetime_utc().isoformat(sep='_').replace(':', '-')
-        self.storage.store_string('initial_data.csv', csv, f'Scrape-{current_date}/initial_data')
+        self.storage.store_string('initial_data.csv', csv, f'Scrape-{self.current_date}/initial_data')
         try:
             package_directory = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
             commit = open(os.path.join(package_directory, 'commit')).read().strip()
@@ -28,7 +28,7 @@ class CopaScrapeTransformer(TransformerBase):
         self.storage.store_string_with_type(
             'metadata.json',
             metadata,
-            f'Scrape-{current_date}/initial_data',
+            f'Scrape-{self.current_date}/initial_data',
             'application/json'
         )
 
@@ -55,10 +55,15 @@ class CopaScrapeTransformer(TransformerBase):
     def upload_to_gcs(self, conversion_results: Dict):
         for result in conversion_results:
             filename = "copa" if result == "copa" else "other-assignment"
-            self.storage.store_string(f'{filename}.csv', conversion_results[result], f'cleaned')
+            self.storage.store_string(
+                f'{filename}.csv',
+                conversion_results[result],
+                f'Scrape-{self.current_date}/cleaned'
+            )
 
     def transform(self, response_type: str, file_content: str):
-        blob = self.storage.get('copa.csv', 'cleaned/')
+        self.save_scraped_data()
+        blob = self.storage.get('copa.csv', f'Scrape-{self.current_date}/cleaned/')
         if blob is None:
             split_results = self.split()
             self.upload_to_gcs(self.convert_to_csv(split_results))
