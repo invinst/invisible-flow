@@ -1,8 +1,7 @@
 import pytest
 
-from invisible_flow.constants import JOB_DB_BIND_KEY, VALID_STATUSES, COPA_DB_BIND_KEY
+from invisible_flow.constants import JOB_DB_BIND_KEY, VALID_STATUSES
 from invisible_flow.jobs.entities import JobRecord
-from invisible_flow.copa.data_allegation import CopaRecord
 from manage import db
 
 
@@ -34,4 +33,3 @@ class TestJobRecord:
             get_db.session.add(JobRecord(status=status))
         get_db.session.commit()
         assert len(JobRecord.query.all()) == len(VALID_STATUSES)
-
