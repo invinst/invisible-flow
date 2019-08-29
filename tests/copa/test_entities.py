@@ -13,15 +13,35 @@ class TestCopaRecord:
 
         yield db
 
-    @pytest.mark.parametrize('status', VALID_STATUSES)
-    def test_copa_record_entity_allows_valid_statuses(self, status):
+    def test_create_copa_record(self):
         try:
-            CopaRecord(status=status)
+            CopaRecord(
+               cr_id='cr_id',
+               add1='add1',
+               add2='add2',
+               beat_id='beat_id',
+               city='city',
+               incident_date='incident_date',
+               is_officer_complaint=True,
+               location='location',
+               summary='summary'
+            )
         except Exception:
             pytest.fail('this should not have thrown an exception')
 
     def test_adding_copa_record_to_db_works(self, get_db):
-        for status in VALID_STATUSES:
-            get_db.session.add(CopaRecord(status=status))
+        cr = CopaRecord(
+            cr_id='cr_id',
+            add1='add1',
+            add2='add2',
+            beat_id='beat_id',
+            city='city',
+            incident_date='incident_date',
+            is_officer_complaint=True,
+            location='location',
+            summary='summary'
+        )
+        get_db.session.add(cr)
         get_db.session.commit()
-        assert len(CopaRecord.query.all()) == len(VALID_STATUSES)
+        assert len(CopaRecord.query.all()) == 1
+
