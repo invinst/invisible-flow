@@ -35,9 +35,3 @@ class TestJobRecord:
         get_db.session.commit()
         assert len(JobRecord.query.all()) == len(VALID_STATUSES)
 
-    def test_adding_copa_record_to_db_works(self):
-        db.create_all(bind=COPA_DB_BIND_KEY)
-        for status in VALID_STATUSES:
-            db.session.add(CopaRecord(status=status))
-        db.session.commit()
-        assert len(CopaRecord.query.all()) == len(VALID_STATUSES)
