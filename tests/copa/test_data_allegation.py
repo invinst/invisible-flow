@@ -1,11 +1,11 @@
 import pytest
 
 from invisible_flow.constants import COPA_DB_BIND_KEY
-from invisible_flow.copa.data_allegation import CopaRecord
+from invisible_flow.copa.data_allegation import Allegation
 from manage import db
 
 
-class TestCopaRecord:
+class TestAllegation:
 
     @pytest.fixture
     def get_db(self):
@@ -13,8 +13,8 @@ class TestCopaRecord:
 
         yield db
 
-    def get_copa_record(self):
-        return CopaRecord(
+    def get_allegation(self):
+        return Allegation(
             cr_id='cr_id',
             add1='add1',
             add2='add2',
@@ -26,14 +26,14 @@ class TestCopaRecord:
             summary='summary'
         )
 
-    def test_create_copa_record(self):
+    def test_create_allegation(self):
         try:
-            self.get_copa_record()
+            self.get_allegation()
         except Exception:
             pytest.fail('this should not have thrown an exception')
 
     def test_adding_copa_record_to_db_works(self, get_db):
-        cr = self.get_copa_record()
+        cr = self.get_allegation()
         get_db.session.add(cr)
         get_db.session.commit()
-        assert len(CopaRecord.query.all()) == 1
+        assert len(Allegation.query.all()) == 1

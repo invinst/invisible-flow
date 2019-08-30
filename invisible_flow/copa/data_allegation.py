@@ -2,7 +2,7 @@ from invisible_flow.constants import COPA_DB_BIND_KEY
 from manage import db
 
 
-class CopaRecord(db.Model):
+class Allegation(db.Model):
     __bind_key__ = COPA_DB_BIND_KEY
     add1 = db.Column(db.String)
     add2 = db.Column(db.String)
@@ -15,7 +15,7 @@ class CopaRecord(db.Model):
     cr_id = db.Column(db.String, primary_key=True)
 
     def __repr__(self):
-        return f'<CopaRecord {self.cr_id} ' \
+        return f'<Allegation {self.cr_id} ' \
                f'add1: {self.add1}, ' \
                f'add2: {self.add2}, ' \
                f'beat_id: {self.beat_id}, ' \
@@ -27,6 +27,6 @@ class CopaRecord(db.Model):
                f'>'
 
 
-def insert_copa_record_into_database(record: CopaRecord):
+def insert_allegation_into_database(record: Allegation):
     db.session.add(record)
     db.session.commit()
