@@ -1,14 +1,10 @@
 import pandas as pd
 from invisible_flow.copa.data_allegation_category import AllegationCategory
-from invisible_flow.constants import COPA_DB_BIND_KEY
-
-from manage import db
 
 
 class Augment:
     def get_augmented_copa_data(self, allegation_rows: str):
         df = pd.read_csv(allegation_rows)
-        db.create_all(bind=COPA_DB_BIND_KEY)
 
         categories = df.loc[:, 'current_category'].unique()
 
