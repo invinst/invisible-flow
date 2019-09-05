@@ -37,9 +37,9 @@ class TestAugment:
         )
 
         for category in categories:
-            civil_suits_code = \
+            category_code = \
                 category_code_map.loc[category_code_map['category'] == category]['category_code'].values[0]
-            clone_df = clone_df.replace(category, civil_suits_code)
+            clone_df = clone_df.replace(category, category_code)
 
         assert_frame_equal(augmented, clone_df)
         assert len(augmented) == len(df)
@@ -48,6 +48,7 @@ class TestAugment:
     def test_adding_augmented_copa_record_to_db_no_category_matches(self):
         copa_split_csv = os.path.join(IFTestBase.resource_directory, 'copa_scraped_split.csv')
         df = pd.read_csv(copa_split_csv)
+        db.drop_all()
         db.create_all(bind=COPA_DB_BIND_KEY)
 
         augmented = Augment().get_augmented_copa_data(copa_split_csv)

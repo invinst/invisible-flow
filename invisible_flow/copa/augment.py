@@ -16,8 +16,8 @@ class Augment:
             for category in categories:
                 # civil_suits_code is the category_code from data_allegationcategories
                 # table that corresponds to the current category in this loop
-                civil_suits_code = \
+                category_code = \
                     category_code_map.loc[category_code_map['category'] == category]['category_code'].values[0]
-                df = df.replace(category, civil_suits_code)
+                df = df.replace(category, category_code)
 
         return df
