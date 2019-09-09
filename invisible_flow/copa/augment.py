@@ -11,10 +11,9 @@ class Augment:
         category_code_map = pd.DataFrame(
             AllegationCategory.query.with_entities(AllegationCategory.category, AllegationCategory.category_code)
         )
-
         if len(category_code_map) > 0:
             for category in categories:
-                # civil_suits_code is the category_code from data_allegationcategories
+                # category_code is the category_code from data_allegationcategories
                 # table that corresponds to the current category in this loop
                 category_code = \
                     category_code_map.loc[category_code_map['category'] == category]['category_code'].values[0]

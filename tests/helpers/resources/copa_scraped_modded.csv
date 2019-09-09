@@ -1,0 +1,4 @@
+age_of_complainants,age_of_involved_officers,assignment,beat,case_type,complaint_date,complaint_day,complaint_hour,complaint_month,current_category,current_status,log_no,police_shooting,race_of_complainants,race_of_involved_officers,sex_of_complainants,sex_of_involved_officers,years_on_force_of_officers
+40-49 | 20-29,,COPA,1111,Complaint,2019-01-11T15: 18: 16.000,6,15,1,Excessive Force,Pending Investigation,1092325,No,African American / Black | African American / Black,,Female | Male,,
+20-29,,COPA,1111,Complaint,2019-01-11T00: 50: 55.000,6,0,1,Excessive Force,Pending Investigation,1092312,No,African American / Black,,Male,,
+20-29,,COPA,1111,Complaint,2019-01-10T14: 09: 40.000,5,14,1,Operational Violation,Pending Investigation,1092306,No,African American / Black,,Male,,
