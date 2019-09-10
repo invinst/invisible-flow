@@ -1,4 +1,3 @@
-import numpy
 import pandas as pd
 
 from invisible_flow.copa.data_allegation import Allegation
@@ -12,7 +11,7 @@ class Loader:
     def __init__(self):
         self.db_values = pd.DataFrame(
             Allegation.query.with_entities(Allegation.cr_id)
-        ).values.flatten()
+        ).values.flatten().tolist()
         self.partial_matches = []
         self.storage = StorageFactory.get_storage()
         self.current_date = GlobalsFactory.get_current_datetime_utc().isoformat(sep='_').replace(':', '-')
@@ -25,10 +24,10 @@ class Loader:
                 beat_id=row[1]["beat"],
                 incident_date=row[1]["complaint_date"]
             )
-            if numpy.isin(self.db_values, row[1]["log_no"]).all():
+            if row[1]["log_no"] not in self.db_values:
                 db.session.add(cr)
                 db.session.commit()
-                numpy.append(self.db_values, row[1]["log_no"])
+                self.db_values.append(row[1]["log_no"])
             else:
                 db_row_match_log_no = Allegation.query.filter_by(cr_id=row[1]["log_no"]).all()[0]
                 if cr.beat_id != db_row_match_log_no.beat_id or cr.incident_date != db_row_match_log_no.incident_date:

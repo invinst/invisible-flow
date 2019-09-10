@@ -35,22 +35,25 @@ class TestLoad:
     def test_where_all_augmented_data_matches_db_data(self):
         db.drop_all()
         db.create_all(bind=COPA_DB_BIND_KEY)
+        loader = Loader()
         copa_split_csv = os.path.join(IFTestBase.resource_directory, 'copa_scraped_split.csv')
         aug_copa_data = Augment().get_augmented_copa_data(copa_split_csv)
-        Loader().load_copa_db(aug_copa_data)
+        loader.load_copa_db(aug_copa_data)
         length_of_allegation = len(Allegation.query.all())
-        Loader().load_copa_db(aug_copa_data)
+        loader.load_copa_db(aug_copa_data)
         assert length_of_allegation == len(Allegation.query.all())
 
     def test_where_augmented_data_is_partial_match(self, default_fixture):
         db.drop_all()
         db.create_all(bind=COPA_DB_BIND_KEY)
-        copa_split_csv = os.path.join(IFTestBase.resource_directory, 'copa_scraped_split.csv')
+        loader = Loader()
+        # number of partial matches in copa_scraped_modded
+        partial_match_count = 3
         copa_modded = os.path.join(IFTestBase.resource_directory, 'copa_scraped_modded.csv')
-        aug_copa_data = Augment().get_augmented_copa_data(copa_split_csv)
         aug_mod_data = Augment().get_augmented_copa_data(copa_modded)
-        Loader().load_copa_db(aug_copa_data)
+        print(aug_mod_data.pivot_table(index=['log_no'], aggfunc='size'))
         with patch.object(LocalStorage, 'store_string') as store_string_mock:
-            partial_matches = Loader().load_copa_db(aug_mod_data)
-            assert len(aug_mod_data) == len(partial_matches["partial_matches"])
+            partial_matches = loader.load_copa_db(aug_mod_data)
+            assert partial_match_count == len(partial_matches["partial_matches"])
             store_string_mock.assert_called_with('changed_allegation.csv', mock.ANY, mock.ANY)
+            print(type(aug_mod_data))
