@@ -17,8 +17,6 @@ from tests.helpers.if_test_base import IFTestBase
 
 @patch('invisible_flow.app.GlobalsFactory.get_current_datetime_utc', lambda: datetime(2019, 3, 25, 5, 30, 50, 0))
 class TestLoad:
-    # TODO mock StorageFactory.get_storage
-    #  mock GlobalsFactory.get_current_datetime_utc
 
     @pytest.fixture(autouse=True)
     def default_fixture(self):
