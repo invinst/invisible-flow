@@ -51,9 +51,18 @@ class TestLoad:
         partial_match_count = 3
         copa_modded = os.path.join(IFTestBase.resource_directory, 'copa_scraped_modded.csv')
         aug_mod_data = Augment().get_augmented_copa_data(copa_modded)
-        print(aug_mod_data.pivot_table(index=['log_no'], aggfunc='size'))
         with patch.object(LocalStorage, 'store_string') as store_string_mock:
             partial_matches = loader.load_copa_db(aug_mod_data)
             assert partial_match_count == len(partial_matches["partial_matches"])
             store_string_mock.assert_called_with('changed_allegation.csv', mock.ANY, mock.ANY)
-            print(type(aug_mod_data))
+
+    def test_where_augmented_data_is_partial_match_2(self, default_fixture):
+        db.drop_all()
+        db.create_all(bind=COPA_DB_BIND_KEY)
+        loader = Loader()
+        # number of partial matches in copa_scraped_modded
+        partial_match_count = 3
+        copa_modded = os.path.join(IFTestBase.resource_directory, 'copa_scraped_modded.csv')
+        aug_mod_data = Augment().get_augmented_copa_data(copa_modded)
+        loader.load_copa_db(aug_mod_data)
+        assert len(loader.error_notes) >= partial_match_count

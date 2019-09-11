@@ -13,8 +13,15 @@ class Loader:
             Allegation.query.with_entities(Allegation.cr_id)
         ).values.flatten().tolist()
         self.partial_matches = []
+        self.error_notes = pd.DataFrame()
         self.storage = StorageFactory.get_storage()
         self.current_date = GlobalsFactory.get_current_datetime_utc().isoformat(sep='_').replace(':', '-')
+
+    def get_error_note(self, db_value: str, allegation_value: str) -> str:
+        return f'column beat_id contained the value ' \
+               f'{db_value} ' \
+               f'in the database but ' \
+               f'the new dataset contains the value {allegation_value} '
 
     def load_copa_db(self, augmented_data: pd.DataFrame):
         copa_column_names = ["cr_id", "beat_id", "incident_date"]
@@ -32,10 +39,18 @@ class Loader:
                 db_row_match_log_no = Allegation.query.filter_by(cr_id=row[1]["log_no"]).all()[0]
                 if cr.beat_id != db_row_match_log_no.beat_id or cr.incident_date != db_row_match_log_no.incident_date:
                     self.partial_matches.append(cr)
+                    if cr.beat_id != db_row_match_log_no.beat_id:
+                        self.error_notes = self.error_notes.append(
+                            {"error_notes": self.get_error_note(db_row_match_log_no.beat_id, cr.beat_id)},
+                            ignore_index=True
+                        )
 
-        allegation_rows = Allegation.query.all()
+                    if cr.incident_date != db_row_match_log_no.incident_date:
+                        self.error_notes.append(
+                            [self.get_error_note(db_row_match_log_no.incident_date, cr.incident_date)]
+                        )
         df = pd.DataFrame(
-            [(row.cr_id, row.beat_id, row.incident_date) for row in allegation_rows],
+            [(row.cr_id, row.beat_id, row.incident_date) for row in self.partial_matches],
             columns=copa_column_names
         )
 
