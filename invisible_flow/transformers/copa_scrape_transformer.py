@@ -48,6 +48,9 @@ class CopaScrapeTransformer(TransformerBase):
         misc_data = self.scraper.scrape_copa_not_in_entity()
         self.storage.store_string('misc-data.csv', misc_data, f'Scrape-{self.current_date}/transformed')
         self.create_and_save_metadata('transformed')
+        return [(
+            'data_allegation', allegation_rows
+        )]
 
     def create_and_save_metadata(self, data_folder: str):
         try:

@@ -1,0 +1,14 @@
+age_of_complainants,age_of_involved_officers,assignment,beat,case_type,complaint_date,complaint_day,complaint_hour,complaint_month,current_category,current_status,log_no,police_shooting,race_of_complainants,race_of_involved_officers,sex_of_complainants,sex_of_involved_officers,years_on_force_of_officers
+40-49 | 20-29,,COPA,1132,Complaint,2019-01-11T15: 18: 16.000,6,15,1,Excessive Force,Pending Investigation,1092325,No,African American / Black | African American / Black,,Female | Male,,
+20-29,,COPA,1114,Complaint,2019-01-11T00: 50: 55.000,6,0,1,Excessive Force,Pending Investigation,1092312,No,African American / Black,,Male,,
+20-29,,COPA,411,Complaint,2019-01-10T14: 09: 40.000,5,14,1,Operational Violation,Pending Investigation,1092306,No,African American / Black,,Male,,
+Unknown,30-39,COPA,1933,Complaint,2019-01-10T13: 55: 51.000,5,13,1,Unlawful Denial of Counsel,Pending Investigation,1092305,No,Hispanic,Asian or Pacific Islander,Male,Male,10-14
+Unknown,30-39 | 20-29 | 30-39 | 50-59 | 50-59 | 40-49,COPA,835,Complaint,2019-01-10T13: 24: 46.000,5,13,1,Civil Suits,Pending Investigation,1092304,No,Unknown,Asian or Pacific Islander | White | Asian or Pacific Islander | White | White | White,Male,Male | Female | Male | Male | Male | Male,5-9 | 0-4 | 10-14 | 15-19 | 20-24 | 25-29
+20-29,,COPA,414,Complaint,2019-01-10T13: 18: 25.000,5,13,1,Search or Seizure,Pending Investigation,1092303,No,African American / Black,,Female,,
+30-39,40-49 | 40-49,COPA,311,Complaint,2019-01-10T13: 13: 36.000,5,13,1,Civil Suits,Pending Investigation,1092302,No,African American / Black,Hispanic | Hispanic,Male,Female | Male,10-14 | 5-9
+20-29 | 30-39,50-59,COPA,233,Complaint,2019-01-10T12: 56: 23.000,5,12,1,Civil Suits,Pending Investigation,1092301,No,Hispanic | Hispanic,White,Male | Male,Female,20-24
+Unknown,,COPA,2535,Complaint,2019-01-10T12: 49: 40.000,5,12,1,Civil Suits,Pending Investigation,1092300,No,Unknown,,Male,,
+20-29,,COPA,731,Complaint,2019-01-10T11: 09: 19.000,5,11,1,Search or Seizure,Pending Investigation,1092296,No,African American / Black,,Male,,
+40-49 | 20-29,,COPA,1111,Complaint,2019-01-11T15: 18: 16.000,6,15,1,Excessive Force,Pending Investigation,1092325,No,African American / Black | African American / Black,,Female | Male,,
+20-29,,COPA,1111,Complaint,2019-01-11T00: 50: 55.000,6,0,1,Excessive Force,Pending Investigation,1092312,No,African American / Black,,Male,,
+20-29,,COPA,1111,Complaint,2019-01-10T14: 09: 40.000,5,14,1,Operational Violation,Pending Investigation,1092306,No,African American / Black,,Male,,
