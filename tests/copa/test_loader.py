@@ -2,8 +2,8 @@ import os
 from datetime import datetime
 from unittest import mock
 
+from unittest.mock import call, patch
 import pytest
-from mock import patch
 
 from invisible_flow.copa.augment import Augment
 from invisible_flow.copa.data_allegation import Allegation
@@ -54,7 +54,11 @@ class TestLoad:
         with patch.object(LocalStorage, 'store_string') as store_string_mock:
             partial_matches = loader.load_copa_db(aug_mod_data)
             assert partial_match_count == len(partial_matches["partial_matches"])
-            store_string_mock.assert_called_with('changed_allegation.csv', mock.ANY, mock.ANY)
+            calls = [
+                call('changed_allegation.csv', mock.ANY, mock.ANY),
+                call('error_notes.csv', mock.ANY, mock.ANY)
+            ]
+            store_string_mock.assert_has_calls(calls)
 
     def test_where_augmented_data_is_partial_match_2(self, default_fixture):
         db.drop_all()
