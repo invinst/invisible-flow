@@ -26,6 +26,9 @@ class Allegation(db.Model):
                f'summary: {self.summary}, ' \
                f'>'
 
+    def __getitem__(self, index):
+        return self.__getattribute__(index)
+
 
 def insert_allegation_into_database(record: Allegation):
     db.session.add(record)

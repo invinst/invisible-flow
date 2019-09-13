@@ -27,9 +27,9 @@ class Loader:
         copa_column_names = ["cr_id", "beat_id", "incident_date"]
         for row in augmented_data.iterrows():
             cr = Allegation(
-                cr_id=row[1]["log_no"],
-                beat_id=row[1]["beat"],
-                incident_date=row[1]["complaint_date"]
+                cr_id=str(row[1]["log_no"]),
+                beat_id=str(row[1]["beat"]),
+                incident_date=str(row[1]["complaint_date"])
             )
             if row[1]["log_no"] not in self.db_values:
                 db.session.add(cr)
@@ -37,35 +37,26 @@ class Loader:
                 self.db_values.append(row[1]["log_no"])
             else:
                 db_row_match_log_no = Allegation.query.filter_by(cr_id=row[1]["log_no"]).all()[0]
-                if cr.beat_id != db_row_match_log_no.beat_id or cr.incident_date != db_row_match_log_no.incident_date:
-                    self.partial_matches.append(cr)
-                    if cr.beat_id != db_row_match_log_no.beat_id:
+                had_partial_match = False
+                for column_name in Allegation.__table__.columns.keys():
+                    if cr[column_name] != db_row_match_log_no[column_name]:
+                        had_partial_match = True
                         self.error_notes = self.error_notes.append(
                             {
                                 "error_notes":
                                     self.get_error_note(
-                                        "beat_id",
-                                        cr.cr_id,
-                                        db_row_match_log_no.beat_id,
-                                        cr.beat_id
+                                         column_name,
+                                         cr.cr_id,
+                                         db_row_match_log_no[column_name],
+                                         cr[column_name]
                                     )
                             },
                             ignore_index=True
                         )
 
-                    if cr.incident_date != db_row_match_log_no.incident_date:
-                        self.error_notes = self.error_notes.append(
-                            {
-                                "error_notes":
-                                    self.get_error_note(
-                                        "incident_date",
-                                        cr.cr_id,
-                                        db_row_match_log_no.incident_date,
-                                        cr.incident_date
-                                    )
-                            },
-                            ignore_index=True
-                        )
+                if had_partial_match:
+                    self.partial_matches.append(cr)
+
         df = pd.DataFrame(
             [(row.cr_id, row.beat_id, row.incident_date) for row in self.partial_matches],
             columns=copa_column_names
