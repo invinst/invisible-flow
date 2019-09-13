@@ -60,7 +60,7 @@ class TestLoad:
             ]
             store_string_mock.assert_has_calls(calls)
 
-    def test_where_augmented_data_is_partial_match_2(self, default_fixture):
+    def test_where_augmented_data_collides_and_error_notes_created(self, default_fixture):
         db.drop_all()
         db.create_all(bind=COPA_DB_BIND_KEY)
         loader = Loader()

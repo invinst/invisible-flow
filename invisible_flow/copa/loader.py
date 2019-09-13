@@ -17,8 +17,8 @@ class Loader:
         self.storage = StorageFactory.get_storage()
         self.current_date = GlobalsFactory.get_current_datetime_utc().isoformat(sep='_').replace(':', '-')
 
-    def get_error_note(self, cr_id: str, db_value: str, allegation_value: str) -> str:
-        return f'{cr_id}, column beat_id contained the value ' \
+    def get_error_note(self, column_name: str, cr_id: str, db_value: str, allegation_value: str) -> str:
+        return f'{cr_id}, column {column_name} contained the value ' \
                f'{db_value} ' \
                f'in the database but ' \
                f'the new dataset contains the value {allegation_value} '
@@ -41,13 +41,30 @@ class Loader:
                     self.partial_matches.append(cr)
                     if cr.beat_id != db_row_match_log_no.beat_id:
                         self.error_notes = self.error_notes.append(
-                            {"error_notes": self.get_error_note(cr.cr_id, db_row_match_log_no.beat_id, cr.beat_id)},
+                            {
+                                "error_notes":
+                                    self.get_error_note(
+                                        "beat_id",
+                                        cr.cr_id,
+                                        db_row_match_log_no.beat_id,
+                                        cr.beat_id
+                                    )
+                            },
                             ignore_index=True
                         )
 
                     if cr.incident_date != db_row_match_log_no.incident_date:
-                        self.error_notes.append(
-                            [self.get_error_note(cr.cr_id, db_row_match_log_no.incident_date, cr.incident_date)]
+                        self.error_notes = self.error_notes.append(
+                            {
+                                "error_notes":
+                                    self.get_error_note(
+                                        "incident_date",
+                                        cr.cr_id,
+                                        db_row_match_log_no.incident_date,
+                                        cr.incident_date
+                                    )
+                            },
+                            ignore_index=True
                         )
         df = pd.DataFrame(
             [(row.cr_id, row.beat_id, row.incident_date) for row in self.partial_matches],
