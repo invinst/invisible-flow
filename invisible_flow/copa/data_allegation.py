@@ -26,6 +26,8 @@ class Allegation(db.Model):
                f'summary: {self.summary}, ' \
                f'>'
 
+    # enables subscriptability like Allegation['beat_id'] instead of forcing
+    # Allegation.beat_id syntax
     def __getitem__(self, index):
         return self.__getattribute__(index)
 
