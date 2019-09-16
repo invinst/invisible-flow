@@ -24,13 +24,15 @@ class TestLoad:
             get_storage_mock.return_value = LocalStorage()
             yield get_storage_mock
 
-    def test_load_augmented_db(self):
+    def test_load_augmented_rows_no_collisions_with_db(self):
         db.drop_all()
         db.create_all(bind=COPA_DB_BIND_KEY)
+        loader = Loader()
         copa_split_csv = os.path.join(IFTestBase.resource_directory, 'copa_scraped_split.csv')
         aug_copa_data = Augment().get_augmented_copa_data(copa_split_csv)
-        Loader().load_copa_db(aug_copa_data)
+        loader.load_copa_db(aug_copa_data)
         assert len(aug_copa_data) == len(Allegation.query.all())
+        assert len(loader.db_rows_added) == len(aug_copa_data)
 
     def test_where_all_augmented_data_matches_db_data(self):
         db.drop_all()
@@ -52,8 +54,8 @@ class TestLoad:
         copa_modded = os.path.join(IFTestBase.resource_directory, 'copa_scraped_modded.csv')
         aug_mod_data = Augment().get_augmented_copa_data(copa_modded)
         with patch.object(LocalStorage, 'store_string') as store_string_mock:
-            partial_matches = loader.load_copa_db(aug_mod_data)
-            assert partial_match_count == len(partial_matches["partial_matches"])
+            loader.load_copa_db(aug_mod_data)
+            assert partial_match_count == len(loader.partial_matches)
             calls = [
                 call('changed_allegation.csv', mock.ANY, mock.ANY),
                 call('error_notes.csv', mock.ANY, mock.ANY)
@@ -70,3 +72,4 @@ class TestLoad:
         aug_mod_data = Augment().get_augmented_copa_data(copa_modded)
         loader.load_copa_db(aug_mod_data)
         assert len(loader.error_notes) >= partial_match_count
+        assert len(loader.db_rows_added) == 10
