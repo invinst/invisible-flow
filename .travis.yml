@@ -32,7 +32,7 @@ matrix:
       env:
         - PUBLIC_URL=https://storage.cloud.google.com/invisible-flow-dev/
       node_js:
-        - 8
+        - "8"
       cache:
         directories:
           - node_modules
