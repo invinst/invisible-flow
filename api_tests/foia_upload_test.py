@@ -6,7 +6,7 @@ class TestFoiaUpload:
 
     # in the future this should support excel file types
     def test_post_request_file_must_be_a_valid_file_type(self):
-        valid_file = {'foia_response': ('blah.csv', open('../tests/helpers/resources/accused_single_row.csv'))}
+        valid_file = {'foia_response': ('blah.csv', open('tests/helpers/resources/accused_single_row.csv'))}
         response = requests.post(
             self.foia_upload_url,
             files=valid_file, data={'response_type': 'accused'}
@@ -24,7 +24,7 @@ class TestFoiaUpload:
         assert 'No file with name foia_response was uploaded' in response.text
 
     def test_post_request_must_specify_response_type(self):
-        valid_file = {'foia_response': ('blah.csv', open('../tests/helpers/resources/accused_single_row.csv'))}
+        valid_file = {'foia_response': ('blah.csv', open('tests/helpers/resources/accused_single_row.csv'))}
         response = requests.post(
             self.foia_upload_url,
             files=valid_file
