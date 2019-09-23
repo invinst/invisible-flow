@@ -21,11 +21,11 @@ matrix:
         keyfile: "$GAE_KEYFILE"
         project: "$GAE_PROJECT_ID"
         version: "$GAE_VERSION"
-      env:
-        - GIT_COMMIT_ID=`echo $TRAVIS_COMMIT`
         file:
           - "invisible_flow/commit"
         skip_cleanup: true
+      env:
+        - GIT_COMMIT_ID=`echo $TRAVIS_COMMIT`
       after_deploy:
         - cat invisible_flow/commit
     - language: node_js
