@@ -39,7 +39,7 @@ class TestCopaScrapeTransformer(IFTestBase):
     @patch('invisible_flow.app.GlobalsFactory.get_current_datetime_utc', lambda: datetime(2019, 3, 25, 5, 30, 50, 0))
     def test_transform(self):
         with patch('invisible_flow.app.StorageFactory.get_storage') as get_storage_mock:
-            with patch.object(LocalStorage, 'store_string') as mock:
+            with patch.object(LocalStorage, 'store_string') as store_string_mock:
                 with patch('invisible_flow.api.CopaScrape.scrape_copa_ready_for_entity') as mock_scrape_entity:
                     with patch('invisible_flow.api.CopaScrape.scrape_copa_not_in_entity') as mock_scrape_misc:
                         with patch.object(CopaScrapeTransformer, 'save_scraped_data'):
@@ -53,4 +53,4 @@ class TestCopaScrapeTransformer(IFTestBase):
             call("copa.csv", b"some content", f'Scrape-{self.current_date}/transformed'),
             call("misc-data.csv", b"some content", f'Scrape-{self.current_date}/transformed')
         ]
-        mock.assert_has_calls(calls)
+        store_string_mock.assert_has_calls(calls)

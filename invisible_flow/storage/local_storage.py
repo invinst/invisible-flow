@@ -12,7 +12,6 @@ class LocalStorage(StorageBase):
 
     def store_string(self, filename, file_content: str, path: str):
         dir_path = os.path.join(self.local_upload_directory, path)
-        print(f'dir path: {dir_path}')
 
         pathlib.Path(dir_path).mkdir(exist_ok=True, parents=True)
         with open(os.path.join(dir_path, filename), 'wb') as file:
