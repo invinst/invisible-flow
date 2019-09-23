@@ -18,6 +18,7 @@ class CopaScrapeTransformer(TransformerBase):
     def save_scraped_data(self):
         scraper = CopaScrape()
         csv = scraper.scrape_data_csv()
+        print("^^^^^^^^^^^^^^^^^^^^", type(csv), csv)
         self.storage.store_string('initial_data.csv', csv, f'Scrape-{self.current_date}/initial_data')
         self.create_and_save_metadata('initial_data')
 

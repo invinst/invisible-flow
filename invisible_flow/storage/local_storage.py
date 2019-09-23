@@ -16,6 +16,7 @@ class LocalStorage(StorageBase):
 
         pathlib.Path(dir_path).mkdir(exist_ok=True, parents=True)
         with open(os.path.join(dir_path, filename), 'wb') as file:
+            print("&&&&&&&&&&&&&", type(file_content), file_content.encode('utf-8'))
             file.write(file_content.encode('utf-8'))
             file.close()
 
