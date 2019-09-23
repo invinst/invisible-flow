@@ -23,13 +23,13 @@ def mocked_requests_get(**kwargs):
         return MockResponse({"key1": "value1"}, 200, "bubbles")
     elif kwargs == {"url": SCRAPE_URL + ".csv?$where=assignment!=\"COPA\""}:
         return MockResponse({"key1": "value1"}, 200, "bubbles")
-    elif kwargs == {"url": SCRAPE_URL + ".csv?$select=log_no,complaint_date,beat&$where=assignment!=\"COPA\""}:
+    elif kwargs == {"url": SCRAPE_URL + ".csv?$select=log_no,complaint_date,beat&$where=assignment=\"COPA\""}:
         return MockResponse({"key1": "value1"}, 200, "bubbles")
     elif kwargs == {"url": SCRAPE_URL + ".csv?$select=log_no,assignment,case_type,current_status,current_category,"
                     "finding_code,police_shooting,race_of_complainants,sex_of_complainants,age_of_complainants,"
                     "race_of_involved_officers,sex_of_involved_officers,age_of_involved_officers,"
                     "years_on_force_of_officers,complaint_hour,complaint_day,complaint_month&"
-                    "$where=assignment!=\"COPA\""}:
+                    "$where=assignment=\"COPA\""}:
         return MockResponse({"key1": "value1"}, 200, "bubbles")
 
     return MockResponse(None, 404, None)
