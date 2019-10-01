@@ -17,9 +17,14 @@ class CopaScrapeTransformer(TransformerBase):
 
     def save_scraped_data(self):
         scraper = CopaScrape()
-        csv = scraper.scrape_data_csv()
-        self.storage.store_string('initial_data.csv', csv, f'Scrape-{self.current_date}/initial_data')
-        self.create_and_save_metadata('initial_data')
+        response = scraper.scrape_data_csv()
+        csv = response.content
+        if response.status_code == 200:
+            self.storage.store_string('initial_data.csv', csv, f'Scrape-{self.current_date}/initial_data')
+            self.create_and_save_metadata('initial_data')
+        else:
+            error_to_write = str(response.status_code) + "\n" + response.text
+            self.storage.store_string('transform_error.csv', error_to_write, f'Scrape-{self.current_date}/errors')
 
     def split(self) -> Dict[str, List]:
         return {

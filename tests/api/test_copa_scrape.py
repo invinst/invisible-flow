@@ -51,7 +51,7 @@ def default_fixture(request):
 class TestCopaScrape():
     def test_scrape_data_csv(self, get_mock):
         should_be_bubbles = CopaScrape().scrape_data_csv()
-        assert should_be_bubbles == "bubbles"
+        assert should_be_bubbles.content == "bubbles"
 
     def test_scrape_data_json(self, get_mock):
         should_be_json_data = CopaScrape().scrape_data_json()

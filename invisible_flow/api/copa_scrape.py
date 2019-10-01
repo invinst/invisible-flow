@@ -36,5 +36,4 @@ class CopaScrape:
 
     def scrape_data_csv(self):
         url = SCRAPE_URL + ".csv"
-        resp = requests.get(url=url)
-        return resp.content
+        return requests.get(url=url)
