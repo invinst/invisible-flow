@@ -58,7 +58,7 @@ class TestCopaScrape():
         assert should_be_json_data == {"key1": "value1"}
 
     def test_scrape_copa_csv(self, get_mock):
-        should_be_bubbles = CopaScrape().scrape_copa_csv()
+        should_be_bubbles = CopaScrape().scrape_copa_csv().content
         assert should_be_bubbles == "bubbles"
 
     def test_scrape_not_copa_csv(self, get_mock):

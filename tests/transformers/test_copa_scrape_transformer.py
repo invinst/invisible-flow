@@ -63,8 +63,11 @@ class TestCopaScrapeTransformer(IFTestBase):
         self.copa = False
         self.no_copa = False
         raw_data = self.transformer.split()
-        assert not raw_data['copa'].find(b'BIA') > -1
-        assert not raw_data['no_copa'].find(b'COPA') > -1
+        if response_code == 200:
+            assert not raw_data['copa'].find(b'BIA') > -1
+            assert not raw_data['no_copa'].find(b'COPA') > -1
+        else:
+            assert len(raw_data) == 0
 
     def test_upload_to_gcs(self, get_mock):
         copa_split_csv = os.path.join(IFTestBase.resource_directory, 'copa_scraped_split.csv')
@@ -112,3 +115,18 @@ class TestCopaScrapeTransformer(IFTestBase):
                     call(filename, mock.ANY, f'Scrape-{self.current_date}/{pathname}')
                 ]
                 store_string_mock.assert_has_calls(calls)
+
+    @patch('invisible_flow.app.GlobalsFactory.get_current_datetime_utc', lambda: datetime(2019, 3, 25, 5, 30, 50, 0))
+    def test_split_with_all_response_codes(self, get_mock):
+        with patch('invisible_flow.app.StorageFactory.get_storage') as get_storage_mock:
+            with patch('invisible_flow.storage.LocalStorage.store_string') as store_string_mock:
+                get_storage_mock.return_value = LocalStorage()
+                split_data = CopaScrapeTransformer().split()
+                self.current_date = GlobalsFactory.get_current_datetime_utc().isoformat(sep='_').replace(':', '-')
+                if response_code == 200:
+                    assert split_data is not None
+                else:
+                    calls = [
+                        call('transform_error.csv', mock.ANY, f'Scrape-{self.current_date}/errors')
+                    ]
+                    store_string_mock.assert_has_calls(calls)

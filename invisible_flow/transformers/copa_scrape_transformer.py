@@ -27,10 +27,18 @@ class CopaScrapeTransformer(TransformerBase):
             self.storage.store_string('transform_error.csv', error_to_write, f'Scrape-{self.current_date}/errors')
 
     def split(self) -> Dict[str, List]:
-        return {
-            'copa': self.scraper.scrape_copa_csv(),
-            'no_copa': self.scraper.scrape_not_copa_csv()
-        }
+        # on error needs to call store_string with a string describing the error
+        scraper = CopaScrape()
+        response = scraper.scrape_copa_csv()
+        if response.status_code == 200:
+            return {
+                'copa': response.content,
+                'no_copa': self.scraper.scrape_not_copa_csv()
+            }
+        else:
+            error_to_write = str(response.status_code) + "\n" + response.text
+            self.storage.store_string('transform_error.csv', error_to_write, f'Scrape-{self.current_date}/errors')
+            return {}
 
     def upload_to_gcs(self, conversion_results: Dict):
         for result in conversion_results:
