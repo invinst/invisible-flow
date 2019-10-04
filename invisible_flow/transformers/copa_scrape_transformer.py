@@ -24,21 +24,28 @@ class CopaScrapeTransformer(TransformerBase):
             self.create_and_save_metadata('initial_data')
         else:
             error_to_write = str(response.status_code) + "\n" + response.text
-            self.storage.store_string('transform_error.csv', error_to_write, f'Scrape-{self.current_date}/errors')
+            self.storage.store_string('initial_data_error.csv', error_to_write, f'Scrape-{self.current_date}/errors')
 
     def split(self) -> Dict[str, List]:
         # on error needs to call store_string with a string describing the error
         scraper = CopaScrape()
         response = scraper.scrape_copa_csv()
+        response_non_copa = scraper.scrape_not_copa_csv()
+        dict_to_return = {}
+        error_to_write = ""
+
         if response.status_code == 200:
-            return {
-                'copa': response.content,
-                'no_copa': self.scraper.scrape_not_copa_csv()
-            }
+            dict_to_return['copa'] = response.content
         else:
-            error_to_write = str(response.status_code) + "\n" + response.text
+            error_to_write += str(response.status_code) + "\n" + response.text
+        if response_non_copa.status_code == 200:
+            dict_to_return['no_copa'] = response_non_copa.content
+        else:
+            error_to_write += str(response_non_copa.status_code) + "\n" + response.text
+
+        if len(error_to_write) != 0:
             self.storage.store_string('transform_error.csv', error_to_write, f'Scrape-{self.current_date}/errors')
-            return {}
+        return dict_to_return
 
     def upload_to_gcs(self, conversion_results: Dict):
         for result in conversion_results:

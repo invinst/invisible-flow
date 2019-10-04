@@ -18,7 +18,7 @@ class CopaScrape:
     def scrape_not_copa_csv(self):
         query_string = ".csv?$where=assignment!=\"COPA\""
         url = SCRAPE_URL + query_string
-        return requests.get(url=url).content
+        return requests.get(url=url)
 
     def scrape_copa_ready_for_entity(self):
         query_string = ".csv?$select=log_no,complaint_date,beat&$where=assignment=\"COPA\""

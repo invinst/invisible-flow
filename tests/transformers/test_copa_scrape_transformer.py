@@ -104,7 +104,7 @@ class TestCopaScrapeTransformer(IFTestBase):
             filename = "initial_data.csv"
             pathname = "initial_data"
         else:
-            filename = "transform_error.csv"
+            filename = "initial_data_error.csv"
             pathname = "errors"
         with patch('invisible_flow.app.StorageFactory.get_storage') as get_storage_mock:
             with patch('invisible_flow.storage.LocalStorage.store_string') as store_string_mock:
@@ -130,3 +130,4 @@ class TestCopaScrapeTransformer(IFTestBase):
                         call('transform_error.csv', mock.ANY, f'Scrape-{self.current_date}/errors')
                     ]
                     store_string_mock.assert_has_calls(calls)
+    # TODO: update test to exercise the changes made within copa_scrape_transformer

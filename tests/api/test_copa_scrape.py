@@ -63,7 +63,7 @@ class TestCopaScrape():
 
     def test_scrape_not_copa_csv(self, get_mock):
         should_be_bubbles = CopaScrape().scrape_not_copa_csv()
-        assert should_be_bubbles == "bubbles"
+        assert should_be_bubbles.content == "bubbles"
 
     def test_scrape_copa_ready_for_entity(self, get_mock):
         should_be_bubbles = CopaScrape().scrape_copa_ready_for_entity()
