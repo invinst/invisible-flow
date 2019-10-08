@@ -100,6 +100,38 @@ class TestCopaScrapeTransformer(IFTestBase):
             else:
                 assert len(transformer.error_log) > 0
 
+    @patch('invisible_flow.app.GlobalsFactory.get_current_datetime_utc', lambda: datetime(2019, 3, 25, 5, 30, 50, 0))
+    def test_error_handling(self, get_mock):
+        with patch('invisible_flow.storage.LocalStorage.store_string') as store_string_mock:
+            filename = "transform_error.csv"
+            pathname = "errors"
+
+            self.current_date = GlobalsFactory.get_current_datetime_utc().isoformat(sep='_').replace(':', '-')
+
+            copaScrapeTransformer = CopaScrapeTransformer()
+            copaScrapeTransformer.store_errors()
+
+            calls = [
+                call(filename, mock.ANY, f'Scrape-{self.current_date}/{pathname}')
+            ]
+
+            if len(copaScrapeTransformer.error_log) != 0:
+                store_string_mock.assert_has_calls(calls)
+            else:
+                store_string_mock.assert_not_called()
+
+    def test_data_retrieval_wrapper(self, get_mock):
+        transformer = CopaScrapeTransformer()
+        with patch('invisible_flow.transformers.CopaScrapeTransformer.copa_data_handling') as copa_data_handling_mock:
+            with patch('invisible_flow.transformers.CopaScrapeTransformer.not_copa_data_handling') as \
+                    not_copa_data_handling_mock:
+                with patch('invisible_flow.transformers.CopaScrapeTransformer.store_errors') as store_errors_mock:
+                    transformer.data_retrieval_wrapper()
+
+                    copa_data_handling_mock.assert_called()
+                    not_copa_data_handling_mock.assert_called()
+                    store_errors_mock.assert_called()
+
     def test_upload_to_gcs(self, get_mock):
         copa_split_csv = os.path.join(IFTestBase.resource_directory, 'copa_scraped_split.csv')
         no_copa_split_csv = os.path.join(IFTestBase.resource_directory, 'no_copa_scraped_split.csv')
