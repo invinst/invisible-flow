@@ -50,9 +50,18 @@ class CopaScrapeTransformer(TransformerBase):
             self.error_log += str(response.status_code) + "\n" + response.text
 
     def data_retrieval_wrapper(self):
-        self.copa_data_handling()
-        self.not_copa_data_handling()
+        data_retrieved = {}
+        copa_data = self.copa_data_handling()
+        non_copa_data = self.not_copa_data_handling()
+
+        if copa_data is not None:
+            data_retrieved['copa'] = copa_data
+
+        if non_copa_data is not None:
+            data_retrieved['non_copa'] = non_copa_data
+
         self.store_errors()
+        return data_retrieved
 
     def upload_to_gcs(self, conversion_results: Dict):
         for result in conversion_results:
@@ -66,7 +75,7 @@ class CopaScrapeTransformer(TransformerBase):
     # TODO: update/test for transform; what happens when either of the calls fail
     #  write error to storage
     def transform(self, response_type: str, file_content: str):
-        split_data = {'copa': self.copa_data_handling(), 'not_copa': self.not_copa_data_handling()}
+        split_data = self.data_retrieval_wrapper()
         self.save_scraped_data()
         blob = self.storage.get('copa.csv', f'Scrape-{self.current_date}/cleaned/')
         if blob is None:
