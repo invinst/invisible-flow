@@ -125,28 +125,46 @@ class TestCopaScrapeTransformer(IFTestBase):
                 else:
                     store_string_mock.assert_not_called()
 
-    def test_data_retrieval_wrapper(self, get_mock):
+    def test_data_retrieval_wrapper_both_pass_or_fail(self, get_mock):
         with patch('invisible_flow.app.StorageFactory.get_storage') as get_storage_mock:
-            with patch('invisible_flow.transformers.CopaScrapeTransformer.copa_data_handling') as\
-                    copa_data_handling_mock:
-                with patch('invisible_flow.transformers.CopaScrapeTransformer.not_copa_data_handling') as \
-                        not_copa_data_handling_mock:
-                    with patch('invisible_flow.transformers.CopaScrapeTransformer.store_errors') as store_errors_mock:
-                        get_storage_mock.return_value = LocalStorage()
-                        transformer = CopaScrapeTransformer()
-                        data_retrieved = transformer.data_retrieval_wrapper()
+            with patch('invisible_flow.storage.LocalStorage.store_string') as store_string_mock:
+                get_storage_mock.return_value = LocalStorage()
+                transformer = CopaScrapeTransformer()
+                data_retrieved = transformer.data_retrieval_wrapper()
 
-                        if response_code == 200:
-                            len(data_retrieved) == 2
-                            len(transformer.error_log) == 0
+                if response_code == 200:
+                    assert len(data_retrieved) == 2
+                    assert len(transformer.error_log) == 0
+                    store_string_mock.assert_not_called()
 
-                        if response_code == 404:
-                            len(data_retrieved) == 0
-                            len(transformer.error_log) == 2
+                if response_code == 404:
+                    assert len(data_retrieved) == 0
+                    assert len(transformer.error_log) != 0
+                    store_string_mock.assert_called()
 
-                        copa_data_handling_mock.assert_called()
-                        not_copa_data_handling_mock.assert_called()
-                        store_errors_mock.assert_called()
+    @patch('invisible_flow.api.CopaScrape.scrape_copa_csv',
+           type('obj', (object,), {'status_code': 404, 'content': None, 'text': 'bubbles'}))
+    @patch('invisible_flow.api.CopaScrape.scrape_not_copa_csv',
+           type('obj', (object,), {'status_code': 200, 'content': 'bubbles', 'text': 'bubbles'}))
+    def test_data_retrieval_wrapper_copa_errors(self, get_mock):
+        transformer = CopaScrapeTransformer()
+        with patch('invisible_flow.storage.LocalStorage.store_string') as store_string_mock:
+            result = transformer.data_retrieval_wrapper()
+            assert 'copa' not in result
+            assert 'not_copa' in result
+            store_string_mock.assert_called()
+
+    @patch('invisible_flow.api.CopaScrape.scrape_copa_csv',
+           type('obj', (object,), {'status_code': 200, 'content': 'bubbles', 'text': 'bubbles'}))
+    @patch('invisible_flow.api.CopaScrape.scrape_not_copa_csv',
+           type('obj', (object,), {'status_code': 404, 'content': None, 'text': 'bubbles'}))
+    def test_data_retrieval_wrapper_not_copa_errors(self, get_mock):
+        transformer = CopaScrapeTransformer()
+        with patch('invisible_flow.storage.LocalStorage.store_string') as store_string_mock:
+            result = transformer.data_retrieval_wrapper()
+            assert 'not_copa' not in result
+            assert 'copa' in result
+            store_string_mock.assert_called()
 
     def test_upload_to_gcs(self, get_mock):
         copa_split_csv = os.path.join(IFTestBase.resource_directory, 'copa_scraped_split.csv')

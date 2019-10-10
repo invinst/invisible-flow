@@ -52,13 +52,13 @@ class CopaScrapeTransformer(TransformerBase):
     def data_retrieval_wrapper(self):
         data_retrieved = {}
         copa_data = self.copa_data_handling()
-        non_copa_data = self.not_copa_data_handling()
+        not_copa_data = self.not_copa_data_handling()
 
         if copa_data is not None:
             data_retrieved['copa'] = copa_data
 
-        if non_copa_data is not None:
-            data_retrieved['non_copa'] = non_copa_data
+        if not_copa_data is not None:
+            data_retrieved['not_copa'] = not_copa_data
 
         self.store_errors()
         return data_retrieved
