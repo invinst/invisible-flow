@@ -54,3 +54,21 @@ class TestAugment:
         augmented = Augment().get_augmented_copa_data(copa_split_csv)
         assert_frame_equal(augmented, df)
         assert len(augmented) == len(df)
+
+    def test_adding_augmented_copa_record_to_db(self):
+        # using test file that is not actual copa that has been  cleaned/transformed
+
+        copa_csv_file = os.path.join(IFTestBase.resource_directory, 'copa_scraped_split.csv')
+        original_dataframe = pd.read_csv(copa_csv_file)
+        db.create_all(bind=COPA_DB_BIND_KEY)
+        log_no_column = original_dataframe.loc[:, 'log_no'].unique()
+        categories_column = original_dataframe.loc[:, 'current_category'].unique()
+        augmented_dataframe = Augment().get_augmented_copa_data(copa_csv_file)
+
+        assert log_no_column.all()
+        assert categories_column is not None
+        assert augmented_dataframe is not None
+        assert original_dataframe.equals(augmented_dataframe)
+
+        print("orginal" , original_dataframe.loc[:, 'current_category'] , "/n")
+        print("augmented" , augmented_dataframe.loc[:, 'current_category'])
