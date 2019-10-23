@@ -138,10 +138,12 @@ class TestCopaScrapeTransformer(IFTestBase):
 
                         if response_code == 200:
                             len(data_retrieved) == 2
+                            print("------------", data_retrieved)
                             len(transformer.error_log) == 0
 
-                        if response_code == 404:
+                        if response_code != 404:
                             len(data_retrieved) == 0
+                            print("@@@@@@@@@@@", transformer.error_log)
                             len(transformer.error_log) == 2
 
                         copa_data_handling_mock.assert_called()
