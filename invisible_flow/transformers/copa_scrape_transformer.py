@@ -7,6 +7,8 @@ from invisible_flow.storage.storage_factory import StorageFactory
 from invisible_flow.transformers.transformer_base import TransformerBase
 from invisible_flow.api.copa_scrape import CopaScrape
 
+# chedder
+
 
 class CopaScrapeTransformer(TransformerBase):
 
