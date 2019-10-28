@@ -9,7 +9,6 @@ from invisible_flow.api.copa_scrape import CopaScrape
 
 
 class CopaScrapeTransformer(TransformerBase):
-
     def __init__(self):
         self.storage = StorageFactory.get_storage()
         self.scraper = CopaScrape()
