@@ -13,6 +13,10 @@ class Allegation(db.Model):
     location = db.Column(db.String)
     summary = db.Column(db.String)
     cr_id = db.Column(db.String, primary_key=True)
+    allegation_status = db.Column(db.String)
+    police_shooting = db.Column(db.String)
+    case_type = db.Column(db.String)
+    investigating_agency = db.Column(db.String)
 
     def __repr__(self):
         return f'<Allegation {self.cr_id} ' \
