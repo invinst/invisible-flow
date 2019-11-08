@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 
 function Tab(props){
   return(
-    <Link to={props.path}>{props.pagename}    </Link>
+    <Link className="Active-Tab" to={props.path}>{props.pagename}    </Link>
   );
 }
 

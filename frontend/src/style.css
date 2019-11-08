@@ -1,0 +1,83 @@
+:root {
+  --light-periwinkle: #ccdffd;
+  --bright-blue: #005ef4;
+  --cool-blue: #405ec3;
+  --perrywinkle: #8498d8;
+  --powder-blue: #bdc7ec;
+  --very-light-blue: #dde6f7;
+  --very-light-pink: #f5f4f4;
+  --very-light-pink-two: #dbdbdb;
+  --brownish-grey: #767676;
+  --purple-brown: #231f20;
+  --brown-grey: #8f8f8f;
+  --white: #ffffff;
+  --greyish-brown: #5a5959;
+  --pale-gold: #ffd96f;
+}
+
+body {
+  margin: 0;
+  background-color: var(--very-light-pink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.Header-Box {
+  display: flex;
+  width: 1024px;
+  height: 71px;
+  border-radius: 2px;
+  background-color: var(--white);
+}
+
+.Citizens-Police-Data {
+  padding: 10px;
+  display: flex;
+  align-self: flex-start;
+  padding: 10px;
+  width: 200px;
+  height: 14px;
+  font-family:"San Francisco Text", sans-serif;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 0.88;
+  letter-spacing: normal;
+  text-align: center;
+  color: var(--brown-grey);
+}
+
+.Active-Tab{
+  padding: 10px;
+  width: 110px;
+  height: 19px;
+  font-family: "San Francisco Text", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: var(--purple-brown);
+}
+
+.Inactive-Tab {
+  padding: 10px;
+  align-self: flex-end;
+  width: 108px;
+  height: 19px;
+  font-family: "San Francisco Text", sans-serif;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: var(--brown-grey);
+}
