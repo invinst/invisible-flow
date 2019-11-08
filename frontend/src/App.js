@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-
+import Header from './Components/Header';
 
 import StartScrapeButton from "./Components/StartScrapeButton";
 
@@ -10,6 +10,7 @@ function App() {
     const startScrape = () => {};
       return (
         <div className="App">
+          <Header />
           <h1>Invisible Flow</h1>
           <StartScrapeButton startScrape={startScrape} />
         </div>

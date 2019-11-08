@@ -3,7 +3,7 @@ import React from 'react';
 function ScrapeStatus() {
     return (
         <div>
-            <h1>COPA Scraping Status</h1>
+           <h1>COPA Scraping Status</h1>
         </div>
     );
 }
