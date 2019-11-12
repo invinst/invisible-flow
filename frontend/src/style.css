@@ -13,6 +13,7 @@
   --white: #ffffff;
   --greyish-brown: #5a5959;
   --pale-gold: #ffd96f;
+  --main-font: "San Francisco Text", sans-serif;
 }
 
 body {
@@ -25,59 +26,59 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.Header-Box {
-  display: flex;
-  width: 1024px;
-  height: 71px;
-  border-radius: 2px;
-  background-color: var(--white);
+p, h1, h2, h3 {
+    font-family: "San Francisco Text", sans-serif;
 }
 
-.Citizens-Police-Data {
-  padding: 10px;
-  display: flex;
-  align-self: flex-start;
-  padding: 10px;
-  width: 200px;
-  height: 14px;
-  font-family:"San Francisco Text", sans-serif;
-  font-size: 16px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 0.88;
-  letter-spacing: normal;
-  text-align: center;
-  color: var(--brown-grey);
-}
-
-.Active-Tab{
-  padding: 10px;
-  width: 110px;
-  height: 19px;
-  font-family: "San Francisco Text", sans-serif;
+h3 {
   font-size: 16px;
   font-weight: 500;
   font-stretch: normal;
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
+  padding: 0px;
+  margin: 0px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.Header-Box {
+  width:  inherit;
+  height: 71px;
+  border-radius: 2px;
+  background-color: var(--white);
+  color: var(--brown-grey);
+}
+
+.Citizens-Police-Data {
+  height: inherit;
+  width: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.Menu {
+  height: inherit;
+  width: 50%;
+  display: inline-flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.Active-Tab{
+  padding: 0px 10px 0px 10px;
   text-align: center;
   color: var(--purple-brown);
 }
 
 .Inactive-Tab {
-  padding: 10px;
-  align-self: flex-end;
-  width: 108px;
-  height: 19px;
-  font-family: "San Francisco Text", sans-serif;
-  font-size: 16px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: center;
   color: var(--brown-grey);
+}
+
+.Site-Title{
+   padding: 0px 10px 0px 10px;
 }

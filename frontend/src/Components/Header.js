@@ -1,13 +1,12 @@
 import React from 'react';
-import Tab from './Tab'
+import Menu from './Menu'
 
 class Header extends React.Component{
     render(){
         return (
             <header className="Header-Box">
-                <h3 className="Citizens-Police-Data">Citizens Police Data Project</h3>
-                <Tab path="/" pagename="Home"/>
-                <Tab path="/scrapeStatus" pagename="Scraping Status"/>
+                <div className="Citizens-Police-Data"><h3 className="Site-Title">Citizens Police Data Project</h3></div>
+                <Menu className="Menu"/>
             </header>
         )
     }
