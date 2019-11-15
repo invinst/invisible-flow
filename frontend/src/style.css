@@ -79,6 +79,36 @@ a {
   color: var(--brown-grey);
 }
 
-.Site-Title{
+.Site-Title {
    padding: 0px 10px 0px 10px;
+}
+
+.Scrape-Button {
+  width: 392px;
+  height: 46px;
+  margin: 100px;
+  border-radius: 2px;
+  box-shadow: 0 3px 4px 1px rgba(0, 0, 0, 0.5);
+  border: solid 1px #979797;
+  background-color: var(--perrywinkle);
+  font-family: 'SFCompactText', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: var(--very-light-pink);
+
+}
+
+.MainPage {
+  position: absolute;
+  top: 71px;
+  bottom: 71px;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content:center;
 }
