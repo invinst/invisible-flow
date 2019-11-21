@@ -100,7 +100,7 @@ a {
   letter-spacing: normal;
   text-align: center;
   color: var(--very-light-pink);
-
+  z-index: 2;
 }
 
 .MainPage {
@@ -111,4 +111,36 @@ a {
   display: flex;
   align-items: flex-start;
   justify-content:center;
+  overflow: auto;
+  flex: 1;
+}
+
+img {
+  position: absolute;
+  background: no-repeat center center;
+  opacity: 0.75;
+  margin: 15px 0;
+}
+
+.Footer {
+  width: 100%;
+  height: 71px;
+  border-radius: 2px;
+  background-color: var(--very-light-pink-two);
+  z-index: 1; /* brings footer front of image, better way? */
+}
+
+.Invisible-Institute {
+  width: 130px;
+  height: 18px;
+  font-family: FuturaPT;
+  font-size: 14px;
+  font-weight: 900;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: var(--brownish-grey);
+  padding: 10px 0 40px 10px;
 }
