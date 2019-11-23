@@ -24,6 +24,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  width: 100%;
 }
 
 p, h1, h2, h3 {
@@ -51,6 +52,7 @@ a {
   border-radius: 2px;
   background-color: var(--white);
   color: var(--brown-grey);
+  padding: 0 25px 0 10px;
 }
 
 .Citizens-Police-Data {
@@ -104,10 +106,8 @@ a {
 }
 
 .MainPage {
-  position: absolute;
   top: 71px;
   bottom: 71px;
-  width: 100%;
   display: flex;
   align-items: flex-start;
   justify-content:center;
@@ -115,11 +115,11 @@ a {
   flex: 1;
 }
 
-img {
-  position: absolute;
-  background: no-repeat center center;
+.bgImg {
+  background: url('./images/AllTheDocs.jpeg')no-repeat center center fixed;
+  background-size: cover;
   opacity: 0.75;
-  margin: 15px 0;
+  margin: 25px;
 }
 
 .Footer {
