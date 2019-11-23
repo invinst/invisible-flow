@@ -1,13 +1,13 @@
 import React from 'react';
 import Header from './Header';
 
-function ScrapeStatus() {
+function FOIA() {
     return (
         <div>
            <Header />
-           <h1>COPA Scraping Status</h1>
+           <h1>FOIA</h1>
         </div>
     );
 }
 
-export default ScrapeStatus;
+export default FOIA;

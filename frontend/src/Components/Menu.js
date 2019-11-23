@@ -7,6 +7,7 @@ function Menu(){
     <div className="Menu">
                     <Tab path="/" pagename="Home"/>
                     <Tab path="/scrapeStatus" pagename="Scraping Status"/>
+                    <Tab path="/FOIA" pagename="FOIA"/>
     </div>
   );
 }
