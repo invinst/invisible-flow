@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.css';
-
-
-import StartScrapeButton from "./Components/StartScrapeButton";
+import Header from './Components/Header';
+import MainPage from './Components/MainPage';
+import Footer from './Components/Footer';
 
 function App() {
     // TODO actually call python api to start the scraping
@@ -10,8 +10,9 @@ function App() {
     const startScrape = () => {};
       return (
         <div className="App">
-          <h1>Invisible Flow</h1>
-          <StartScrapeButton startScrape={startScrape} />
+          <Header />
+          <MainPage startScrape={startScrape}/>
+          <Footer />
         </div>
       );
 }

@@ -1,0 +1,146 @@
+:root {
+  --light-periwinkle: #ccdffd;
+  --bright-blue: #005ef4;
+  --cool-blue: #405ec3;
+  --perrywinkle: #8498d8;
+  --powder-blue: #bdc7ec;
+  --very-light-blue: #dde6f7;
+  --very-light-pink: #f5f4f4;
+  --very-light-pink-two: #dbdbdb;
+  --brownish-grey: #767676;
+  --purple-brown: #231f20;
+  --brown-grey: #8f8f8f;
+  --white: #ffffff;
+  --greyish-brown: #5a5959;
+  --pale-gold: #ffd96f;
+  --main-font: "San Francisco Text", sans-serif;
+}
+
+body {
+  margin: 0;
+  background-color: var(--very-light-pink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  width: 100%;
+}
+
+p, h1, h2, h3 {
+    font-family: "San Francisco Text", sans-serif;
+}
+
+h3 {
+  font-size: 16px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  padding: 0px;
+  margin: 0px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.Header-Box {
+  width:  inherit;
+  height: 71px;
+  border-radius: 2px;
+  background-color: var(--white);
+  color: var(--brown-grey);
+  padding: 0 25px 0 10px;
+}
+
+.Citizens-Police-Data {
+  height: inherit;
+  width: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.Menu {
+  height: inherit;
+  width: 50%;
+  display: inline-flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.Active-Tab{
+  padding: 0px 10px 0px 10px;
+  text-align: center;
+  color: var(--purple-brown);
+}
+
+.Inactive-Tab {
+  color: var(--brown-grey);
+}
+
+.Site-Title {
+   padding: 0px 10px 0px 10px;
+}
+
+.Scrape-Button {
+  width: 392px;
+  height: 46px;
+  margin: 100px;
+  border-radius: 2px;
+  box-shadow: 0 3px 4px 1px rgba(0, 0, 0, 0.5);
+  border: solid 1px #979797;
+  background-color: var(--perrywinkle);
+  font-family: 'SFCompactText', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: var(--very-light-pink);
+  z-index: 2;
+}
+
+.MainPage {
+  top: 71px;
+  bottom: 71px;
+  display: flex;
+  align-items: flex-start;
+  justify-content:center;
+  overflow: auto;
+  flex: 1;
+}
+
+.bgImg {
+  background: url('./images/AllTheDocs.jpeg')no-repeat center center fixed;
+  background-size: cover;
+  opacity: 0.75;
+  margin: 25px;
+}
+
+.Footer {
+  width: 100%;
+  height: 71px;
+  border-radius: 2px;
+  background-color: var(--very-light-pink-two);
+  z-index: 1; /* brings footer front of image, better way? */
+}
+
+.Invisible-Institute {
+  width: 130px;
+  height: 18px;
+  font-family: FuturaPT;
+  font-size: 14px;
+  font-weight: 900;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: var(--brownish-grey);
+  padding: 10px 0 40px 10px;
+}
