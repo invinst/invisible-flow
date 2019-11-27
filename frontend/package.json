@@ -14,10 +14,12 @@
     "serve": "^11.2.0"
   },
   "scripts": {
-    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "eject": "react-scripts eject",
+    "dev": "react-scripts start",
+    "start": "serve -s build"
   },
   "eslintConfig": {
     "extends": "react-app"
