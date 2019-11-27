@@ -13,7 +13,7 @@ class CopaScrapeTransformer(TransformerBase):
         self.storage = StorageFactory.get_storage()
         self.scraper = CopaScrape()
         self.current_date = GlobalsFactory.get_current_datetime_utc().isoformat(sep='_').replace(':', '-')
-        self.error_log = ""
+        self.error_log = "The page that you seek cannot be accessed at this time."
 
     def save_scraped_data(self):
         scraper = CopaScrape()
