@@ -85,6 +85,10 @@ a {
    padding: 0px 10px 0px 10px;
 }
 
+.Site-Title a {
+   color: var(--brown-grey);
+}
+
 .Scrape-Button {
   width: 392px;
   height: 46px;
@@ -116,7 +120,7 @@ a {
 }
 
 .bgImg {
-  background: url('./images/AllTheDocs.jpeg')no-repeat center center fixed;
+  background: url('./images/AllTheDocs.jpeg')no-repeat center center;
   background-size: cover;
   opacity: 0.75;
   margin: 25px;

@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import Header from './Components/Header';
 import MainPage from './Components/MainPage';
 import Footer from './Components/Footer';
 
@@ -10,7 +9,6 @@ function App() {
     const startScrape = () => {};
       return (
         <div className="App">
-          <Header />
           <MainPage startScrape={startScrape}/>
           <Footer />
         </div>
