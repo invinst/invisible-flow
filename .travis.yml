@@ -9,7 +9,7 @@ matrix:
         - openssl aes-256-cbc -k $SS_PW -in gae-keyfile-dev.json.enc -out gae-keyfile-dev.json -d
       install:
         - pip install -r requirements.txt
-      stage: backend tests
+      stage: Backend Testing
       script:
         - flake8 .
         - mypy invisible_flow
@@ -42,6 +42,7 @@ matrix:
         - cd frontend
       install:
         - npm install
+      stage: Frontend Testing
       script:
         - npm run test
       before_deploy:
