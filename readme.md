@@ -19,6 +19,7 @@ Most of the background you need to complete these stories will be in the "defini
 3. An IDE (like PyCharm)
 
 ## Local environment setup:
+Backend:
 1. Make sure python 3 is installed
 1. Activate the python virtual environment:
     1. `python3 -m venv venv`
@@ -39,9 +40,20 @@ $ flask run
 ```
 2. To run it the same way it's run on GAE, run `gunicorn -b :$PORT invisible_flow.app:app -c gunicorn.config.py`
 
+Frontend:
+1. To run it locally
+```
+$ cd frontend
+$ npm start
+```
+
 ### Running the tests
+Backend:
 * To run the tests execute `pytest tests`
 * arguments
   * m [argument] - run tests with [argument] mark
      * To run the tests with a certain test focused, mark the focused test with `@pytest.mark.focus`
      * This uses the [pytest mark system](https://docs.pytest.org/en/latest/mark.html)
+
+Frontend:
+* To run the tests execute `npm run test`
