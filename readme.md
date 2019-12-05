@@ -57,3 +57,16 @@ Backend:
 
 Frontend:
 * To run the tests execute `npm run test`
+
+### Google Cloud Bucket
+Once onboard a team member will give download access, `json` file for testing purposes
+1. rename JSON file to `googleCred.json` and place in root project directory
+2. run the following commands in the root directory:
+    ```
+    $ export GOOGLE_APPLICATION_CREDENTIALS={your path here}/googleCred.json
+    $ export GCS_BUCKET={bucket name here}
+    $ export FLASK_APP=app.py
+    $ export ENVIRONMENT=gae
+    $ flask run
+    ```
+Note: JSON file has been added to the `.gitignore` as it **is not to be committed**, use naming convention as above
