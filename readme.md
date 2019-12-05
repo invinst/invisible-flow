@@ -69,4 +69,8 @@ Once onboard a team member will give download access, `json` file for testing pu
     $ export ENVIRONMENT=gae
     $ flask run
     ```
+3. Navigate to *localhost:5000*
+
+If set up properly, hitting scrape should output 'success' message in browser.
+
 Note: JSON file has been added to the `.gitignore` as it **is not to be committed**, use naming convention as above
