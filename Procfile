@@ -1,2 +1,1 @@
-web: gunicorn app:app
-release: python manage.py db upgrade
+web: gunicorn invisible_flow.app:app --log-file -
