@@ -59,6 +59,8 @@ Frontend:
 * To run the tests execute `npm run test`
 
 ### Google Cloud Bucket
+Note: only needed for testing initiating scrape
+
 Once onboard a team member will give download access, `json` file for testing purposes
 1. rename JSON file to `googleCred.json` and place in root project directory
 2. run the following commands in the root directory:
