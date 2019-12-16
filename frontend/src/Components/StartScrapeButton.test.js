@@ -9,20 +9,20 @@ it('renders without crashing', () => {
   ReactDOM.unmountComponentAtNode(div);
 });
 
-
 describe("StartScrapeButton goes to status", function () {
   it('StartScrapeButton should have scrape button', function () {
     const { getByTestId } = render(<StartScrapeButton />);
     const e = getByTestId("startScrape");
     expect(e.tagName).toBe("BUTTON");
   });
+
   it('scrape button should redirect to scrape page', function () {
     // test to show that the user hit scrape page
-    const startScrapeMock = jest.fn();
-    const { getByTestId } = render(<StartScrapeButton startScrape = {startScrapeMock} />);
+    StartScrapeButton.startScrape = jest.fn();
+    const { getByTestId } = render(<StartScrapeButton/>);
     const e = getByTestId("startScrape");
 
     fireEvent.click(e);
-    expect(startScrapeMock).toHaveBeenCalled();
+    expect(StartScrapeButton.startScrape).toHaveBeenCalled();
   });
 });
