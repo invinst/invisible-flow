@@ -1,0 +1,66 @@
+import React from 'react';
+
+class FOIAUploadForm extends React.Component {
+
+  constructor() {
+    super();
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleErrors = this.handleErrors.bind(this);
+    this.state = {
+        resultMsg: ""
+    }
+  }
+
+  handleErrors(response) {
+    if (!response.ok) {
+        throw Error(response.statusText);
+    }
+    return response;
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    const data = new FormData(event.target);
+
+    fetch('http://127.0.0.1:5000/foia_response_upload', {
+      method: 'POST',
+      body: data,
+    })
+      .then(this.handleErrors)
+      .then(response => this.setState({ResultMsg: "Your file has been successfully uploaded."}))
+      .catch(error => this.setState({ResultMsg: error + ". Please resolve the issue and try again."}))
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <span>Upload FOIA response:</span>
+        <div>
+        <select required name="response_type">
+            <option value="">Please select response type</option>
+            <option value="accused">Accused</option>
+            <option value="case_info">Case Information</option>
+            <option value="civilian_witness">Civilian Witness</option>
+            <option value="complainant">Complainant</option>
+            <option value="cpd_witness">CPD Witness</option>
+            <option value="investigators">Investigators</option>
+            <option value="victim">Victim</option>
+        </select>
+        </div>
+        <div>
+        <input type="file" name="foia_response" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+        </div>
+        <div>
+        <button className="action-button">Upload</button>
+        </div>
+        <div>
+        <span>{this.state.ResultMsg}</span>
+        </div>
+      </form>
+    );
+  }
+}
+
+export default FOIAUploadForm;
+
+
