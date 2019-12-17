@@ -1,2 +1,1 @@
-worker: python gcp_setup.py
-web: gunicorn invisible_flow.app:app
+web: python gcp_setup.py; gunicorn invisible_flow.app:app
