@@ -1,2 +1,1 @@
-web: python gcs_setup.py
-web: gunicorn invisible_flow.app:app
+web: python gcs_setup.py; gunicorn invisible_flow.app:app
