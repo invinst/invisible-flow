@@ -53,7 +53,7 @@ class FOIAUploadForm extends React.Component {
         <input type="file" name="foia_response" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
         </div>
         <div>
-        <button className="action-button" data-testid='uploadButton'>Hello</button>
+        <button className="action-button" data-testid='uploadButton'>Upload</button>
         </div>
         <div>
         <span data-testid='resultsBanner'>{this.state.ResultMsg}</span>
