@@ -1,1 +1,0 @@
-echo ${TEMP} > /invisible_flow/googleCred.json

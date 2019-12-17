@@ -1,5 +1,4 @@
 import os
-import json
 from google.cloud import storage
 
 from invisible_flow.storage import GCStorage, LocalStorage
@@ -16,12 +15,7 @@ class StorageFactory:
             gcs_client = storage.Client()
             return GCStorage(gcs_client)
         elif os.environ.get('ENVIRONMENT') == 'heroku':
-            creds = os.environ.get('TEMP')
-            with open('googleCred.json', 'w') as f:  # writing JSON object
-                json.dump(creds, f)
-            with open('googleCred.json', 'r') as f:
-                credfile = json.load(f)
-            gcs_client = storage.Client.from_service_account_json(credfile)
+            gcs_client = storage.Client.from_service_account_json('../googleCred.json')
             return GCStorage(gcs_client)
         else:
             raise Exception('Unable to determine the environment')
