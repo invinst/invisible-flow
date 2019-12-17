@@ -19,7 +19,9 @@ class StorageFactory:
             creds = os.environ.get('TEMP')
             with open('googleCred.json', 'w') as f:  # writing JSON object
                 json.dump(creds, f)
-            gcs_client = storage.Client.from_service_account_json('googleCred.json')
+            with open('googleCred.json', 'r') as f:
+                credfile = json.load(f)
+            gcs_client = storage.Client.from_service_account_json(credfile)
             return GCStorage(gcs_client)
         else:
             raise Exception('Unable to determine the environment')
