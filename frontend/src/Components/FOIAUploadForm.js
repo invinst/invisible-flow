@@ -5,31 +5,33 @@ class FOIAUploadForm extends React.Component {
   constructor() {
     super();
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleErrors = this.handleErrors.bind(this);
     this.state = {
         resultMsg: ""
     }
   }
 
-  handleErrors(response) {
-    if (!response.ok) {
-        throw Error(response.statusText);
+  async handleSubmit(event) {
+    try {
+        event.preventDefault();
+        const data = new FormData(event.target);
+
+        const response = await fetch('http://127.0.0.1:5000/foia_response_upload', {
+          method: 'POST',
+          body: data,
+        });
+
+        if(!response.ok){
+            throw new Error(response.statusText);
+        }
+        //success
+        this.setState({ResultMsg: "Your file has been successfully uploaded."});
+
+    } catch(error) {
+        this.setState({ResultMsg: error + ". Please resolve the issue and try again."});
     }
-    return response;
   }
 
-  handleSubmit(event) {
-    event.preventDefault();
-    const data = new FormData(event.target);
 
-    fetch('http://127.0.0.1:5000/foia_response_upload', {
-      method: 'POST',
-      body: data,
-    })
-      .then(this.handleErrors)
-      .then(response => this.setState({ResultMsg: "Your file has been successfully uploaded."}))
-      .catch(error => this.setState({ResultMsg: error + ". Please resolve the issue and try again."}))
-  }
 
   render() {
     return (
@@ -51,10 +53,10 @@ class FOIAUploadForm extends React.Component {
         <input type="file" name="foia_response" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
         </div>
         <div>
-        <button className="action-button">Upload</button>
+        <button className="action-button" data-testid='uploadButton'>Hello</button>
         </div>
         <div>
-        <span>{this.state.ResultMsg}</span>
+        <span data-testid='resultsBanner'>{this.state.ResultMsg}</span>
         </div>
       </form>
     );
