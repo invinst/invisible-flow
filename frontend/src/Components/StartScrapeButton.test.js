@@ -16,13 +16,11 @@ describe("StartScrapeButton goes to status", function () {
     expect(e.tagName).toBe("BUTTON");
   });
 
-  it('scrape button should redirect to scrape page', function () {
+  it('scrape button should redirect to scrape status page', function () {
     // test to show that the user hit scrape page
-    StartScrapeButton.startScrape = jest.fn();
+    const windowLocationMock = window.location.assign = jest.fn();
     const { getByTestId } = render(<StartScrapeButton/>);
-    const e = getByTestId("startScrape");
-
-    fireEvent.click(e);
-    expect(StartScrapeButton.startScrape).toHaveBeenCalled();
+    fireEvent.click(getByTestId("startScrape"));
+    expect(windowLocationMock).toBeCalledWith("/scrapeStatus");
   });
 });
