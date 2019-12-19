@@ -15,7 +15,8 @@ class StorageFactory:
             gcs_client = storage.Client()
             return GCStorage(gcs_client)
         elif os.environ.get('ENVIRONMENT') == 'heroku':
-            gcs_client = storage.Client.from_service_account_json('../googleCred.json')
+            gcs_client = storage.Client()
+            # gcs_client = storage.Client.from_service_account_json('../googleCred.json')
             return GCStorage(gcs_client)
         else:
             raise Exception('Unable to determine the environment')

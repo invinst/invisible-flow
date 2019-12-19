@@ -1,0 +1,1 @@
+echo ${TEMP} > /app/googleCred.json
