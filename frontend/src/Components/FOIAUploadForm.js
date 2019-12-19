@@ -23,11 +23,10 @@ class FOIAUploadForm extends React.Component {
         if(!response.ok){
             throw new Error(response.statusText);
         }
-        //success
-        this.setState({ResultMsg: "Your file has been successfully uploaded."});
+        this.setState({resultMsg: "Your file has been successfully uploaded."});
 
     } catch(error) {
-        this.setState({ResultMsg: error + ". Please resolve the issue and try again."});
+        this.setState({resultMsg: error + ". Please resolve the issue and try again."});
     }
   }
 
@@ -53,10 +52,10 @@ class FOIAUploadForm extends React.Component {
         <input type="file" name="foia_response" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
         </div>
         <div>
-        <button className="action-button" data-testid='uploadButton'>Upload</button>
+        <button className='action-button' data-testid='uploadButton'>Upload</button>
         </div>
         <div>
-        <span data-testid='resultsBanner'>{this.state.ResultMsg}</span>
+        <span data-testid='resultsBanner'>{this.state.resultMsg}</span>
         </div>
       </form>
     );
