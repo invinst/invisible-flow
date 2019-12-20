@@ -15,7 +15,7 @@ class FOIAUploadForm extends React.Component {
         event.preventDefault();
         const data = new FormData(event.target);
 
-        const response = await fetch('http://127.0.0.1:5000/foia_response_upload', {
+        const response = await fetch('/foia_response_upload', {
           method: 'POST',
           body: data,
         });
