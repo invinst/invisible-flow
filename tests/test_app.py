@@ -22,12 +22,11 @@ class TestInvisibleFlowApp:
         yield test_client
         # self.test_client: FlaskClient = app.test_client(self)
 
-    @pytest.mark.focus
-    def test_index_route_should_render_correctly(self, client):
-        response = client.get('/', content_type='html/text')
-
-        assert response.status_code == 200
-        assert b'FOIA' in response.data
+    # @pytest.mark.focus
+    # def test_index_route_should_render_correctly(self, client):
+    #     response = client.get('/', content_type='html/text')
+    #
+    #     assert response.status_code == 200
 
     def test_index_route_throws_on_post_request(self, client):
         response = client.post('/', content_type='html/text')

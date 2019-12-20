@@ -1,28 +1,48 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { render, fireEvent } from "@testing-library/react";
+import { unmountComponentAtNode } from "react-dom";
+import { fireEvent, render } from "@testing-library/react";
 import StartScrapeButton from './StartScrapeButton';
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<StartScrapeButton />, div);
-  ReactDOM.unmountComponentAtNode(div);
+const mockPush = jest.fn();
+
+jest.mock('react-router-dom', () => ({
+  useHistory: () => ({
+    push: mockPush
+  })
+}));
+
+window.XMLHttpRequest = jest.fn(() => mockRequest);
+
+const mockRequest = {
+  open: jest.fn(),
+  send: jest.fn(),
+  status: 200
+};
+
+let container = null;
+
+beforeEach(() => {
+  container = document.createElement("div");
+  document.body.appendChild(container);
 });
 
+afterEach(() => {
+  unmountComponentAtNode(container);
+  container.remove();
+  container = null;
+});
 
-describe("StartScrapeButton goes to status", function () {
-  it('StartScrapeButton should have scrape button', function () {
-    const { getByTestId } = render(<StartScrapeButton />);
-    const e = getByTestId("startScrape");
-    expect(e.tagName).toBe("BUTTON");
-  });
-  it('scrape button should redirect to scrape page', function () {
-    // test to show that the user hit scrape page
-    const startScrapeMock = jest.fn();
-    const { getByTestId } = render(<StartScrapeButton startScrape = {startScrapeMock} />);
-    const e = getByTestId("startScrape");
+it("renders without crashing", () => {
+  render(<StartScrapeButton />, container);
+});
 
-    fireEvent.click(e);
-    expect(startScrapeMock).toHaveBeenCalled();
+describe("When StartScrapeButton is clicked", () => {
+  it("redirects to scrape status page and sends HTTP request to backend", () => {
+    const { getByText } = render(<StartScrapeButton />, container);
+
+    fireEvent.click(getByText("Initiate COPA Scrape"));
+
+    expect(mockPush).toBeCalledWith("/scrapeStatus");
+    expect(mockRequest.send).toHaveBeenCalled();
   });
 });

@@ -109,6 +109,29 @@ a {
   z-index: 2;
 }
 
+.action-button {
+  width: 392px;
+  height: 46px;
+  border-radius: 2px;
+  box-shadow: 0 3px 4px 1px rgba(0, 0, 0, 0.5);
+  border: solid 1px #979797;
+  background-color: var(--perrywinkle);
+  font-family: 'SFCompactText', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: var(--very-light-pink);
+  z-index: 2;
+}
+
+.action-button scrape {
+    margin: 100px;
+}
+
 .MainPage {
   top: 71px;
   bottom: 71px;
@@ -147,4 +170,13 @@ a {
   text-align: center;
   color: var(--brownish-grey);
   padding: 10px 0 40px 10px;
+}
+
+.FOIAPage {
+    margin: 25px;
+}
+
+.FOIAPage div {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
