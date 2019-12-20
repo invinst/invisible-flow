@@ -27,7 +27,6 @@ class TestInvisibleFlowApp:
         response = client.get('/', content_type='html/text')
 
         assert response.status_code == 200
-        assert b'FOIA' in response.data
 
     def test_index_route_throws_on_post_request(self, client):
         response = client.post('/', content_type='html/text')
