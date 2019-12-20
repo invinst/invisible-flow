@@ -11,8 +11,6 @@ jest.mock('react-router-dom', () => ({
   })
 }));
 
-let container = null;
-const windowLocationMock = window.location.assign = jest.fn();
 window.XMLHttpRequest = jest.fn(() => mockRequest);
 
 const mockRequest = {
@@ -20,6 +18,8 @@ const mockRequest = {
   send: jest.fn(),
   status: 200
 };
+
+let container = null;
 
 beforeEach(() => {
   container = document.createElement("div");

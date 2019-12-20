@@ -14,7 +14,7 @@ function StartScrapeButton() {
   }
 
   return (
-    <button className='Scrape-Button' onClick={goToScrapeStatus} data-testid='startScrape'>
+    <button className='Scrape-Button' onClick={goToScrapeStatus}>
       Initiate COPA Scrape
     </button>
   );

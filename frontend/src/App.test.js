@@ -15,11 +15,10 @@ it('renders without crashing', () => {
   ReactDOM.unmountComponentAtNode(div);
 });
 
-
 describe("App goes to status", function () {
   it('App should have scrape button', function () {
-    const { getByTestId } = render(<App />);
-    const e = getByTestId("startScrape");
+    const { getByText } = render(<App />);
+    const e = getByText("Initiate COPA Scrape");
     expect(e.tagName).toBe("BUTTON");
   });
 });
