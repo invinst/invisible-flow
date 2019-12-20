@@ -8,7 +8,6 @@ from invisible_flow.globals_factory import GlobalsFactory
 from invisible_flow.storage.storage_factory import StorageFactory
 from invisible_flow.transformers.transformer_factory import TransformerFactory
 from invisible_flow.validation import is_valid_file_type
-from flask_cors import CORS  # type: ignore
 
 # Logging configuration
 dictConfig({
@@ -32,7 +31,6 @@ dictConfig({
 })
 
 logger = getLogger(__name__)
-CORS(app)
 
 
 @app.route('/status', methods=['GET'])

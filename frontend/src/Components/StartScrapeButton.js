@@ -1,12 +1,15 @@
 import React from 'react';
+import { useHistory } from "react-router-dom";
 
 function StartScrapeButton() {
+  let history = useHistory();
+
   function goToScrapeStatus() {
     const request = new XMLHttpRequest();
-    request.open("GET", "http://localhost:5000/copa_scrape", false);
+    request.open("GET", "/copa_scrape", false);
     request.send();
     if (request.status === 200) {
-      window.location.assign("/scrapeStatus");
+        history.push('/scrapeStatus');
     }
   }
 

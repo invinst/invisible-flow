@@ -3,6 +3,14 @@ import { unmountComponentAtNode } from "react-dom";
 import { fireEvent, render } from "@testing-library/react";
 import StartScrapeButton from './StartScrapeButton';
 
+const mockPush = jest.fn();
+
+jest.mock('react-router-dom', () => ({
+  useHistory: () => ({
+    push: mockPush
+  })
+}));
+
 let container = null;
 const windowLocationMock = window.location.assign = jest.fn();
 window.XMLHttpRequest = jest.fn(() => mockRequest);
@@ -34,7 +42,7 @@ describe("When StartScrapeButton is clicked", () => {
 
     fireEvent.click(getByText("Initiate COPA Scrape"));
 
-    expect(windowLocationMock).toBeCalledWith("/scrapeStatus");
+    expect(mockPush).toBeCalledWith("/scrapeStatus");
     expect(mockRequest.send).toHaveBeenCalled();
   });
 });

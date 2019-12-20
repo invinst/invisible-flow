@@ -7,7 +7,9 @@ class AppFactory:
     @staticmethod
     def create_app():
         if AppFactory._instance is None:
-            AppFactory._instance = Flask(__name__)
+            AppFactory._instance = Flask(__name__,
+                                         static_folder="../frontend/build/static",
+                                         template_folder="../frontend/build")
 
         return AppFactory._instance
 
