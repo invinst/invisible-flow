@@ -1,6 +1,6 @@
 import React from 'react';
-import { unmountComponentAtNode } from "react-dom";
-import { fireEvent, render } from "@testing-library/react";
+import { unmountComponentAtNode } from 'react-dom';
+import { fireEvent, render } from '@testing-library/react';
 import StartScrapeButton from './StartScrapeButton';
 
 const mockPush = jest.fn();
@@ -11,18 +11,18 @@ jest.mock('react-router-dom', () => ({
   })
 }));
 
-window.XMLHttpRequest = jest.fn(() => mockRequest);
-
 const mockRequest = {
   open: jest.fn(),
   send: jest.fn(),
   status: 200
 };
 
+window.XMLHttpRequest = jest.fn(() => mockRequest);
+
 let container = null;
 
 beforeEach(() => {
-  container = document.createElement("div");
+  container = document.createElement('div');
   document.body.appendChild(container);
 });
 
@@ -32,17 +32,17 @@ afterEach(() => {
   container = null;
 });
 
-it("renders without crashing", () => {
+it('renders without crashing', () => {
   render(<StartScrapeButton />, container);
 });
 
-describe("When StartScrapeButton is clicked", () => {
-  it("redirects to scrape status page and sends HTTP request to backend", () => {
+describe('When StartScrapeButton is clicked', () => {
+  it('redirects to scrape status page and sends HTTP request to backend', () => {
     const { getByText } = render(<StartScrapeButton />, container);
 
-    fireEvent.click(getByText("Initiate COPA Scrape"));
+    fireEvent.click(getByText('Initiate COPA Scrape'));
 
-    expect(mockPush).toBeCalledWith("/scrapeStatus");
+    expect(mockPush).toBeCalledWith('/scrapeStatus');
     expect(mockRequest.send).toHaveBeenCalled();
   });
 });
