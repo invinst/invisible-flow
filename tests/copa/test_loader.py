@@ -53,7 +53,7 @@ class TestLoad:
         partial_match_count = 3
         copa_modded = os.path.join(IFTestBase.resource_directory, 'copa_scraped_modded.csv')
         aug_mod_data = Augment().get_augmented_copa_data(copa_modded)
-        with patch.object(LocalStorage, 'store_string') as store_string_mock:
+        with patch.object(LocalStorage, 'store_byte_string') as store_string_mock:
             loader.load_copa_db(aug_mod_data)
             assert partial_match_count == len(loader.partial_matches)
             calls = [

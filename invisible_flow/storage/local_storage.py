@@ -10,16 +10,16 @@ class LocalStorage(StorageBase):
     package_directory = os.path.dirname(os.path.abspath(__file__))
     local_upload_directory = os.path.join(package_directory, '..', 'local_upload')
 
-    def store_string(self, filename, file_content: str, path: str):
+    def store_byte_string(self, filename, file_content: bytes, path: str):
         dir_path = os.path.join(self.local_upload_directory, path)
 
         pathlib.Path(dir_path).mkdir(exist_ok=True, parents=True)
         with open(os.path.join(dir_path, filename), 'wb') as file:
-            file.write(file_content.encode('utf-8'))
+            file.write(file_content)
             file.close()
 
-    def store_string_with_type(self, filename, file_content: str, path: str, file_type: str):
-        self.store_string(filename, file_content, path)
+    def store_string_with_type(self, filename, file_content: bytes, path: str, file_type: str):
+        self.store_byte_string(filename, file_content, path)
 
     def get(self, filename, path):
         try:

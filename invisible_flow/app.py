@@ -73,18 +73,18 @@ def foia_response_upload():
 
     current_date = GlobalsFactory.get_current_datetime_utc().isoformat(sep='_').replace(':', '-')
 
-    file_content: str = foia_response_file.read().decode('utf-8')
+    file_content: bytes = foia_response_file.read()
 
     logger.info(f'Storing foia request of type {response_type}')
     storage = StorageFactory.get_storage()
-    storage.store_string(f'{response_type}.csv', file_content, f'ui-{current_date}/initial_data')
+    storage.store_byte_string(f'{response_type}.csv', file_content, f'ui-{current_date}/initial_data')
 
     logger.info(f'Transforming foia request of type {response_type}')
     transformer = TransformerFactory.get_transformer(response_type)
-    transformation_result = transformer.transform(response_type, file_content)
+    transformation_result = transformer.transform(response_type, file_content.decode('utf-8'))
     logger.info(f'Storing transformed file')
     for result in transformation_result:
-        storage.store_string(f'{result[0]}.csv', result[1], f'ui-{current_date}/transformed')
+        storage.store_byte_string(f'{result[0]}.csv', result[1].encode('utf-8'), f'ui-{current_date}/transformed')
 
     logger.info('Successfully uploaded FOIA file')
     return Response(status=200, response='Success')

@@ -41,7 +41,7 @@ class TestInvisibleFlowApp:
             storage_mock = LocalStorage()
             storage_factory_mock.return_value = storage_mock
             storage_mock.store = MagicMock()
-            storage_mock.store_string = MagicMock()
+            storage_mock.store_byte_string = MagicMock()
 
             get_transformer_mock.return_value = CaseInfoAllegationsTransformer()
             case_info_transformer_mock = get_transformer_mock()
@@ -64,10 +64,10 @@ class TestInvisibleFlowApp:
             case_info_transformer_mock.transform.assert_called_with('accused', 'some content')
 
             calls = [
-                call('accused.csv', 'some content', 'ui-2019-03-25_05-30-50/initial_data'),
-                call('accused.csv', 'transformed content', 'ui-2019-03-25_05-30-50/transformed')
+                call('accused.csv', b'some content', 'ui-2019-03-25_05-30-50/initial_data'),
+                call('accused.csv', b'transformed content', 'ui-2019-03-25_05-30-50/transformed')
             ]
-            storage_mock.store_string.assert_has_calls(calls)
+            storage_mock.store_byte_string.assert_has_calls(calls)
             # TODO test that xlsx is saved with ending
 
     @pytest.mark.parametrize('extension', ['txt', 'sh', 'py'])

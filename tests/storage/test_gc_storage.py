@@ -7,7 +7,7 @@ from invisible_flow.storage import GCStorage
 
 
 class TestGCStorage:
-    fake_file_contents = "I love dem tacos very much"
+    fake_file_contents = b"I love dem tacos very much"
 
     def create_gcs_storage(self):
         gcs_client_mock = MagicMock(spec=storage.Client)
@@ -20,12 +20,12 @@ class TestGCStorage:
 
         return GCStorage(gcs_client_mock)
 
-    def test_store_string_sends_file_contents_string_to_gcp(self):
+    def test_store_byte_string_sends_file_contents_string_to_gcp(self):
         with mock.patch('invisible_flow.storage.gcs_storage.os.environ.get') as os_environ_get_mock:
             os_environ_get_mock.return_value = 'gcs-bucket-url'
             subject = self.create_gcs_storage()
 
-            subject.store_string('some-file.csv', self.fake_file_contents, 'some/path')
+            subject.store_byte_string('some-file.csv', self.fake_file_contents, 'some/path')
 
             # Bucket should be instantiated with the bucket url
             subject.gcs_client.bucket.assert_called_with("gcs-bucket-url")
@@ -33,4 +33,4 @@ class TestGCStorage:
 
             # Return value of blob call is a mock, so we can assert on it
             subject.bucket.blob.return_value.upload_from_string.assert_called_with(
-                'I love dem tacos very much', 'text/csv')
+                b'I love dem tacos very much', 'text/csv')
