@@ -70,7 +70,7 @@ class TestCopaScrapeTransformer(IFTestBase):
             filename = "initial_data_error.csv"
             pathname = "errors"
         with patch('invisible_flow.app.StorageFactory.get_storage') as get_storage_mock:
-            with patch('invisible_flow.storage.LocalStorage.store_string') as store_string_mock:
+            with patch('invisible_flow.storage.LocalStorage.store_byte_string') as store_string_mock:
                 get_storage_mock.return_value = LocalStorage()
                 CopaScrapeTransformer().save_scraped_data()
                 self.current_date = GlobalsFactory.get_current_datetime_utc().isoformat(sep='_').replace(':', '-')
@@ -105,7 +105,7 @@ class TestCopaScrapeTransformer(IFTestBase):
     @patch('invisible_flow.app.GlobalsFactory.get_current_datetime_utc', lambda: datetime(2019, 3, 25, 5, 30, 50, 0))
     def test_error_handling(self, get_mock):
         with patch('invisible_flow.app.StorageFactory.get_storage') as get_storage_mock:
-            with patch('invisible_flow.storage.LocalStorage.store_string') as store_string_mock:
+            with patch('invisible_flow.storage.LocalStorage.store_byte_string') as store_string_mock:
                 get_storage_mock.return_value = LocalStorage()
 
                 filename = "transform_error.csv"
@@ -150,12 +150,13 @@ class TestCopaScrapeTransformer(IFTestBase):
                         not_copa_data_handling_mock.assert_called()
                         store_errors_mock.assert_called()
 
-    def test_upload_to_gcs(self, get_mock):
+    def test_saving_to_local_storage(self, get_mock):
         copa_split_csv = os.path.join(IFTestBase.resource_directory, 'copa_scraped_split.csv')
         no_copa_split_csv = os.path.join(IFTestBase.resource_directory, 'no_copa_scraped_split.csv')
-        mock_converted_output = {"copa": open(copa_split_csv).read(), "no_copa": open(no_copa_split_csv).read()}
+        mock_converted_output = {"copa": open(copa_split_csv).read().encode('utf-8'),
+                                 "no_copa": open(no_copa_split_csv).read().encode('utf-8')}
         with patch('invisible_flow.app.StorageFactory.get_storage') as get_storage_mock:
-            with patch.object(LocalStorage, 'store_string') as mock:
+            with patch.object(LocalStorage, 'store_byte_string') as mock:
                 get_storage_mock.return_value = LocalStorage()
                 self.transformer.upload_to_gcs(mock_converted_output)
         mock.assert_called()
@@ -163,7 +164,7 @@ class TestCopaScrapeTransformer(IFTestBase):
     @patch('invisible_flow.app.GlobalsFactory.get_current_datetime_utc', lambda: datetime(2019, 3, 25, 5, 30, 50, 0))
     def test_transform(self, get_mock):
         with patch('invisible_flow.app.StorageFactory.get_storage') as get_storage_mock:
-            with patch.object(LocalStorage, 'store_string') as store_string_mock:
+            with patch.object(LocalStorage, 'store_byte_string') as store_string_mock:
                 with patch('invisible_flow.api.CopaScrape.scrape_copa_ready_for_entity') as mock_scrape_entity:
                     with patch('invisible_flow.api.CopaScrape.scrape_copa_not_in_entity') as mock_scrape_misc:
                         with patch.object(CopaScrapeTransformer, 'save_scraped_data'):

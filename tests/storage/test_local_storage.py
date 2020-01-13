@@ -11,12 +11,12 @@ class TestLocalStorage:
     subject = LocalStorage()
     fake_file_storage = FileStorage(stream=BytesIO(b'Some content'))
 
-    def test_store_string_does_not_throw_exception_when_used(self):
-        self.subject.store_string('Blah', 'Some content', '.')
+    def test_store_byte_string_does_not_throw_exception_when_used(self):
+        self.subject.store_byte_string('Blah', b'Some content', '.')
         os.remove(os.path.join(self.subject.local_upload_directory, 'Blah'))
 
-    def test_store_string_writes_file_locally(self):
-        self.subject.store_string('test-file.csv', 'Some content', 'subdir')
+    def test_store_byte_string_writes_file_locally(self):
+        self.subject.store_byte_string('test-file.csv', b'Some content', 'subdir')
         assert os.path.exists(os.path.join(self.subject.local_upload_directory, 'subdir', 'test-file.csv'))
 
         # cleanup

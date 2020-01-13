@@ -67,14 +67,14 @@ class Loader:
         )
 
         if len(self.changed_allegations) > 0:
-            self.storage.store_string(
+            self.storage.store_byte_string(
                 'changed_allegation.csv',
-                self.changed_allegations.to_csv(index=False),
+                self.changed_allegations.to_csv(index=False).encode('utf-8'),
                 f'Scrape-{self.current_date}/load_errors'
             )
-            self.storage.store_string(
+            self.storage.store_byte_string(
                 'error_notes.csv',
-                self.error_notes.to_csv(index=False),
+                self.error_notes.to_csv(index=False).encode('utf-8'),
                 f'Scrape-{self.current_date}/load_errors'
             )
 

@@ -20,15 +20,17 @@ class CopaScrapeTransformer(TransformerBase):
         response = scraper.scrape_data_csv()
         csv = response.content
         if response.status_code == 200:
-            self.storage.store_string('initial_data.csv', csv, f'Scrape-{self.current_date}/initial_data')
+            self.storage.store_byte_string('initial_data.csv', csv, f'Scrape-{self.current_date}/initial_data')
             self.create_and_save_metadata('initial_data')
         else:
             error_to_write = str(response.status_code) + "\n" + response.text
-            self.storage.store_string('initial_data_error.csv', error_to_write, f'Scrape-{self.current_date}/errors')
+            self.storage.store_byte_string('initial_data_error.csv', error_to_write.encode('utf-8'),
+                                           f'Scrape-{self.current_date}/errors')
 
     def store_errors(self):
         if len(self.error_log) != 0:
-            self.storage.store_string('transform_error.csv', self.error_log, f'Scrape-{self.current_date}/errors')
+            self.storage.store_byte_string('transform_error.csv', self.error_log.encode('utf-8'),
+                                           f'Scrape-{self.current_date}/errors')
 
     def copa_data_handling(self):
         scraper = CopaScrape()
@@ -62,10 +64,10 @@ class CopaScrapeTransformer(TransformerBase):
         self.store_errors()
         return data_retrieved
 
-    def upload_to_gcs(self, conversion_results: Dict):
+    def upload_to_gcs(self, conversion_results: Dict[str, bytes]):
         for result in conversion_results:
             filename = "copa" if result == "copa" else "other-assignment"
-            self.storage.store_string(
+            self.storage.store_byte_string(
                 f'{filename}.csv',
                 conversion_results[result],
                 f'Scrape-{self.current_date}/cleaned'
@@ -81,10 +83,10 @@ class CopaScrapeTransformer(TransformerBase):
             self.upload_to_gcs(split_data)
 
         allegation_rows = self.scraper.scrape_copa_ready_for_entity()
-        self.storage.store_string('copa.csv', allegation_rows, f'Scrape-{self.current_date}/transformed')
+        self.storage.store_byte_string('copa.csv', allegation_rows, f'Scrape-{self.current_date}/transformed')
 
         misc_data = self.scraper.scrape_copa_not_in_entity()
-        self.storage.store_string('misc-data.csv', misc_data, f'Scrape-{self.current_date}/transformed')
+        self.storage.store_byte_string('misc-data.csv', misc_data, f'Scrape-{self.current_date}/transformed')
         self.create_and_save_metadata('transformed')
 
     def create_and_save_metadata(self, data_folder: str):

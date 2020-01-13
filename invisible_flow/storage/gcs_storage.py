@@ -15,11 +15,11 @@ class GCStorage(StorageBase):
         self.gcs_client = gcs_client
         self.bucket = gcs_client.bucket(os.environ.get('GCS_BUCKET'))
 
-    def store_string(self, filename, file_content: str, path):
+    def store_byte_string(self, filename, file_content: bytes, path):
         blob = self.bucket.blob(os.path.join(path, filename))
         blob.upload_from_string(file_content, 'text/csv')
 
-    def store_string_with_type(self, filename, file_content: str, path, file_type):
+    def store_string_with_type(self, filename, file_content: bytes, path, file_type):
         blob = self.bucket.blob(os.path.join(path, filename))
         blob.upload_from_string(file_content, file_type)
 
