@@ -86,7 +86,8 @@ a {
 }
 
 .Site-Title a {
-   color: var(--brown-grey);
+  color: #000;
+  font-weight:bold;
 }
 
 .Scrape-Button {
@@ -96,7 +97,7 @@ a {
   border-radius: 2px;
   box-shadow: 0 3px 4px 1px rgba(0, 0, 0, 0.5);
   border: solid 1px #979797;
-  background-color: var(--perrywinkle);
+  background-color: #22326D;
   font-family: 'SFCompactText', sans-serif;
   font-size: 18px;
   font-weight: 500;
@@ -115,7 +116,7 @@ a {
   border-radius: 2px;
   box-shadow: 0 3px 4px 1px rgba(0, 0, 0, 0.5);
   border: solid 1px #979797;
-  background-color: var(--perrywinkle);
+  background-color: #22326D;
   font-family: 'SFCompactText', sans-serif;
   font-size: 18px;
   font-weight: 500;
@@ -132,6 +133,14 @@ a {
     margin: 100px;
 }
 
+.ScrapeResult {
+    padding: 0 25px 0 10px;
+}
+
+.ScrapeResult * {
+    padding: 0 10px;
+}
+
 .MainPage {
   top: 71px;
   bottom: 71px;
@@ -141,12 +150,23 @@ a {
   overflow: auto;
   flex: 1;
 }
+.MainPage::before {
+    background: url('./images/AllTheDocs.jpeg')no-repeat center center;
+    background-size: cover;
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    opacity: 0.75;
+}
 
 .bgImg {
   background: url('./images/AllTheDocs.jpeg')no-repeat center center;
   background-size: cover;
   opacity: 0.75;
-  margin: 25px;
 }
 
 .Footer {
@@ -173,10 +193,14 @@ a {
 }
 
 .FOIAPage {
-    margin: 25px;
+    padding: 0 25px 0 10px;
 }
 
 .FOIAPage div {
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.FOIAPage h1, form {
+    padding: 0 10px;
 }

@@ -4,6 +4,7 @@ import App from '../App';
 import ScrapeStatus from './ScrapeStatus';
 import FOIA from './FOIA';
 import Header from './Header';
+import Footer from './Footer';
 
 const Router = () => (
   <BrowserRouter>
@@ -13,6 +14,7 @@ const Router = () => (
       <Route path='/scrapeStatus' component={ScrapeStatus} />
       <Route path='/FOIA' component={FOIA} />
     </Switch>
+    <Footer/>
   </BrowserRouter>
 );
 
