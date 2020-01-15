@@ -15,7 +15,9 @@
   --pale-gold: #ffd96f;
   --main-font: "San Francisco Text", sans-serif;
 }
-
+html {
+  height: 100%;
+}
 body {
   margin: 0;
   background-color: var(--very-light-pink);
@@ -25,6 +27,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   width: 100%;
+  min-height: 100%;
+  position: relative;
+  padding-bottom: 71px;
 }
 
 p, h1, h2, h3 {
@@ -162,13 +167,13 @@ a {
     content: "";
     display: block;
     position: absolute;
-    left: 0;
+    left: 0; bottom: 71px;
     width: 100%;
     height: 100%;
     z-index: -2;
     opacity: 0.75;
 }
-
+/* This isn't acting on anything from what I can tell, why is it here? - Octavia */
 .bgImg {
   background: url('./images/AllTheDocs.jpeg')no-repeat center center;
   background-size: cover;
@@ -180,6 +185,8 @@ a {
   height: 71px;
   border-radius: 2px;
   background-color: var(--very-light-pink-two);
+  position: absolute;
+  bottom: 0;
   z-index: 1; /* brings footer front of image, better way? */
 }
 
