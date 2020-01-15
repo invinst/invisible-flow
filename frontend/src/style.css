@@ -77,6 +77,10 @@ a {
   color: var(--purple-brown);
 }
 
+.Active-Tab:hover {
+    font-weight: bold;
+}
+
 .Inactive-Tab {
   color: var(--brown-grey);
 }
@@ -142,13 +146,15 @@ a {
 }
 
 .MainPage {
-  top: 71px;
-  bottom: 71px;
-  display: flex;
-  align-items: flex-start;
-  justify-content:center;
-  overflow: auto;
-  flex: 1;
+    top: 71px;
+    bottom: 71px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    overflow: auto;
+    text-align: left;
+    min-height: 100vh;
+    display: flex;
 }
 .MainPage::before {
     background: url('./images/AllTheDocs.jpeg')no-repeat center center;

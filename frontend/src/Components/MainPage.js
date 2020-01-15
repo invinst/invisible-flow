@@ -1,9 +1,9 @@
 import React from 'react';
 import StartScrapeButton from './StartScrapeButton';
 
-function MainPage({startScrape}){
+function MainPage(){
   return(
-    <div className='MainPage bgImg'>
+    <div className='MainPage'>
       <StartScrapeButton />
     </div>
   );
