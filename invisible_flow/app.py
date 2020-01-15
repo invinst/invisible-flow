@@ -38,8 +38,9 @@ def status():
     return 'ok', 200
 
 
-@app.route('/', methods=['GET'])
-def index():
+@app.route('/', defaults={'path': ''}, methods=['GET'])
+@app.route('/<path:path>', methods=['GET'])
+def index(path):
     return render_template('index.html')
 
 
