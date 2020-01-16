@@ -13,7 +13,7 @@ matrix:
       install:
         - pip install -r requirements.txt
         - cd frontend
-        - npm install
+        - npm install -g
       script: skip
     - stage: testing
       script:
