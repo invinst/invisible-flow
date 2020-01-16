@@ -13,11 +13,10 @@ class CopaScrapeTransformer(TransformerBase):
         self.storage = StorageFactory.get_storage()
         self.scraper = CopaScrape()
         self.current_date = GlobalsFactory.get_current_datetime_utc().isoformat(sep='_').replace(':', '-')
-        self.error_log = "The page that you seek cannot be accessed at this time."
+        self.error_log = ""
 
     def save_scraped_data(self):
-        scraper = CopaScrape()
-        response = scraper.scrape_data_csv()
+        response = self.scraper.scrape_data_csv()
         csv = response.content
         if response.status_code == 200:
             self.storage.store_byte_string('initial_data.csv', csv, f'Scrape-{self.current_date}/initial_data')
@@ -33,8 +32,7 @@ class CopaScrapeTransformer(TransformerBase):
                                            f'Scrape-{self.current_date}/errors')
 
     def copa_data_handling(self):
-        scraper = CopaScrape()
-        response = scraper.scrape_copa_csv()
+        response = self.scraper.scrape_copa_csv()
 
         if response.status_code == 200:
             return response.content
@@ -42,8 +40,7 @@ class CopaScrapeTransformer(TransformerBase):
             self.error_log += str(response.status_code) + "\n" + response.text
 
     def not_copa_data_handling(self):
-        scraper = CopaScrape()
-        response = scraper.scrape_not_copa_csv()
+        response = self.scraper.scrape_not_copa_csv()
 
         if response.status_code == 200:
             return response.content
@@ -59,16 +56,15 @@ class CopaScrapeTransformer(TransformerBase):
             data_retrieved['copa'] = copa_data
 
         if non_copa_data is not None:
-            data_retrieved['non_copa'] = non_copa_data
+            data_retrieved['other-assignment'] = non_copa_data
 
         self.store_errors()
         return data_retrieved
 
     def upload_to_gcs(self, conversion_results: Dict[str, bytes]):
         for result in conversion_results:
-            filename = "copa" if result == "copa" else "other-assignment"
             self.storage.store_byte_string(
-                f'{filename}.csv',
+                f'{result}.csv',
                 conversion_results[result],
                 f'Scrape-{self.current_date}/cleaned'
             )
