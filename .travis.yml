@@ -13,7 +13,7 @@ matrix:
       install:
         - pip install -r requirements.txt
         - cd frontend
-        - npm install -g
+        - npm install
       script: skip
     - stage: testing
       script:
@@ -22,12 +22,12 @@ matrix:
         - pytest --cov=invisible_flow tests
         - python run-api-tests.py
         - cd frontend
-        - npm run test
+        - npm install && npm run test
     - stage: deploy
       before_deploy:
         - echo "${TRAVIS_COMMIT}" > invisible_flow/commit
         - cd frontend
-        - npm run build
+        - npm install && npm run build
       deploy:
         -
           provider: gae
