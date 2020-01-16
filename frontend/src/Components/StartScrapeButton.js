@@ -9,15 +9,18 @@ function StartScrapeButton(props) {
     const request = new XMLHttpRequest();
     request.open('GET', '/copa_scrape', false);
     request.send();
+
+    await new Promise(r => setTimeout(r, 2000));
+
     if (request.status === 200) {
       props.toggleLoading();
-      //history.push('/scrapeStatus');
+      history.push('/scrapeStatus');
     }
   }
 
   return (
     <button className='Scrape-Button' onClick={goToScrapeStatus}>
-      Initiate COPA Scrape
+      Initiate scrape
     </button>
   );
 }

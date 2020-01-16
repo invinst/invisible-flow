@@ -21,14 +21,19 @@ class MainPage extends React.Component{
   render() {
     if(this.state.isScraping){
         return(
-            <div className='MainPage'>
-              <h1>LOADING</h1>
+            <div className='MainPageLoading'>
+              <h1>COPA Scrape</h1>
+              <div class="spinner-box">
+                <div class="spinner"></div>
+                <p>Scraping...</p>
+              </div>
             </div>
         );
 
     } else{
         return(
         <div className='MainPage'>
+          <h1>COPA Scrape</h1>
           <StartScrapeButton toggleLoading={this.toggleLoading}/>
         </div>
       );
