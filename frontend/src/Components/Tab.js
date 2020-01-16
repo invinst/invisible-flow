@@ -1,11 +1,11 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 
 function Tab(props){
   return (
-    <Link className='Active-Tab' to={props.path}>
+    <NavLink to={props.path} exact className='Nav-Tab' activeClassName='Active-Tab'>
       {props.pagename}
-    </Link>
+    </NavLink>
   );
 }
 

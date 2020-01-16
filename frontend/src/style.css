@@ -76,18 +76,18 @@ a {
   align-items: center;
 }
 
-.Active-Tab{
+.Nav-Tab{
   padding: 0px 10px 0px 10px;
   text-align: center;
   color: var(--purple-brown);
 }
 
-.Active-Tab:hover {
+.Nav-Tab:hover {
     font-weight: bold;
 }
 
-.Inactive-Tab {
-  color: var(--brown-grey);
+.Active-Tab {
+    text-decoration: underline;
 }
 
 .Site-Title {
