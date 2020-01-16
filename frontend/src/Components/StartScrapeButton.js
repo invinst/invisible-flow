@@ -15,6 +15,8 @@ function StartScrapeButton(props) {
     if (request.status === 200) {
       props.toggleLoading();
       history.push('/scrapeStatus');
+    } else if (request.status === 500) {
+			props.toggleLoading();
     }
   }
 
