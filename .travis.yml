@@ -23,8 +23,9 @@ matrix:
         - python run-api-tests.py
         - cd frontend
         - npm install && npm run test
-    - stage: deploy
-      before_deploy:
+    - stage: GCS_deploy
+      if: branch = master
+      before_script:
         - echo "${TRAVIS_COMMIT}" > invisible_flow/commit
         - cd frontend
         - npm install && npm run build
@@ -37,6 +38,8 @@ matrix:
           file:
             - invisible_flow/commit
           skip_cleanup: true
+#          on:
+#            branch: master
         -
           provider: gcs
           edge:
@@ -45,19 +48,17 @@ matrix:
           credentials: "../gae-keyfile-dev.json"
           bucket: invisible-flow-dev
           local-dir: frontend/build
-          on:
-            repo: invinst/invisible-flow
+#          on:
+#            repo: invinst/invisible-flow
+#            branch: master
           skip_cleanup: true
           acl: public-read
       env:
         - GIT_COMMIT_ID=`echo $TRAVIS_COMMIT`
         - PUBLIC_URL=https://storage.cloud.google.com/invisible-flow-dev/
-      after_deploy:
+      after_script:
         - cat invisible_flow/commit
       script: skip
 env:
   global:
     secure: QtSkwjcslKJ7LyjP0cLuiIBbL6P+aii0xN+2sk2YS3IK4jDVyagyPcDmXAGml7uqXZjgSj6TBoJP8t51S9OJSG4HZhfcG5cj62q/RiglONSQzqHKOCaBfEypd8Nrtkx31MMQLmpJuIHrZtQUhHN1vBYDzdo0Iti/5CukgSqb67RuxL1aGmXkUkAJwd8JTmgH85dfZ+E5sD4Ns3LU3F5IQqk7gJ/y9gLMmV8wiUWStBwTeQCV8Kp9qVMFUonHAB5OzEuYRaasYr05XlcyByxWOJPhcPHEkXs1KGobhjph07UxZ49ORzrvtj6Go0hDLkti5Nenpltc1w4nrXg7AsNC4eACZ0WzSTmqXJ5g9UPzUgElxj1bnfqQSokL9Fxq/rZc3nObbnfdimSRXqbs8MOXPlyLM3CEU3kpkm6zAybZEXGBqAE763EJy9FNVptz4rdU0PDpwuCwi1e2QwXZhu8xc/Y93p5fT5QJqT4RL0hhv5S54XmSXH9YPx+7vxZcRbCeOi0UVg0CDer1gtImGZCiPwer8BvqP8RCcSYzQIJ4mhI764HpIOnFI4kgn9VAxnIe6HZCTZM88vc9znmk4Am/+HEnivhDoSOW6XFnvcUz3N81pX28zdIG9l8EsMvV7Ls+cVeNhiRcRCovI2XQqiwlS9tj8IxiuEt9sJXuSE/c3K0=
-deploy:
-  api_key:
-    secure: I/S6NrpqWexHWPSnB3fnWFbn11nzCQcpX2NlI4IwvB0cVTLqBC1Gz2W7neN0SiK/7wfT1As6lGP0ipo7AYx2/JPxis852HWuEgM1kua/rUjrWe9gcQp5j/ZzIX3XF/avxNPiYzWNWAqOB8tcCnyHak/zxz39QhrYB9LmP22MoGEkvWWjpb18Uy5Pw9M+ZSNZeFIKf04sNif87pNVf5vF4OKRqz+xzxV9HwJm9J/4WHGgHmlHfmFAsB1uDFHC5umjVL65e7nHjisZ5S982z1axmF5CA9CqHhZLVEE+0hAmBBXaNsLSwnjP8P9xbrU5tVP6tGPWcWYJ4PAEriKlojBxby4il3TCZfHcJwtM0EFakFU6Z1pbxYdpqIpTWgwGaez8Q47b1nhC5wUzvPa+NveqpQOV9TNAMRh3JiQy9mqLpbO38bYJxF5Yiim2cRvmp1aFcDEgK0TripQy61HiIK9fwUt3rtPdmoU5GDjEG5S0skVCzrmiWKQ4q69oJSxE3qsWKi5WRSbS2VsAs9v7T4q9ckoTZ7B2n7s5qy+WfL/pHTpddJvKKYvDqqQZQ1tPRTezjHAzbIs6n7Wj2nDyANVz1iZs634hdYKUyrxWCBno70TXjyo6MC7cydDqZJqKXbX6zDphP2pkEyJeS0mSbHHISi04XHOlL0Liekl4NH9q1s=
