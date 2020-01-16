@@ -4,8 +4,8 @@ import { useHistory } from 'react-router-dom';
 function StartScrapeButton(props) {
   let history = useHistory();
 
-  function goToScrapeStatus() {
-    props.toggleLoading();
+  async function goToScrapeStatus() {
+    await props.toggleLoading();
     const request = new XMLHttpRequest();
     request.open('GET', '/copa_scrape', false);
     request.send();
