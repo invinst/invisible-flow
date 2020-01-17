@@ -2,9 +2,9 @@ import React from 'react';
 
 function ScrapeStatus() {
   return (
-    <div>
+    <div className='ScrapeResult'>
       <h1>
-        COPA Scraping Status
+        COPA Scrape Result
       </h1>
       <p>
         Success

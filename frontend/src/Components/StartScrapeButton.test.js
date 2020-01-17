@@ -1,6 +1,6 @@
 import React from 'react';
 import { unmountComponentAtNode } from 'react-dom';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitForDomChange } from '@testing-library/react';
 import StartScrapeButton from './StartScrapeButton';
 
 const mockPush = jest.fn();
@@ -33,16 +33,18 @@ afterEach(() => {
 });
 
 it('renders without crashing', () => {
-  render(<StartScrapeButton />, container);
+  render(<StartScrapeButton toggleLoading={jest.fn()} />, container);
 });
 
 describe('When StartScrapeButton is clicked', () => {
-  it('redirects to scrape status page and sends HTTP request to backend', () => {
-    const { getByText } = render(<StartScrapeButton />, container);
+  it('redirects to scrape status page and sends HTTP request to backend', async () => {
+    const { getByText } = render(<StartScrapeButton toggleLoading={jest.fn()} />, container);
 
-    fireEvent.click(getByText('Initiate COPA Scrape'));
+    fireEvent.click(getByText('Initiate scrape'));
 
-    expect(mockPush).toBeCalledWith('/scrapeStatus');
-    expect(mockRequest.send).toHaveBeenCalled();
+	waitForDomChange(container).then(() => {
+		expect(mockRequest.send).toHaveBeenCalled();
+	    expect(mockPush).toBeCalledWith('/scrapeStatus');
+    });
   });
 });
