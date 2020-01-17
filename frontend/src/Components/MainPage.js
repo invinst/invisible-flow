@@ -11,11 +11,7 @@ class MainPage extends React.Component{
   }
 
   toggleLoading() {
-    console.log('child event on parent');
-    console.log('before: ' + this.state.isScraping);
-    this.setState({isScraping: !this.state.isScraping}, () => {
-        console.log(this.state.isScraping);
-    });
+    this.setState({isScraping: !this.state.isScraping});
   }
 
   render() {
