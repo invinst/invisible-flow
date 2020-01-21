@@ -10,14 +10,15 @@ function StartScrapeButton(props) {
     request.open('GET', '/copa_scrape', true);
     request.send();
 
-    await new Promise(r => setTimeout(r, 2000));
-
-    if (request.status === 200) {
-      props.toggleLoading();
-      history.push('/scrapeStatus');
-    } else {
-      props.toggleLoading();
-    }
+    request.onload = async () => {
+        await new Promise(r => setTimeout(r, 2000));
+        if (request.status === 200) {
+          props.toggleLoading();
+          history.push('/scrapeStatus');
+        } else {
+          props.toggleLoading();
+        }
+    };
   }
 
   return (
