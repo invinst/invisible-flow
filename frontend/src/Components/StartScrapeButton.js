@@ -7,7 +7,7 @@ function StartScrapeButton(props) {
   async function goToScrapeStatus() {
     await props.toggleLoading();
     const request = new XMLHttpRequest();
-    request.open('GET', '/copa_scrape', false);
+    request.open('GET', '/copa_scrape', true);
     request.send();
 
     await new Promise(r => setTimeout(r, 2000));
