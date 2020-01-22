@@ -23,6 +23,7 @@ jobs:
     - cd frontend
     - npm ci && npm run test
   - stage: Heroku_deploy
+    if: branch = master
     before_deploy: cd frontend && npm ci && npm run build
     deploy:
       provider: heroku
