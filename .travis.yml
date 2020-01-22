@@ -6,12 +6,9 @@ cache:
   - pip
   - directories:
       - $HOME/frontend/node_modules/
-matrix:
+jobs:
   include:
   - stage: install
-#    is this necessary? Xenial might already have node
-#    before_install:
-#    - nvm install 8
     install:
     - pip install -r requirements.txt
     - cd frontend
@@ -21,7 +18,6 @@ matrix:
     script:
     - flake8 .
     - mypy invisible_flow
-#    - add coverage fail will come from ini in master branch
     - pytest --cov=invisible_flow tests
     - python run-api-tests.py
     - cd frontend
@@ -50,16 +46,16 @@ matrix:
       keyfile: "$GAE_KEYFILE"
       project: "$GAE_PROJECT_ID"
       version: "$GAE_VERSION"
-      file:
-      - invisible_flow/commit
+#      file:
+#      - invisible_flow/commit
       on:
         repo: invinst/invisible-flow
       skip_cleanup: true
     - provider: gcs
       edge:
         branch: gcs-ng
-      project_id: "$GAE_PROJECT_ID"
-      credentials: "../gae-keyfile-dev.json"
+      access_key_id: "$GAE_PROJECT_ID"
+      secret_access_key: gae-keyfile-dev.json
       bucket: invisible-flow-dev
       local-dir: frontend/build
       on:
