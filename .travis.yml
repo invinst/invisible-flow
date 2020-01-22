@@ -3,9 +3,9 @@ dist: xenial
 language: python
 python: '3.7'
 cache:
-  - directories:
-    - $HOME/.npm
-  - pip
+- directories:
+  - "$HOME/.npm"
+- pip
 jobs:
   include:
   - stage: install
@@ -28,7 +28,7 @@ jobs:
     deploy:
       provider: heroku
       api_key:
-        secure: GsyQtlDMGVfKTtwBlYYGUmgeP6Mic5lqGV1i/MkITRgbLyjp/tCF/VeH3ueoFMdgZ6mm8b8O4l2A1Zn1+J4HTtHtX/NEaxP6vYxghqbC2vMpSMYfiQ1zsk3qlLz/f4PtvRURpjXFVP5XHUGn8EbqnGDq3QQTFNKib8UpJaoTKzwVsrhFdc8/HoIvkllq2zwTlUXx/pGs+kxsg8JdWJA5J7pADASyx3e0yo3uUtXMs0oXHl9l85cdMCCwr2pSEsYcaqttsJ7+ax3yUzQoE7Es5Kk6NcA8UBCw0+NVYF1iugZ8850bRUacG/UmvrPZDgs8AQcov26tytck1n497wMj7xIICGkXrsNF1J38gwtoc2CL8xFpzhzn/qPUt+HrNKPaW4/7oJRY8dahlpUBdpkqeUhBHFASkaSj0klOvbTLgnsL6euhesjfloIu0MJ0iWZy/AeD3C0+mJmOq41Pi8ArPT19Acna4pV5rWUpwojS2MKviBI3/q1EDxnITXKzJ2xE6CIDEX2dZOJ7JAhjMvRVUp/kYrWbSbT7sMW/ARX7GEOr4tkhI2hVguibEKdnKB1d6QHhQ1JMsEWzR3gKOhJ6lHOPpqdiT1s6xlqZnOZ+ytSNEuESGRrOZYi68tUSdH+xzoQ1x8vG23AFpgM3TRZqNelrihnrXIFiGY6yK2gtc48=
+        secure: QbWwVT3L9osHvPlRF4alMEONziI0OPJAFSO8YpsB1moKQv19TBBLsZkwATOzaL4MNp/e6DybNmLIJX5NwmEljcdekATePiUzj1h8HmqNC4vcc7AUZtxBMdIA3jcKkfJIqvCPK5QYH6n7+9uhVXKUNvOZTTH9oGIUurUP+5aeOOJ5xcfKsQkkdGiPMgbLhIjRUApdHkSuFv+shrASSb/lN3SwcB598Dpg70btRQ/Xl8BaT6q/3kcP4eWJDufG8dQezattQBqUIHZD8heCuUzcangSOdoI/bHuOwM0qh+OgxirzXQ8Be32GnPnXRgG2t/8KQg3VyTvfJrHQbv7HeLMdV2R0L1UJGYKp+1ns/I5Kqw6UMQqdAgiy2Wwjc5u+X21gFuPD/Ve7bBXuBU7R5hMMbUVcJtb/v8QF+HlyCu+DEey4MBzJWjGFZh1a5ygNP4XlZbm5XYm+rjevA5ptEwc/LlrBKgkzwvO3+DA0qis8StZ2PPHJozKvpJRQobtzFzJoTBJLMtUzFlocr9toIbkK/lKvzW0ur2shXbj4hcxboi5bxo0UwJu+3YoR4tGP8s4PXo3j1KPcdtDXfqjOpGu2SJYYPS0/Z47deYlACsIIkrY7PDi0XtOMrwNQ3bH5YI9PFSy5YT/yEVxyg5ZysS9DB4E4RfpH+9d4p7eThaQCnk=
       app: invisiflow-testing
       on:
         repo: invinst/invisible-flow
