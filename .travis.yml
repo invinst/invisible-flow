@@ -34,15 +34,13 @@ jobs:
         repo: invinst/invisible-flow
       skip_cleanup: true
     script: skip
-  - stage: GCS_deploy
+  - stage: GAE_deploy
     if: branch = master
     before_script:
     - openssl aes-256-cbc -k $SS_PW -in gae-keyfile-dev.json.enc -out gae-keyfile-dev.json -d
     - echo "${TRAVIS_COMMIT}" > invisible_flow/commit
-    - cd frontend
-    - npm ci && npm run build && cd ..
     deploy:
-    - provider: gae
+      provider: gae
       keyfile: "$GAE_KEYFILE"
       project: "$GAE_PROJECT_ID"
       version: "$GAE_VERSION"
@@ -51,22 +49,33 @@ jobs:
       on:
         repo: invinst/invisible-flow
       skip_cleanup: true
-    - provider: gcs
+    env:
+      - GIT_COMMIT_ID=`echo $TRAVIS_COMMIT`
+    after_script:
+      - cat invisible_flow/commit
+  - stage: GCS_deploy
+    if: branch = master
+    before_install:
+      - openssl aes-256-cbc -k $SS_PW -in gae-keyfile-dev.json.enc -out gae-keyfile-dev.json -d
+      - cd frontend
+    install:
+      - npm ci
+    before_deploy:
+      - npm run build
+    deploy:
+      provider: gcs
       edge:
         branch: gcs-ng
       project_id: "$GAE_PROJECT_ID"
-      credentials: "gae-keyfile-dev.json"
+      credentials: "..gae-keyfile-dev.json"
       bucket: invisible-flow-dev
-      local-dir: frontend/build
+      local-dir: build
       on:
         repo: invinst/invisible-flow
       skip_cleanup: true
       acl: public-read
     env:
-    - GIT_COMMIT_ID=`echo $TRAVIS_COMMIT`
     - PUBLIC_URL=https://storage.cloud.google.com/invisible-flow-dev/
-    after_script:
-    - cat invisible_flow/commit
     script: skip
 env:
   global:
