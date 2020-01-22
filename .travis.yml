@@ -65,7 +65,7 @@ jobs:
       edge:
         branch: gcs-ng
       project_id: "$GAE_PROJECT_ID"
-      credentials: "..gae-keyfile-dev.json"
+      credentials: "../gae-keyfile-dev.json"
       bucket: invisible-flow-dev
       local-dir: build
       on:
