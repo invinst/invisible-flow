@@ -8,20 +8,18 @@ cache:
 - pip
 jobs:
   include:
-  - stage: install
+  - stage: test
     install:
     - pip install -r requirements.txt
     - cd frontend
-    - npm ci
-    script: skip
-  - stage: test
+    - npm ci && cd ..
     script:
     - flake8 .
     - mypy invisible_flow
     - pytest --cov=invisible_flow tests --cov-fail-under 70
     - python run-api-tests.py
     - cd frontend
-    - npm ci && npm run test
+    - npm run test && cd ..
   - stage: Heroku_deploy
     if: branch = master
     before_deploy: cd frontend && npm ci && npm run build && cd ..
@@ -36,7 +34,7 @@ jobs:
     script: skip
   - stage: GAE_deploy
     if: branch = master
-    before_script:
+    before_install:
     - openssl aes-256-cbc -k $SS_PW -in gae-keyfile-dev.json.enc -out gae-keyfile-dev.json -d
     before_deploy:
     - echo "${TRAVIS_COMMIT}" > invisible_flow/commit
@@ -51,18 +49,18 @@ jobs:
         repo: invinst/invisible-flow
       skip_cleanup: true
     env:
-      - GIT_COMMIT_ID=`echo $TRAVIS_COMMIT`
-    after_script:
-      - cat invisible_flow/commit
+    - GIT_COMMIT_ID=`echo $TRAVIS_COMMIT`
+    script:
+    - cat invisible_flow/commit
   - stage: GCS_deploy
     if: branch = master
     before_install:
-      - openssl aes-256-cbc -k $SS_PW -in gae-keyfile-dev.json.enc -out gae-keyfile-dev.json -d
-      - cd frontend
+    - openssl aes-256-cbc -k $SS_PW -in gae-keyfile-dev.json.enc -out gae-keyfile-dev.json -d
+    - cd frontend
     install:
-      - npm ci
+    - npm ci
     before_deploy:
-      - npm run build
+    - npm run build
     deploy:
       provider: gcs
       edge:
