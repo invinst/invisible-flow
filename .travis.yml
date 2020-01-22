@@ -23,7 +23,6 @@ jobs:
     - cd frontend
     - npm install && npm run test
   - stage: Heroku_deploy
-#    now can get rid of node_js buildpack in heroku
     before_deploy: cd frontend && npm install && npm run build
     deploy:
       provider: heroku
@@ -46,16 +45,16 @@ jobs:
       keyfile: "$GAE_KEYFILE"
       project: "$GAE_PROJECT_ID"
       version: "$GAE_VERSION"
-#      file:
-#      - invisible_flow/commit
+      file:
+      - invisible_flow/commit
       on:
         repo: invinst/invisible-flow
       skip_cleanup: true
     - provider: gcs
       edge:
         branch: gcs-ng
-      access_key_id: "$GAE_PROJECT_ID"
-      secret_access_key: gae-keyfile-dev.json
+      project_id: "$GAE_PROJECT_ID"
+      credentials: "../gae-keyfile-dev.json"
       bucket: invisible-flow-dev
       local-dir: frontend/build
       on:
