@@ -1,16 +1,17 @@
+os: linux
+dist: xenial
 language: python
 python: '3.7'
 cache:
-- pip
-- npm
-dist: xenial
+  - pip
+  - directories:
+      - $HOME/frontend/node_modules/
 matrix:
   include:
   - stage: install
-    before_install:
-    - nvm install 8
-    - openssl aes-256-cbc -k $SS_PW -in gae-keyfile-dev.json.enc -out gae-keyfile-dev.json
-      -d
+#    is this necessary? Xenial might already have node
+#    before_install:
+#    - nvm install 8
     install:
     - pip install -r requirements.txt
     - cd frontend
@@ -20,11 +21,14 @@ matrix:
     script:
     - flake8 .
     - mypy invisible_flow
+#    - add coverage fail will come from ini in master branch
     - pytest --cov=invisible_flow tests
     - python run-api-tests.py
     - cd frontend
     - npm install && npm run test
   - stage: Heroku_deploy
+#    now can get rid of node_js buildpack in heroku
+    before_deploy: cd frontend && npm install && npm run build
     deploy:
       provider: heroku
       api_key:
@@ -32,10 +36,12 @@ matrix:
       app: invisiflow-testing
       on:
         repo: invinst/invisible-flow
+      skip_cleanup: true
     script: skip
   - stage: GCS_deploy
     if: branch = master
     before_script:
+    - openssl aes-256-cbc -k $SS_PW -in gae-keyfile-dev.json.enc -out gae-keyfile-dev.json -d
     - echo "${TRAVIS_COMMIT}" > invisible_flow/commit
     - cd frontend
     - npm install && npm run build
