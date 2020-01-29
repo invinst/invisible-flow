@@ -9,8 +9,10 @@ from invisible_flow.constants import JOB_DB_BIND_KEY, COPA_DB_BIND_KEY
 job_db_file = tempfile.NamedTemporaryFile(suffix='.db')
 job_db_filename = f'sqlite:///{job_db_file.name}'
 
-copa_db_file = tempfile.NamedTemporaryFile(suffix='.db')
-copa_db_filename = f'sqlite:///{copa_db_file.name}'
+# copa_db_file = tempfile.NamedTemporaryFile(suffix='.db')
+# copa_db_filename = f'sqlite:///{copa_db_file.name}'
+
+copa_db_filename = 'postgresql+psycopg2://invisible_flow@localhost:5432/invisible_flow_testing'
 
 
 def setup_db(_app: Flask) -> SQLAlchemy:

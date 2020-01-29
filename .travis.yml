@@ -6,6 +6,8 @@ cache:
 - directories:
   - "$HOME/.npm"
 - pip
+services:
+  - postgresql
 jobs:
   include:
   - stage: test
@@ -13,6 +15,9 @@ jobs:
     - pip install -r requirements.txt
     - cd frontend
     - npm ci && cd ..
+    before_script:
+      - psql -c "create user invisible_flow;"
+      - psql -c "create database invisible_flow_testing with owner invisible_flow;"
     script:
     - flake8 .
     - mypy invisible_flow
