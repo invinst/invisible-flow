@@ -40,7 +40,7 @@ class Loader:
                 self.log_nos.append(log_no)
                 self.db_rows_added.append(current_allegation)
             else:
-                db_row_match_log_no = Allegation.query.filter_by(cr_id=log_no).all()[0]
+                db_row_match_log_no = Allegation.query.filter_by(cr_id=str(log_no)).all()[0]
                 had_partial_match = False
                 for column_name in Allegation.__table__.columns.keys():
                     if current_allegation[column_name] != db_row_match_log_no[column_name]:

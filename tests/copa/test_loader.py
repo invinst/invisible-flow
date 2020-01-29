@@ -24,6 +24,10 @@ class TestLoad:
             get_storage_mock.return_value = LocalStorage()
             yield get_storage_mock
 
+    @pytest.fixture(autouse=True)
+    def tear_down(self):
+        db.session.close()
+
     def test_load_augmented_rows_no_collisions_with_db(self):
         db.drop_all()
         db.create_all(bind=COPA_DB_BIND_KEY)

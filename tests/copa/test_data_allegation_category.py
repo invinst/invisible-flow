@@ -33,3 +33,4 @@ class TestAllegationCategory:
         get_db.session.add(cr)
         get_db.session.commit()
         assert len(AllegationCategory.query.all()) == 1
+        db.session.close()
