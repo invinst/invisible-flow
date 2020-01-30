@@ -8,6 +8,11 @@ cache:
 - pip
 services:
   - postgresql
+addons:
+  postgresql: '9.6'
+  apt:
+    packages:
+    - postgresql-9.6-postgis-2.3
 jobs:
   include:
   - stage: test
