@@ -76,3 +76,18 @@ Once onboard a team member will give download access, `json` file for testing pu
 If set up properly, hitting scrape should output 'success' message in browser.
 
 Note: JSON file has been added to the `.gitignore` as it **is not to be committed**, use naming convention as above
+
+### Postgres Database
+1. Install Postgres App and Postgres
+
+2. Run the following commands to create DB:
+    ```
+   psql -c "create user invisible_flow;"
+   psql -c "create database invisible_flow_testing with owner invisible_flow;"
+   
+    ```
+3. Connect to invisible_flow_testing and run following command:
+   ```
+   CREATE EXTENSION postgis;
+   ```
+Note: Sometimes after pulling most recent commits, you will need to recreate postgis extension
