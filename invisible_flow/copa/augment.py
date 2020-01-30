@@ -1,5 +1,5 @@
 import pandas as pd
-from invisible_flow.copa.data_allegation_category import AllegationCategory
+from invisible_flow.copa.data_allegation_category import DataAllegationCategory
 
 
 class Augment:
@@ -9,7 +9,7 @@ class Augment:
         categories = df.loc[:, 'current_category'].unique()
 
         category_code_map = pd.DataFrame(
-            AllegationCategory.query.with_entities(AllegationCategory.category, AllegationCategory.category_code)
+            DataAllegationCategory.query.with_entities(DataAllegationCategory.category, DataAllegationCategory.category_code)
         )
         if len(category_code_map) > 0:
             for category in categories:

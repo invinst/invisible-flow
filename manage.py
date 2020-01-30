@@ -12,6 +12,7 @@ job_db_filename = f'sqlite:///{job_db_file.name}'
 # copa_db_file = tempfile.NamedTemporaryFile(suffix='.db')
 # copa_db_filename = f'sqlite:///{copa_db_file.name}'
 
+copa_db_file = tempfile.NamedTemporaryFile(suffix='.db')
 copa_db_filename = 'postgresql+psycopg2://invisible_flow@localhost:5432/invisible_flow_testing'
 
 

@@ -1,16 +1,17 @@
 import pandas as pd
 
-from invisible_flow.copa.data_allegation import Allegation
+from invisible_flow.copa.data_allegation import DataAllegation
 from invisible_flow.globals_factory import GlobalsFactory
 from invisible_flow.storage.storage_factory import StorageFactory
 from manage import db
+from datetime import datetime
 
 
 class Loader:
 
     def __init__(self):
         self.log_nos = pd.DataFrame(
-            Allegation.query.with_entities(Allegation.cr_id)
+            DataAllegation.query.with_entities(DataAllegation.cr_id)
         ).values.flatten().tolist()
         self.partial_matches = []
         self.db_rows_added = []
@@ -29,20 +30,24 @@ class Loader:
         copa_column_names = ["cr_id", "beat_id", "incident_date"]
         for row in augmented_data.iterrows():
             log_no = row[1]["log_no"]
-            current_allegation = Allegation(
+            datetime_string = str(row[1]["complaint_date"]).replace('T', ' ')
+            datetime_object = datetime.strptime(datetime_string, '%Y-%m-%d %H: %M: %S.%f')
+
+            current_allegation = DataAllegation(
                 cr_id=str(log_no),
                 beat_id=str(row[1]["beat"]),
-                incident_date=str(row[1]["complaint_date"])
+                incident_date=datetime_object
             )
+
             if log_no not in self.log_nos:
                 db.session.add(current_allegation)
                 db.session.commit()
                 self.log_nos.append(log_no)
                 self.db_rows_added.append(current_allegation)
             else:
-                db_row_match_log_no = Allegation.query.filter_by(cr_id=str(log_no)).all()[0]
+                db_row_match_log_no = DataAllegation.query.filter_by(cr_id=str(log_no)).all()[0]
                 had_partial_match = False
-                for column_name in Allegation.__table__.columns.keys():
+                for column_name in DataAllegation.__table__.columns.keys():
                     if current_allegation[column_name] != db_row_match_log_no[column_name]:
                         had_partial_match = True
                         self.error_notes = self.error_notes.append(

@@ -39,6 +39,7 @@ Flask-Testing==0.7.1
 Flask-WTF==0.14.2
 funcsigs==1.0.0
 future==0.16.0
+GeoAlchemy2==0.6.3
 gitdb2==2.0.5
 GitPython==2.1.11
 google-api-core==1.13.0
