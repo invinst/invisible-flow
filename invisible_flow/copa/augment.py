@@ -9,7 +9,8 @@ class Augment:
         categories = df.loc[:, 'current_category'].unique()
 
         category_code_map = pd.DataFrame(
-            DataAllegationCategory.query.with_entities(DataAllegationCategory.category, DataAllegationCategory.category_code)
+            DataAllegationCategory.query.
+            with_entities(DataAllegationCategory.category, DataAllegationCategory.category_code)
         )
         if len(category_code_map) > 0:
             for category in categories:

@@ -4,7 +4,7 @@ import datetime
 from invisible_flow.constants import COPA_DB_BIND_KEY
 from invisible_flow.copa.data_allegation import DataAllegation
 from manage import db
-from geoalchemy2 import Geometry
+
 
 class TestDataAllegation:
 
@@ -29,7 +29,7 @@ class TestDataAllegation:
             is_officer_complaint=True,
             location='location',
             old_complaint_address='old_complaint_address',
-            subjects={"Bassil Abdelal","Richie Cole","Omar Young","Leevon Carter"},
+            subjects={"Bassil Abdelal", "Richie Cole", "Omar Young", "Leevon Carter"},
             point='0101000020E61000009FB3603DC9EA55C0138E6A227DD84440',
             created_at=datetime.datetime.utcnow(),
             updated_at=datetime.datetime.utcnow()

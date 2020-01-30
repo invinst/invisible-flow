@@ -11,7 +11,7 @@ class TestDataOfficerAllegation:
     @pytest.fixture(autouse=True)
     def get_db(self):
         db.session.close()
-        db.drop_all();
+        db.drop_all()
         db.create_all(bind=COPA_DB_BIND_KEY)
 
         yield db

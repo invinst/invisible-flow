@@ -1,17 +1,17 @@
 import pytest
-from datetime import datetime
 
 from invisible_flow.constants import COPA_DB_BIND_KEY
 from invisible_flow.copa.data_complainant import DataComplainant
 from manage import db
 import datetime
 
+
 class TestComplainant:
 
     @pytest.fixture(autouse=True)
     def get_db(self):
         db.session.close()
-        db.drop_all();
+        db.drop_all()
         db.create_all(bind=COPA_DB_BIND_KEY)
 
         yield db
