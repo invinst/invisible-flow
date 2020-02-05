@@ -8,6 +8,8 @@ from invisible_flow.globals_factory import GlobalsFactory
 from invisible_flow.storage.storage_factory import StorageFactory
 from invisible_flow.transformers.transformer_factory import TransformerFactory
 from invisible_flow.validation import is_valid_file_type
+from invisible_flow.api.copa_scrape import scrape_data
+from invisible_flow.transformers.copa_scrape_transformer import CopaScrapeTransformer
 
 # Logging configuration
 dictConfig({
@@ -46,7 +48,10 @@ def index(path):
 
 @app.route('/copa_scrape', methods=['GET'])
 def copa_scrape():
-    TransformerFactory.get_transformer('copa').transform('copa', None)
+
+    scraped_data = scrape_data()
+    [transformed_data, error_log] = CopaScrapeTransformer().transform(scraped_data)
+
     return Response(status=200, response='Success')
 
 

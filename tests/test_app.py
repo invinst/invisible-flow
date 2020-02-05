@@ -3,6 +3,7 @@ from io import BytesIO
 from unittest.mock import call, patch, MagicMock
 
 import pytest
+import pandas as pd
 from flask.testing import FlaskClient
 
 from invisible_flow.app import app
@@ -88,6 +89,7 @@ class TestInvisibleFlowApp:
             patch.object(CopaScrapeTransformer, 'transform') as transform_mock, \
                 patch.object(StorageFactory, 'get_storage'):
             get_transformer_mock.return_value = CopaScrapeTransformer()
+            transform_mock.return_value = [pd.DataFrame(), pd.DataFrame()]
 
             response = client.get('/copa_scrape', content_type='html/text')
 
