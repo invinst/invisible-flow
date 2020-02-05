@@ -1,27 +1,27 @@
 from invisible_flow.constants import COPA_DB_BIND_KEY
 from manage import db
 from geoalchemy2 import Geometry
+from datetime import datetime
 
 from sqlalchemy.dialects import postgresql
 
 
 class DataAllegation(db.Model):
     __bind_key__ = COPA_DB_BIND_KEY
-    id = db.Column(db.Integer, primary_key=True)
-    cr_id = db.Column(db.String(30), nullable=False)
-    summary = db.Column(db.Text, nullable=False)
-    add1 = db.Column(db.String(16), nullable=False)
-    add2 = db.Column(db.String(255), nullable=False)
+    cr_id = db.Column(db.String(30), nullable=False, primary_key=True)
+    summary = db.Column(db.Text, nullable=False, default='')
+    add1 = db.Column(db.String(16), nullable=False, default='')
+    add2 = db.Column(db.String(255), nullable=False, default='')
     beat_id = db.Column(db.Integer)
-    city = db.Column(db.String(255), nullable=False)
+    city = db.Column(db.String(255), nullable=False, default='')
     incident_date = db.Column(db.DateTime)
-    is_officer_complaint = db.Column(db.Boolean, nullable=False)
-    location = db.Column(db.String(64), nullable=False)
+    is_officer_complaint = db.Column(db.Boolean, nullable=False, default=False)
+    location = db.Column(db.String(64), nullable=False, default='')
     old_complaint_address = db.Column(db.String(255))
-    subjects = db.Column(postgresql.ARRAY(db.String), nullable=False)
+    subjects = db.Column(postgresql.ARRAY(db.String), nullable=False, default=[])
     point = db.Column(Geometry(geometry_type='POINT', srid=4326))
-    created_at = db.Column(db.DateTime, nullable=False)
-    updated_at = db.Column(db.DateTime, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     def __repr__(self):
         return f'<DataAllegation {self.id} ' \

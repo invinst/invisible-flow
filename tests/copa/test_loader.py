@@ -28,7 +28,6 @@ class TestLoad:
     def tear_down(self):
         db.session.close()
 
-    @pytest.mark.skip
     def test_load_augmented_rows_no_collisions_with_db(self):
         db.drop_all()
         db.create_all(bind=COPA_DB_BIND_KEY)
@@ -40,7 +39,6 @@ class TestLoad:
         assert len(loader.db_rows_added) == len(aug_copa_data)
         db.session.close()
 
-    @pytest.mark.skip
     def test_where_all_augmented_data_matches_db_data(self):
         db.drop_all()
         db.create_all(bind=COPA_DB_BIND_KEY)
@@ -53,7 +51,6 @@ class TestLoad:
         assert length_of_allegation == len(DataAllegation.query.all())
         db.session.close()
 
-    @pytest.mark.skip
     def test_where_augmented_data_is_partial_match(self, default_fixture):
         db.drop_all()
         db.create_all(bind=COPA_DB_BIND_KEY)
@@ -72,7 +69,6 @@ class TestLoad:
             store_string_mock.assert_has_calls(calls)
         db.session.close()
 
-    @pytest.mark.skip
     def test_where_augmented_data_collides_and_error_notes_created(self, default_fixture):
         db.drop_all()
         db.create_all(bind=COPA_DB_BIND_KEY)
