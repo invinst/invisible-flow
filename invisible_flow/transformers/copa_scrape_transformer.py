@@ -13,7 +13,7 @@ class CopaScrapeTransformer:
         self.initial_data = pd.read_csv(BytesIO(scraped_data), encoding='utf-8', sep=",", dtype=str)
 
         crid = self.transform_logno_to_crid()
-        self.transformed_data.insert(0, "crid", crid)
+        self.transformed_data.insert(0, "cr_id", crid)
 
         return [self.transformed_data, self.error_log]
 

@@ -1,15 +1,10 @@
 import pandas as pd
 
 from invisible_flow.transformers.copa_scrape_transformer import CopaScrapeTransformer
+from tests.helpers.testing_data import transformed_data as expected_transformed_data
 
 
 scraped_data_csv = b'"log_no"\n"1008899"\n"1087378"\n"1087387"\n"1087308"\n"1008913"'
-
-expected_transformed_data = pd.DataFrame(
-    {
-        'crid': ["1008899", "1087378", "1087387", "1087308", "1008913"]
-    }
-)
 
 
 class TestCopaTransformer:

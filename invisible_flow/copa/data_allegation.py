@@ -24,8 +24,7 @@ class DataAllegation(db.Model):
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     def __repr__(self):
-        return f'<DataAllegation {self.id} ' \
-               f'cr_id: {self.cr_id}, ' \
+        return f'<cr_id: {self.cr_id}, ' \
                f'summary: {self.summary}, ' \
                f'add1: {self.add1}, ' \
                f'add2: {self.add2}, ' \
