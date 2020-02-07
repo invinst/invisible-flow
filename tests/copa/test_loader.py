@@ -5,6 +5,7 @@ from invisible_flow.constants import COPA_DB_BIND_KEY
 from tests.helpers.testing_data import transformed_data
 from invisible_flow.copa.loader import Loader
 from invisible_flow.copa.data_allegation import DataAllegation
+from invisible_flow.copa.data_allegation import insert_allegation_into_database
 
 
 class TestLoader:
@@ -24,6 +25,24 @@ class TestLoader:
         assert(queried_data[0].cr_id == transformed_data.cr_id[0])
         assert(queried_data[4].cr_id == transformed_data.cr_id[4])
 
+    def test_load_data_with_matches_into_database(self):
+        insert_allegation_into_database(DataAllegation(cr_id="1087378"))
+        insert_allegation_into_database(DataAllegation(cr_id="1087387"))
+
+        expected_matches = [transformed_data.iloc[1], transformed_data.iloc[2]]
+        expected_new_data = [transformed_data.iloc[0], transformed_data.iloc[3], transformed_data.iloc[4]]
+
+        testLoader = Loader()
+        testLoader.load_into_db(transformed_data)
+
+        matches = testLoader.get_matches()
+        assert(expected_matches[0].equals(matches[0]))
+        assert(expected_matches[1].equals(matches[1]))
+
+        new_data = testLoader.get_new_data()
+        assert(expected_new_data[0].equals(new_data[0]))
+        assert(expected_new_data[1].equals(new_data[1]))
+        assert(expected_new_data[2].equals(new_data[2]))
 # import os
 # from datetime import datetime
 # from unittest import mock

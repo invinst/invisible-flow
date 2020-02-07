@@ -10,6 +10,8 @@ class Loader:
         self.existing_crid = pd.DataFrame(
             DataAllegation.query.with_entities(DataAllegation.cr_id)
         ).values.flatten().tolist()
+        self.matches = []
+        self.new_data = []
 
     def load_into_db(self, transformed_data: pd.DataFrame):
 
@@ -18,9 +20,18 @@ class Loader:
             if row.cr_id not in self.existing_crid:
                 new_allegation = DataAllegation(cr_id=row.cr_id)
                 db.session.add(new_allegation)
+                self.new_data.append(transformed_data.iloc[row[0]])
+            else:
+                self.matches.append(transformed_data.iloc[row[0]])
 
         db.session.commit()
         db.session.close()
+
+    def get_matches(self):
+        return self.matches
+
+    def get_new_data(self):
+        return self.new_data
 
 # import pandas as pd
 #
