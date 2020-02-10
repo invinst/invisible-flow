@@ -4,6 +4,8 @@ from logging.config import dictConfig
 from flask import render_template, Response, Request
 
 from invisible_flow.app_factory import app
+from invisible_flow.copa.loader import Loader
+from invisible_flow.copa.saver import Saver
 from invisible_flow.globals_factory import GlobalsFactory
 from invisible_flow.storage.storage_factory import StorageFactory
 from invisible_flow.transformers.transformer_factory import TransformerFactory
@@ -51,6 +53,13 @@ def copa_scrape():
 
     scraped_data = scrape_data()
     [transformed_data, error_log] = CopaScrapeTransformer().transform(scraped_data)
+
+    loader = Loader()
+    loader.load_into_db(transformed_data)
+
+    saver = Saver()
+    saver.save_to_csv(loader.get_new_data(), "new_data.csv")
+    saver.save_to_csv(loader.get_matches(), "match_data.csv")
 
     return Response(status=200, response='Success')
 
