@@ -10,5 +10,7 @@ scraped_data_csv = b'"log_no"\n"1008899"\n"1087378"\n"1087387"\n"1087308"\n"1008
 class TestCopaTransformer:
 
     def test_copa_transform(self):
-        [transformed_data, transform_errors] = CopaScrapeTransformer().transform(scraped_data_csv)
+        transformer = CopaScrapeTransformer()
+        transformer.transform(scraped_data_csv)
+        transformed_data = transformer.get_transformed_data()
         pd.testing.assert_frame_equal(transformed_data, expected_transformed_data)

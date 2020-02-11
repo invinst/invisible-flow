@@ -52,7 +52,10 @@ def index(path):
 def copa_scrape():
 
     scraped_data = scrape_data()
-    [transformed_data, error_log] = CopaScrapeTransformer().transform(scraped_data)
+
+    transformer = CopaScrapeTransformer()
+    transformer.transform(scraped_data)
+    transformed_data = transformer.get_transformed_data()
 
     loader = Loader()
     loader.load_into_db(transformed_data)

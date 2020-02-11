@@ -1,9 +1,9 @@
 from invisible_flow.constants import COPA_DB_BIND_KEY
 from manage import db
-from geoalchemy2 import Geometry  # type: ignore (This library lacks mypy typing)
 from datetime import datetime
-
-from sqlalchemy.dialects import postgresql  # type: ignore (This library lacks mypy typing)
+# These libraries lack mypy typing
+from geoalchemy2 import Geometry  # type: ignore
+from sqlalchemy.dialects import postgresql  # type: ignore
 
 
 class DataAllegation(db.Model):

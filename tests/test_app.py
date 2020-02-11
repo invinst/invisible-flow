@@ -85,10 +85,8 @@ class TestInvisibleFlowApp:
         assert b'Unsupported' in response.data
 
     def test_copa_scrape_endpoint_responds(self, client):
-        with patch('invisible_flow.app.TransformerFactory.get_transformer') as get_transformer_mock, \
-            patch.object(CopaScrapeTransformer, 'transform') as transform_mock, \
+        with patch.object(CopaScrapeTransformer, 'transform') as transform_mock, \
                 patch.object(StorageFactory, 'get_storage'):
-            get_transformer_mock.return_value = CopaScrapeTransformer()
             transform_mock.return_value = [pd.DataFrame(), pd.DataFrame()]
 
             response = client.get('/copa_scrape', content_type='html/text')
