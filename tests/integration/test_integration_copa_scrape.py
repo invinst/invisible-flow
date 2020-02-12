@@ -67,3 +67,10 @@ class TestCopaSrapeIntegration:
 
             assert(entry_from_db is not None)
             assert(number_of_rows_in_db == 149)
+
+            local_upload_dir = LocalStorage().local_upload_directory
+
+            os.remove(os.path.join(local_upload_dir, "COPA_SCRAPE-2019-03-25_05-30-50", 'match_data.csv'))
+            os.remove(os.path.join(local_upload_dir, "COPA_SCRAPE-2019-03-25_05-30-50", 'new_data.csv'))
+
+            os.rmdir(os.path.join(local_upload_dir, "COPA_SCRAPE-2019-03-25_05-30-50"))
