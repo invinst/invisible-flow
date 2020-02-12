@@ -7,10 +7,11 @@ import pandas as pd
 from flask.testing import FlaskClient
 
 from invisible_flow.app import app
-from invisible_flow.constants import FOIA_RESPONSE_FIELD_NAME
+from invisible_flow.constants import FOIA_RESPONSE_FIELD_NAME, COPA_DB_BIND_KEY
 from invisible_flow.storage import LocalStorage
 from invisible_flow.storage.storage_factory import StorageFactory
 from invisible_flow.transformers import CaseInfoAllegationsTransformer, CopaScrapeTransformer
+from manage import db
 
 
 class TestInvisibleFlowApp:
@@ -89,8 +90,15 @@ class TestInvisibleFlowApp:
                 patch.object(StorageFactory, 'get_storage'):
             transform_mock.return_value = [pd.DataFrame(), pd.DataFrame()]
 
+            db.session.close()
+            db.drop_all()
+            db.create_all(bind=COPA_DB_BIND_KEY)
+
             response = client.get('/copa_scrape', content_type='html/text')
 
             assert response.status_code == 200
             assert b'Success' in response.data
             transform_mock.assert_called()
+
+            db.drop_all()
+            db.session.close()
