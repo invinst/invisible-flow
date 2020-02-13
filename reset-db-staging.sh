@@ -3,7 +3,6 @@ ECHO -- Preparing to clean database --
 partA="postgresql-"
 partB=$(heroku pg:info --app invisiflow-staging | grep postgresql | cut -d "-" -f 3)
 partC=$(heroku pg:info --app invisiflow-staging | grep postgresql | cut -d "-" -f 4)
-# echo "$partA$partB-$partC"
 
 ECHO "DELETE FROM data_allegation;" | heroku pg:psql $partA$partB-$partC --app invisiflow-staging
 
