@@ -12,11 +12,27 @@ class MockResponse:
         self.content = content
 
 
-def mocked_requests_get(**kwargs):
-    return MockResponse({"key1": "value1"}, 200, "bubbles")
+def mocked_rows_requests_get_failure(**kwargs):
+    return MockResponse({"key1": "value1"}, 404, "rows failure")
 
 
 def mocked_requests_get_failure(**kwargs):
+    if kwargs['url'] == "https://data.cityofchicago.org/resource/mft5-nfa8.csv?$query=SELECT%20count(log_no)":
+        content = "count_log_no\n2000"
+        return MockResponse({}, 200, content.encode('utf-8'))
+
+    return MockResponse({"key1": "value1"}, 404, "bubbles failure")
+
+
+def mocked_requests_get(**kwargs):
+    if kwargs['url'] == "https://data.cityofchicago.org/resource/mft5-nfa8.csv?$select=log_no":
+        return MockResponse({"key1": "value1"}, 200, "bubbles")
+    elif kwargs['url'] == "https://data.cityofchicago.org/resource/mft5-nfa8.csv?$query=SELECT%20count(log_no)":
+        content = "count_log_no\n2000"
+        return MockResponse({}, 200, content.encode('utf-8'))
+    elif kwargs['url'] == "https://data.cityofchicago.org/resource/mft5-nfa8.csv?$query=SELECT%20log_no%20LIMIT%202000":
+        return MockResponse({"key1": "value1"}, 200, "bubbles")
+
     return MockResponse({"key1": "value1"}, 404, "bubbles failure")
 
 
@@ -28,5 +44,11 @@ def test_copa_scrape(self):
 
 @mock.patch('requests.get', side_effect=mocked_requests_get_failure)
 def test_copa_scrape_with_errors(self):
+    with pytest.raises(ConnectionError):
+        scrape_data()
+
+
+@mock.patch('requests.get', side_effect=mocked_rows_requests_get_failure)
+def test_copa_scrape_with_count_errors(self):
     with pytest.raises(ConnectionError):
         scrape_data()
