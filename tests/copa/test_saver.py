@@ -40,6 +40,7 @@ class TestSaver:
             test_saver = Saver()
             test_saver.save_to_csv(get_data, "filename")
 
+            expected_file_contents = b"cr_id\n1008899\n1087378\n1087387\n1087308\n1008913\n"
             store_byte_string_mock.assert_called_with("filename",
-                                                      b"cr_id\n1008899\n1087378\n1087387\n1087308\n1008913\n",
+                                                      expected_file_contents,
                                                       f"COPA_SCRAPE-2019-03-25_05-30-50")
