@@ -5,11 +5,12 @@ from invisible_flow.constants import SCRAPE_URL
 
 
 def scrape_data():
+    base_query = ".csv?$query=SELECT%20log_no,beat"
     if os.environ.get("ENVIRONMENT") == 'local' or os.environ.get('ENVIRONMENT') == 'travis':
         num_rows = get_num_rows().replace("\"", "")
-        url = SCRAPE_URL + ".csv?$query=SELECT%20log_no%20LIMIT%20" + num_rows
+        url = SCRAPE_URL + base_query + "%20LIMIT%20" + num_rows
     else:
-        url = SCRAPE_URL + ".csv?$select=log_no"
+        url = SCRAPE_URL + base_query
 
     response = requests.get(url=url)
     if response.status_code == 200:
