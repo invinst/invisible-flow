@@ -84,10 +84,14 @@ Note: JSON file has been added to the `.gitignore` as it **is not to be committe
     ```
    psql -c "create user invisible_flow;"
    psql -c "create database invisible_flow_testing with owner invisible_flow;"
-   
     ```
 3. Connect to invisible_flow_testing and run following command:
    ```
    CREATE EXTENSION postgis;
    ```
-Note: Sometimes after pulling most recent commits, you will need to recreate postgis extension
+    Note: Sometimes after pulling most recent commits, you will need to recreate postgis extension
+
+1. To load the beat information into the data_area table, connect to the database and run
+    ```
+   \copy data_area from '/path/to/project/cpdp_beats.sql';
+    ```
