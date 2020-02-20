@@ -16,8 +16,7 @@ class CopaScrapeTransformer:
         self.transformed_data.insert(0, "cr_id", crid)
 
     def transform_logno_to_crid(self):
-        transformed_logno = self.initial_data["log_no"].transform(lambda logno: logno)
-        return transformed_logno
+        return self.initial_data["log_no"]
 
     def get_transformed_data(self):
         return self.transformed_data
