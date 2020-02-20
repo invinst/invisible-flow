@@ -6,6 +6,7 @@ from tests.helpers.testing_data import transformed_data
 from invisible_flow.copa.loader import Loader
 from invisible_flow.copa.data_allegation import DataAllegation
 from invisible_flow.copa.data_allegation import insert_allegation_into_database
+import timeit
 
 
 class TestLoader:
@@ -43,3 +44,34 @@ class TestLoader:
         assert(expected_new_data[0].equals(new_data[0]))
         assert(expected_new_data[1].equals(new_data[1]))
         assert(expected_new_data[2].equals(new_data[2]))
+
+    def setup_db_with_mock_data_rows(self):
+        for crid in range(10000):
+            new_allegation = DataAllegation(cr_id=crid)
+            db.session.add(new_allegation)
+        db.session.commit()
+        db.session.close()
+
+    def test_benchmark_new_loading_strategy(self):
+        self.setup_db_with_mock_data_rows()
+
+        mysetup = '''
+from invisible_flow.copa.data_allegation import DataAllegation
+from invisible_flow.copa.data_allegation import insert_allegation_into_database
+from invisible_flow.copa.loader import Loader
+from tests.helpers.testing_data import transformed_data
+insert_allegation_into_database(DataAllegation(cr_id="1087378"))
+insert_allegation_into_database(DataAllegation(cr_id="1087387"))
+        '''
+
+        mycode = '''
+testLoader = Loader()
+testLoader.load_into_db(transformed_data)
+        '''
+        print("----------------Benchmark for new loading strategy:")
+        print(timeit.timeit(setup=mysetup, stmt=mycode, number=1000))
+
+        db.session.query(DataAllegation).delete()
+        # Clean up mock data rows
+
+        assert(False)
