@@ -22,6 +22,13 @@ class TestCopaSrapeIntegration:
 
         yield logno
 
+    @pytest.fixture
+    def get_copa_data_demographics(self):
+        copa_scraped_log_no_path = os.path.join(IFTestBase.resource_directory, 'copa_scraped_demographics.csv')
+        copa_data = open(copa_scraped_log_no_path, 'rb').read()
+
+        yield copa_data
+
     def initialize_database(self, db):
 
         log_number_from_csv = ["1008899", "1087378", "1008915", "1009311", "1009355"]
@@ -35,11 +42,11 @@ class TestCopaSrapeIntegration:
         db.session.commit()
 
     @patch('invisible_flow.app.GlobalsFactory.get_current_datetime_utc', lambda: datetime(2019, 3, 25, 5, 30, 50, 0))
-    def test_copa_scrape_integration(self, get_copa_data):
+    def test_copa_scrape_integration(self, get_copa_data_demographics):
         with patch.object(StorageFactory, 'get_storage') as storage_mock, \
                 patch('invisible_flow.app.scrape_data') as scrape_mock:
 
-            scrape_mock.return_value = get_copa_data
+            scrape_mock.return_value = get_copa_data_demographics
 
             storage_mock.return_value = LocalStorage()
 
