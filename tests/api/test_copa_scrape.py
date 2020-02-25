@@ -13,7 +13,8 @@ class MockResponse:
 
 
 base_url = "https://data.cityofchicago.org/resource/mft5-nfa8.csv?$"
-base_query = base_url + "query=SELECT%20log_no,beat"
+base_query = base_url + "query=SELECT%20log_no,beat,race_of_involved_officers,sex_of_involved_officers,"\
+                       + "age_of_involved_officers,years_on_force_of_officers"
 count_query = base_url + "query=SELECT%20count(log_no)"
 
 
