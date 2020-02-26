@@ -1,6 +1,6 @@
 from invisible_flow.constants import COPA_DB_BIND_KEY
 from manage import db
-
+from datetime import datetime
 
 class DataOfficerAllegation(db.Model):
     __bind_key__ = COPA_DB_BIND_KEY
@@ -17,8 +17,8 @@ class DataOfficerAllegation(db.Model):
     final_outcome = db.Column(db.String(32), nullable=False)
     final_outcome_class = db.Column(db.String(20), nullable=False)
     disciplined = db.Column(db.Boolean)
-    created_at = db.Column(db.DateTime, nullable=False)
-    updated_at = db.Column(db.DateTime, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     def __repr__(self):
         return f'<OfficerAllegation {self.id} ' \
