@@ -3,6 +3,8 @@ from datetime import datetime
 # These libraries lack mypy typing
 from geoalchemy2 import Geometry  # type: ignore
 from sqlalchemy.dialects import postgresql  # type: ignore
+
+from invisible_flow.copa.data_area import DataArea
 from manage import db
 
 
@@ -16,7 +18,7 @@ class DataAllegation(db.Model):
     summary = db.Column(db.Text, nullable=False, default='')
     add1 = db.Column(db.String(16), nullable=False, default='')
     add2 = db.Column(db.String(255), nullable=False, default='')
-    beat_id = db.Column(db.Integer, db.ForeignKey("data_area.id"))
+    beat_id = db.Column(db.Integer, db.ForeignKey(DataArea.id))
     beat_name = db.Column(db.String(255), nullable=False, default='')
     city = db.Column(db.String(255), nullable=False, default='')
     incident_date = db.Column(db.DateTime)
@@ -55,6 +57,6 @@ class DataAllegation(db.Model):
         return self.__getattribute__(index)
 
 
-# def insert_allegation_into_database(record: DataAllegation):
-#     db.session.add(record)
-#     db.session.commit()
+def insert_allegation_into_database(record: DataAllegation):
+    db.session.add(record)
+    db.session.commit()
