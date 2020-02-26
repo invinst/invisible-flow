@@ -15,10 +15,11 @@ class Loader:
     def load_into_db(self, transformed_data: pd.DataFrame):
 
         for row in transformed_data.itertuples():
-
             new_allegation = DataAllegation(cr_id=row.cr_id)
             db.session.add(new_allegation)
             try:
+                db.session.commit()
+                self.load_officer_allegation_rows_into_db(row.number_of_officer_rows, row.cr_id)
                 db.session.commit()
             except IntegrityError:
                 self.existing_crids.append(transformed_data.iloc[row[0]])
@@ -35,6 +36,7 @@ class Loader:
                 recc_finding="NA",
                 recc_outcome="NA",
                 final_finding="NA",
+                final_outcome="NA",
                 final_outcome_class="NA",
             )
             db.session.add(new_officer_allegation)
