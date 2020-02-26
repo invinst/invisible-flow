@@ -21,6 +21,7 @@ class Loader:
             if row.cr_id not in self.existing_crid:
                 new_allegation = DataAllegation(cr_id=row.cr_id)
                 db.session.add(new_allegation)
+                self.load_officer_allegation_rows_into_db(row.number_of_officer_rows, row.cr_id)
                 self.new_data.append(transformed_data.iloc[row[0]])
             else:
                 self.matches.append(transformed_data.iloc[row[0]])
@@ -35,6 +36,7 @@ class Loader:
                 recc_finding="NA",
                 recc_outcome="NA",
                 final_finding="NA",
+                final_outcome="NA",
                 final_outcome_class="NA",
             )
             db.session.add(new_officer_allegation)
