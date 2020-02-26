@@ -3,11 +3,8 @@ import os
 import pandas as pd
 from pandas.util.testing import assert_frame_equal
 
-from invisible_flow.constants import COPA_DB_BIND_KEY
 from invisible_flow.copa.augment import Augment
 from tests.helpers.if_test_base import IFTestBase
-
-from manage import db
 
 
 class TestAugment:
@@ -47,8 +44,8 @@ class TestAugment:
     def test_adding_augmented_copa_record_to_db_no_category_matches(self):
         copa_split_csv = os.path.join(IFTestBase.resource_directory, 'copa_scraped_split.csv')
         df = pd.read_csv(copa_split_csv)
-        db.drop_all()
-        db.create_all(bind=COPA_DB_BIND_KEY)
+        # db.drop_all()
+        # db.create_all(bind=COPA_DB_BIND_KEY)
 
         augmented = Augment().get_augmented_copa_data(copa_split_csv)
         assert_frame_equal(augmented, df)
@@ -58,7 +55,7 @@ class TestAugment:
         # using test file that is not actual copa that has been  cleaned/transformed
         copa_csv_file = os.path.join(IFTestBase.resource_directory, 'copa_scraped_split.csv')
         original_dataframe = pd.read_csv(copa_csv_file)
-        db.create_all(bind=COPA_DB_BIND_KEY)
+        # db.create_all(bind=COPA_DB_BIND_KEY)
 
         log_no_column = original_dataframe.loc[:, 'log_no'].unique()
         categories_column = original_dataframe.loc[:, 'current_category'].unique()

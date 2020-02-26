@@ -1,16 +1,16 @@
+import os
 from datetime import datetime
+from unittest.mock import patch
 
 import pytest
-import os
 
 from invisible_flow.app import copa_scrape
 from invisible_flow.copa.data_allegation import DataAllegation
+from invisible_flow.copa.data_officer_allegation import DataOfficerAllegation
 from invisible_flow.storage import LocalStorage
 from invisible_flow.storage.storage_factory import StorageFactory
-from tests.helpers.if_test_base import IFTestBase
-from unittest.mock import patch
 from manage import db
-from invisible_flow.constants import COPA_DB_BIND_KEY
+from tests.helpers.if_test_base import IFTestBase
 
 
 class TestCopaSrapeIntegration:
@@ -44,8 +44,6 @@ class TestCopaSrapeIntegration:
             storage_mock.return_value = LocalStorage()
 
             db.session.close()
-            db.drop_all()
-            db.create_all(COPA_DB_BIND_KEY)
 
             self.initialize_database(db)
 
@@ -67,6 +65,11 @@ class TestCopaSrapeIntegration:
 
             assert(entry_from_db is not None)
             assert(number_of_rows_in_db == 149)
+
+            db.session.query(DataAllegation).delete()
+            db.session.query(DataOfficerAllegation).delete()
+            db.session.commit()
+            db.session.close()
 
             local_upload_dir = LocalStorage().local_upload_directory
 

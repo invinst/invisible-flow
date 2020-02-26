@@ -1,11 +1,11 @@
 import pytest
 
-from manage import db
-from invisible_flow.constants import COPA_DB_BIND_KEY
-from tests.helpers.testing_data import transformed_data
-from invisible_flow.copa.loader import Loader
 from invisible_flow.copa.data_allegation import DataAllegation
 from invisible_flow.copa.data_allegation import insert_allegation_into_database
+from invisible_flow.copa.data_officer_allegation import DataOfficerAllegation
+from invisible_flow.copa.loader import Loader
+from manage import db
+from tests.helpers.testing_data import transformed_data
 
 
 class TestLoader:
@@ -13,8 +13,11 @@ class TestLoader:
     @pytest.fixture(autouse=True)
     def set_up(self):
         db.session.close()
-        db.drop_all()
-        db.create_all(bind=COPA_DB_BIND_KEY)
+        yield db
+        db.session.query(DataAllegation).delete()
+        db.session.query(DataOfficerAllegation).delete()
+        db.session.commit()
+        db.session.close()
 
     def test_load_data_into_empty_database(self):
 

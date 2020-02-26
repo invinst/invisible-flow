@@ -1,5 +1,6 @@
-import pytest
 import datetime
+
+import pytest
 
 from invisible_flow.constants import COPA_DB_BIND_KEY
 from invisible_flow.copa.data_allegation_category import DataAllegationCategory
@@ -11,10 +12,12 @@ class TestDataAllegationCategory:
     @pytest.fixture(autouse=True)
     def get_db(self):
         db.session.close()
-        db.drop_all()
-        db.create_all(bind=COPA_DB_BIND_KEY)
-
+        DataAllegationCategory.__table__.drop(db.get_engine(bind=COPA_DB_BIND_KEY))
+        DataAllegationCategory.__table__.create(db.get_engine(bind=COPA_DB_BIND_KEY))
         yield db
+        DataAllegationCategory.__table__.drop(db.get_engine(bind=COPA_DB_BIND_KEY))
+        DataAllegationCategory.__table__.create(db.get_engine(bind=COPA_DB_BIND_KEY))
+        db.session.close()
 
     def get_data_allegation_category(self):
         return DataAllegationCategory(

@@ -1,14 +1,9 @@
-import pytest
 import datetime
 
-from pytest_flask_sqlalchemy.fixtures import db_session
+import pytest
 
 from invisible_flow.constants import COPA_DB_BIND_KEY
 from invisible_flow.copa.data_allegation import DataAllegation
-from invisible_flow.copa.data_allegation_category import DataAllegationCategory
-from invisible_flow.copa.data_area import DataArea
-from invisible_flow.copa.data_complainant import DataComplainant
-from invisible_flow.copa.data_officer_allegation import DataOfficerAllegation
 from manage import db
 
 
@@ -16,14 +11,12 @@ class TestDataAllegation:
 
     @pytest.fixture(autouse=True)
     def get_db(self):
-        db.session.close()
-        db.drop_all()
-        db.create_all(bind=COPA_DB_BIND_KEY)
-        data_area_1 = DataArea(id=250, name='2213', area_type='beat', tags={})
-        db.session.add(data_area_1)
-        db.session.commit()
-
+        DataAllegation.__table__.drop(db.get_engine(bind=COPA_DB_BIND_KEY))
+        DataAllegation.__table__.create(db.get_engine(bind=COPA_DB_BIND_KEY))
         yield db
+        DataAllegation.__table__.drop(db.get_engine(bind=COPA_DB_BIND_KEY))
+        DataAllegation.__table__.create(db.get_engine(bind=COPA_DB_BIND_KEY))
+        db.session.close()
         # db.session.close()
         # db.metadata.drop_all(bind=db.get_engine(), tables=[
         #     DataAllegation.__table__,
@@ -40,7 +33,6 @@ class TestDataAllegation:
         # db.drop_all(tables=[DataAllegation.__table__, DataOfficerAllegation.__table__, DataComplainant.__table__])
         # User.__table__.drop()
         # db.create_all(tables=[DataAllegation.__table__, DataOfficerAllegation.__table__, DataComplainant.__table__])
-
 
     def get_data_allegation(self):
         return DataAllegation(
@@ -70,3 +62,4 @@ class TestDataAllegation:
         get_db.session.add(cr)
         get_db.session.commit()
         assert len(DataAllegation.query.all()) == 1
+        get_db.session.close()

@@ -11,10 +11,12 @@ class TestComplainant:
     @pytest.fixture(autouse=True)
     def get_db(self):
         db.session.close()
-        db.drop_all()
-        db.create_all(bind=COPA_DB_BIND_KEY)
-
+        DataComplainant.__table__.drop(db.get_engine(bind=COPA_DB_BIND_KEY))
+        DataComplainant.__table__.create(db.get_engine(bind=COPA_DB_BIND_KEY))
         yield db
+        DataComplainant.__table__.drop(db.get_engine(bind=COPA_DB_BIND_KEY))
+        DataComplainant.__table__.create(db.get_engine(bind=COPA_DB_BIND_KEY))
+        db.session.close()
 
     def get_data_complainant(self):
         return DataComplainant(
