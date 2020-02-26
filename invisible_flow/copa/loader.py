@@ -1,6 +1,7 @@
 import pandas as pd
 from sqlalchemy.exc import IntegrityError
 
+from invisible_flow.copa.data_officer_allegation import DataOfficerAllegation
 from manage import db
 from invisible_flow.copa.data_allegation import DataAllegation
 
@@ -26,6 +27,19 @@ class Loader:
                 self.new_data.append(transformed_data.iloc[row[0]])
 
         db.session.close()
+
+    def load_officer_allegation_rows_into_db(self, number_of_rows: int, cr_id: str):
+        for row_index in range(0, number_of_rows):
+            new_officer_allegation = DataOfficerAllegation(
+                allegation_id=cr_id,
+                recc_finding="NA",
+                recc_outcome="NA",
+                final_finding="NA",
+                final_outcome_class="NA",
+            )
+            db.session.add(new_officer_allegation)
+
+
 
     def get_matches(self):
         return self.existing_crids
