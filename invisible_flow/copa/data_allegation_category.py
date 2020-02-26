@@ -4,6 +4,7 @@ from manage import db
 
 class DataAllegationCategory(db.Model):
     __bind_key__ = COPA_DB_BIND_KEY
+    __tablename__ = 'data_allegation_category'
     id = db.Column(db.Integer, primary_key=True)
     category = db.Column(db.String(255), nullable=False)
     category_code = db.Column(db.String(255), nullable=False)
@@ -25,6 +26,6 @@ class DataAllegationCategory(db.Model):
                f'>'
 
 
-def insert_data_allegation_category_record_into_database(record: DataAllegationCategory):
-    db.session.add(record)
-    db.session.commit()
+# def insert_data_allegation_category_record_into_database(record: DataAllegationCategory):
+#     db.session.add(record)
+#     db.session.commit()

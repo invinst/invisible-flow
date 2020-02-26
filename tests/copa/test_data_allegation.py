@@ -1,8 +1,14 @@
 import pytest
 import datetime
 
+from pytest_flask_sqlalchemy.fixtures import db_session
+
 from invisible_flow.constants import COPA_DB_BIND_KEY
 from invisible_flow.copa.data_allegation import DataAllegation
+from invisible_flow.copa.data_allegation_category import DataAllegationCategory
+from invisible_flow.copa.data_area import DataArea
+from invisible_flow.copa.data_complainant import DataComplainant
+from invisible_flow.copa.data_officer_allegation import DataOfficerAllegation
 from manage import db
 
 
@@ -13,8 +19,28 @@ class TestDataAllegation:
         db.session.close()
         db.drop_all()
         db.create_all(bind=COPA_DB_BIND_KEY)
+        data_area_1 = DataArea(id=250, name='2213', area_type='beat', tags={})
+        db.session.add(data_area_1)
+        db.session.commit()
 
         yield db
+        # db.session.close()
+        # db.metadata.drop_all(bind=db.get_engine(), tables=[
+        #     DataAllegation.__table__,
+        #     DataOfficerAllegation.__table__,
+        #     DataComplainant.__table__
+        #
+        # ])
+
+        # db.metadata.create_all(bind=db.get_engine(), tables=[
+        #     DataAllegation.__table__,
+        #     DataOfficerAllegation.__table__,
+        #     DataComplainant.__table__
+        # ])
+        # db.drop_all(tables=[DataAllegation.__table__, DataOfficerAllegation.__table__, DataComplainant.__table__])
+        # User.__table__.drop()
+        # db.create_all(tables=[DataAllegation.__table__, DataOfficerAllegation.__table__, DataComplainant.__table__])
+
 
     def get_data_allegation(self):
         return DataAllegation(
@@ -22,7 +48,6 @@ class TestDataAllegation:
             summary='summary',
             add1='add1',
             add2='add2',
-            beat_id=1,
             city='city',
             incident_date=datetime.datetime.utcnow(),
             is_officer_complaint=True,
@@ -32,7 +57,7 @@ class TestDataAllegation:
             point='0101000020E61000009FB3603DC9EA55C0138E6A227DD84440',
             created_at=datetime.datetime.utcnow(),
             updated_at=datetime.datetime.utcnow()
-        )
+        ).set_beat_name('2213')
 
     def test_create_data_allegation(self):
         try:

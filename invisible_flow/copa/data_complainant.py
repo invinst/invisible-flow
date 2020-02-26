@@ -4,6 +4,7 @@ from manage import db
 
 class DataComplainant(db.Model):
     __bind_key__ = COPA_DB_BIND_KEY
+    __tablename__ = 'data_complainant'
     id = db.Column(db.Integer, primary_key=True)
     gender = db.Column(db.String(1), nullable=False)
     race = db.Column(db.String(50), nullable=False)
@@ -25,6 +26,6 @@ class DataComplainant(db.Model):
                f'>'
 
 
-def insert_officer_allegation_into_database(record: DataComplainant):
-    db.session.add(record)
-    db.session.commit()
+# def insert_officer_allegation_into_database(record: DataComplainant):
+#     db.session.add(record)
+#     db.session.commit()

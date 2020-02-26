@@ -4,6 +4,7 @@ from manage import db
 
 class DataOfficerAllegation(db.Model):
     __bind_key__ = COPA_DB_BIND_KEY
+    __tablename__ = 'data_officer_allegation'
     id = db.Column(db.Integer, primary_key=True)
     allegation_id = db.Column(db.String(30))
     allegation_category_id = db.Column(db.Integer)
@@ -38,6 +39,6 @@ class DataOfficerAllegation(db.Model):
                f'>'
 
 
-def insert_officer_allegation_into_database(record: DataOfficerAllegation):
-    db.session.add(record)
-    db.session.commit()
+# def insert_officer_allegation_into_database(record: DataOfficerAllegation):
+#     db.session.add(record)
+#     db.session.commit()
