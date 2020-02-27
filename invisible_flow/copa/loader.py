@@ -1,7 +1,12 @@
+import numpy as np
 import pandas as pd
+from psycopg2.extensions import register_adapter, AsIs
 
 from manage import db
 from invisible_flow.copa.data_allegation import DataAllegation
+
+# register_adapter(np.int64, AsIs)
+register_adapter(np.int32, AsIs)
 
 
 class Loader:
@@ -18,7 +23,8 @@ class Loader:
         for row in transformed_data.itertuples():
 
             if row.cr_id not in self.existing_crid:
-                new_allegation = DataAllegation(cr_id=row.cr_id)
+                new_allegation = DataAllegation(cr_id=row.cr_id,
+                                                beat_id=(None if np.isnan(row.beat_id) else row.beat_id))
                 db.session.add(new_allegation)
                 self.new_data.append(transformed_data.iloc[row[0]])
             else:

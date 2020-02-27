@@ -12,6 +12,9 @@ class TestLoader:
 
     @pytest.fixture(autouse=True)
     def set_up(self):
+        db.session.query(DataAllegation).delete()
+        db.session.query(DataOfficerAllegation).delete()
+        db.session.commit()
         db.session.close()
         yield db
         db.session.query(DataAllegation).delete()
@@ -26,6 +29,7 @@ class TestLoader:
 
         assert(len(queried_data) == len(transformed_data))
         assert(queried_data[0].cr_id == transformed_data.cr_id[0])
+        assert(queried_data[0].beat_id == transformed_data.beat_id[0])
         assert(queried_data[4].cr_id == transformed_data.cr_id[4])
 
     def test_load_data_with_matches_into_database(self):
@@ -35,14 +39,15 @@ class TestLoader:
         expected_matches = [transformed_data.iloc[1], transformed_data.iloc[2]]
         expected_new_data = [transformed_data.iloc[0], transformed_data.iloc[3], transformed_data.iloc[4]]
 
-        testLoader = Loader()
-        testLoader.load_into_db(transformed_data)
+        test_loader = Loader()
+        test_loader.load_into_db(transformed_data)
 
-        matches = testLoader.get_matches()
+        matches = test_loader.get_matches()
         assert(expected_matches[0].equals(matches[0]))
         assert(expected_matches[1].equals(matches[1]))
 
-        new_data = testLoader.get_new_data()
+        new_data = test_loader.get_new_data()
+        assert(len(expected_new_data) == 3)
         assert(expected_new_data[0].equals(new_data[0]))
         assert(expected_new_data[1].equals(new_data[1]))
         assert(expected_new_data[2].equals(new_data[2]))

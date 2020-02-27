@@ -41,7 +41,7 @@ class CopaScrapeTransformer:
                 return ""
 
         transformed_beat = self.initial_data["beat"]\
-            .transform(lambda beat: beat_name_table.get(zero_pad(beat))).astype('Int64')
+            .transform(lambda beat: beat_name_table.get(zero_pad(beat))).astype('Int32')
         return transformed_beat
 
     def get_transformed_data(self):

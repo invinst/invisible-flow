@@ -9,9 +9,6 @@ from manage import db
 
 
 class DataAllegation(db.Model):
-    # def __init__(self, **kwargs):
-    #     self.beat_name = kwargs.get('beat_name', '')
-
     __bind_key__ = COPA_DB_BIND_KEY
     __tablename__ = 'data_allegation'
     cr_id = db.Column(db.String(30), nullable=False, primary_key=True)
@@ -19,7 +16,6 @@ class DataAllegation(db.Model):
     add1 = db.Column(db.String(16), nullable=False, default='')
     add2 = db.Column(db.String(255), nullable=False, default='')
     beat_id = db.Column(db.Integer, db.ForeignKey(DataArea.id))
-    beat_name = db.Column(db.String(255), nullable=False, default='')
     city = db.Column(db.String(255), nullable=False, default='')
     incident_date = db.Column(db.DateTime)
     is_officer_complaint = db.Column(db.Boolean, nullable=False, default=False)
@@ -29,10 +25,6 @@ class DataAllegation(db.Model):
     point = db.Column(Geometry(geometry_type='POINT', srid=4326))
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-
-    def set_beat_name(self, beat_name):
-        self.beat_name = beat_name
-        return self
 
     def __repr__(self):
         return f'<cr_id: {self.cr_id}, ' \

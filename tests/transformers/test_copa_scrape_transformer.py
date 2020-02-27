@@ -8,7 +8,7 @@ scraped_data_csv = b'"log_no","beat"\n' \
                    b'"1087378","511"\n' \
                    b'"1087387","332"\n' \
                    b'"1087308","1712"\n' \
-                   b'"1008913","2512|933"'
+                   b'"1008913","2512 | 933"'
 
 
 class TestCopaTransformer:

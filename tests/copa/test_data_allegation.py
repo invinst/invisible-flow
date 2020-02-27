@@ -49,7 +49,7 @@ class TestDataAllegation:
             point='0101000020E61000009FB3603DC9EA55C0138E6A227DD84440',
             created_at=datetime.datetime.utcnow(),
             updated_at=datetime.datetime.utcnow()
-        ).set_beat_name('2213')
+        )
 
     def test_create_data_allegation(self):
         try:
