@@ -1,6 +1,8 @@
 import pandas as pd
 from io import BytesIO
 
+import re
+
 from invisible_flow.copa.data_area import DataArea
 
 
@@ -34,11 +36,12 @@ class CopaScrapeTransformer:
             elif len(beat) == 3:
                 return "0" + beat
             elif len(beat) > 4 and "|" in beat:
-                return zero_pad(beat.split("|")[0])
+                return zero_pad(re.split(r'\D+', beat)[0])
             else:
                 return ""
 
-        transformed_beat = self.initial_data["beat"].transform(lambda beat: beat_name_table.get(zero_pad(beat)))
+        transformed_beat = self.initial_data["beat"]\
+            .transform(lambda beat: beat_name_table.get(zero_pad(beat))).astype('Int64')
         return transformed_beat
 
     def get_transformed_data(self):

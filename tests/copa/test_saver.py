@@ -22,7 +22,6 @@ class TestSaver:
     def test_save_empty_list_to_csv(self):
         with patch.object(StorageFactory, 'get_storage') as storage_mock, \
                 patch.object(LocalStorage, 'store_byte_string') as store_byte_string_mock:
-
             storage_mock.return_value = LocalStorage()
 
             test_saver = Saver()

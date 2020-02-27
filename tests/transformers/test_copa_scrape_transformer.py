@@ -3,7 +3,6 @@ import pandas as pd
 from invisible_flow.transformers.copa_scrape_transformer import CopaScrapeTransformer
 from tests.helpers.testing_data import transformed_data as expected_transformed_data
 
-
 scraped_data_csv = b'"log_no","beat"\n' \
                    b'"1008899","433"\n' \
                    b'"1087378","511"\n' \

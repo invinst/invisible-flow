@@ -1,11 +1,11 @@
-from sqlalchemy.orm import relationship
-
-from invisible_flow.constants import COPA_DB_BIND_KEY
-from manage import db
 from datetime import datetime
+
 # These libraries lack mypy typing
 from geoalchemy2 import Geometry  # type: ignore
 from sqlalchemy.dialects import postgresql  # type: ignore
+
+from invisible_flow.constants import COPA_DB_BIND_KEY
+from manage import db
 
 
 class DataArea(db.Model):
@@ -23,7 +23,7 @@ class DataArea(db.Model):
     police_hq_id = db.Column(db.Integer)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    allegation_beat = relationship('DataAllegation', primaryjoin='DataArea.id==DataAllegation.beat_id')
+    # allegation_beat = relationship('DataAllegation', primaryjoin='DataArea.id==DataAllegation.beat_id')
 
     def __repr__(self):
         return f'<id: {self.id}, ' \
