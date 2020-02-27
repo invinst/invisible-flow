@@ -17,4 +17,4 @@ psql invisible_flow_testing -U invisible_flow -c "CREATE TABLE data_area (
     created_at timestamp with time zone not null,
     updated_at timestamp with time zone not null
 );"
-psql invisible_flow_testing -U invisible_flow -c "\copy data_area from $HOME/Documents/InvisibleFlow/cpdp_beats.sql;"
+psql invisible_flow_testing -U invisible_flow -c "\copy data_area from $HOME/cpdp_beats.sql;"
