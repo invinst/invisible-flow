@@ -1,6 +1,7 @@
-import numpy as np
 import pandas as pd
-from psycopg2.extensions import register_adapter, AsIs
+# These libraries lack mypy typing
+import numpy as np  # type: ignore
+from psycopg2.extensions import register_adapter, AsIs  # type: ignore
 
 from manage import db
 from invisible_flow.copa.data_allegation import DataAllegation
