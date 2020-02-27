@@ -1,7 +1,7 @@
-import pandas as pd
+import re
 from io import BytesIO
 
-import re
+import pandas as pd
 
 from invisible_flow.copa.data_area import DataArea
 

@@ -5,7 +5,6 @@ from psycopg2.extensions import register_adapter, AsIs
 from manage import db
 from invisible_flow.copa.data_allegation import DataAllegation
 
-# register_adapter(np.int64, AsIs)
 register_adapter(np.int32, AsIs)
 
 

@@ -39,6 +39,6 @@ class DataOfficerAllegation(db.Model):
                f'>'
 
 
-# def insert_officer_allegation_into_database(record: DataOfficerAllegation):
-#     db.session.add(record)
-#     db.session.commit()
+def insert_complainant_into_database(record: DataOfficerAllegation):
+    db.session.add(record)
+    db.session.commit()

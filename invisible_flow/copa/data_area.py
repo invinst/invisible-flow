@@ -23,6 +23,7 @@ class DataArea(db.Model):
     police_hq_id = db.Column(db.Integer)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    # Defining this relationship causes errors when DataArea is imported but DataAllegation is not:
     # allegation_beat = relationship('DataAllegation', primaryjoin='DataArea.id==DataAllegation.beat_id')
 
     def __repr__(self):

@@ -24,8 +24,3 @@ class DataAllegationCategory(db.Model):
                f'created_at: {self.created_at}, ' \
                f'updated_at: {self.updated_at}, ' \
                f'>'
-
-
-# def insert_data_allegation_category_record_into_database(record: DataAllegationCategory):
-#     db.session.add(record)
-#     db.session.commit()
