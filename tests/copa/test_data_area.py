@@ -27,5 +27,3 @@ class TestDataArea:
             self.get_data_area()
         except Exception:
             pytest.fail('this should not have thrown an exception')
-
-# Should test querying for data_area?

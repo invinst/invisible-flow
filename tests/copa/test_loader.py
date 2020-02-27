@@ -2,6 +2,7 @@ import pytest
 
 from invisible_flow.copa.data_allegation import DataAllegation
 from invisible_flow.copa.data_allegation import insert_allegation_into_database
+from invisible_flow.copa.data_complainant import DataComplainant
 from invisible_flow.copa.data_officer_allegation import DataOfficerAllegation
 from invisible_flow.copa.loader import Loader
 from manage import db
@@ -14,12 +15,9 @@ class TestLoader:
     def set_up(self):
         db.session.query(DataAllegation).delete()
         db.session.query(DataOfficerAllegation).delete()
+        db.session.query(DataComplainant).delete()
         db.session.commit()
-        db.session.close()
         yield db
-        db.session.query(DataAllegation).delete()
-        db.session.query(DataOfficerAllegation).delete()
-        db.session.commit()
         db.session.close()
 
     def test_load_data_into_empty_database(self):

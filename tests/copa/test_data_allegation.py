@@ -2,7 +2,6 @@ import datetime
 
 import pytest
 
-from invisible_flow.constants import COPA_DB_BIND_KEY
 from invisible_flow.copa.data_allegation import DataAllegation
 from manage import db
 
@@ -11,28 +10,10 @@ class TestDataAllegation:
 
     @pytest.fixture(autouse=True)
     def get_db(self):
-        DataAllegation.__table__.drop(db.get_engine(bind=COPA_DB_BIND_KEY))
-        DataAllegation.__table__.create(db.get_engine(bind=COPA_DB_BIND_KEY))
+        db.session.query(DataAllegation).delete()
+        db.session.commit()
         yield db
-        DataAllegation.__table__.drop(db.get_engine(bind=COPA_DB_BIND_KEY))
-        DataAllegation.__table__.create(db.get_engine(bind=COPA_DB_BIND_KEY))
         db.session.close()
-        # db.session.close()
-        # db.metadata.drop_all(bind=db.get_engine(), tables=[
-        #     DataAllegation.__table__,
-        #     DataOfficerAllegation.__table__,
-        #     DataComplainant.__table__
-        #
-        # ])
-
-        # db.metadata.create_all(bind=db.get_engine(), tables=[
-        #     DataAllegation.__table__,
-        #     DataOfficerAllegation.__table__,
-        #     DataComplainant.__table__
-        # ])
-        # db.drop_all(tables=[DataAllegation.__table__, DataOfficerAllegation.__table__, DataComplainant.__table__])
-        # User.__table__.drop()
-        # db.create_all(tables=[DataAllegation.__table__, DataOfficerAllegation.__table__, DataComplainant.__table__])
 
     def get_data_allegation(self):
         return DataAllegation(

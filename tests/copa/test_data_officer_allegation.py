@@ -1,7 +1,7 @@
-import pytest
 import datetime
 
-from invisible_flow.constants import COPA_DB_BIND_KEY
+import pytest
+
 from invisible_flow.copa.data_officer_allegation import DataOfficerAllegation
 from manage import db
 
@@ -10,12 +10,9 @@ class TestDataOfficerAllegation:
 
     @pytest.fixture(autouse=True)
     def get_db(self):
-        db.session.close()
-        DataOfficerAllegation.__table__.drop(db.get_engine(bind=COPA_DB_BIND_KEY))
-        DataOfficerAllegation.__table__.create(db.get_engine(bind=COPA_DB_BIND_KEY))
+        db.session.query(DataOfficerAllegation).delete()
+        db.session.commit()
         yield db
-        DataOfficerAllegation.__table__.drop(db.get_engine(bind=COPA_DB_BIND_KEY))
-        DataOfficerAllegation.__table__.create(db.get_engine(bind=COPA_DB_BIND_KEY))
         db.session.close()
 
     def get_data_officer_allegation(self):
