@@ -4,7 +4,12 @@ from invisible_flow.transformers.copa_scrape_transformer import CopaScrapeTransf
 from tests.helpers.testing_data import transformed_data as expected_transformed_data
 
 
-scraped_data_csv = b'"log_no"\n"1008899"\n"1087378"\n"1087387"\n"1087308"\n"1008913"'
+scraped_data_csv = b'"log_no","beat"\n' \
+                   b'"1008899","433"\n' \
+                   b'"1087378","511"\n' \
+                   b'"1087387","332"\n' \
+                   b'"1087308","1712"\n' \
+                   b'"1008913","2512|933"'
 
 
 class TestCopaTransformer:

@@ -23,9 +23,7 @@ class DataArea(db.Model):
     police_hq_id = db.Column(db.Integer)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    allegation_beat = relationship('DataAllegation',
-                                   primaryjoin='and_(DataArea.id==DataAllegation.beat_id, '
-                                               'DataArea.name==DataAllegation.beat_name)')
+    allegation_beat = relationship('DataAllegation', primaryjoin='DataArea.id==DataAllegation.beat_id')
 
     def __repr__(self):
         return f'<id: {self.id}, ' \

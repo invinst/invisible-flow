@@ -23,6 +23,10 @@ class TestCopaSrapeIntegration:
         yield logno
 
     def initialize_database(self, db):
+        db.session.query(DataAllegation).delete()
+        db.session.query(DataOfficerAllegation).delete()
+        db.session.commit()
+        db.session.close()
 
         log_number_from_csv = ["1008899", "1087378", "1008915", "1009311", "1009355"]
 
