@@ -14,6 +14,8 @@ job_db_filename = f'sqlite:///{job_db_file.name}'
 copa_db_filename: Optional[str] = ''
 if os.environ.get("ENVIRONMENT") == 'local' or os.environ.get('ENVIRONMENT') == 'travis':
     copa_db_filename = 'postgres+psycopg2://invisible_flow@localhost:5432/invisible_flow_testing'
+elif os.environ.get("ENVIRONMENT") == 'docker':
+    copa_db_filename = 'postgres+psycopg2://invisible_flow_testing@localhost:5432/invisible_flow_testing'
 elif os.environ.get('ENVIRONMENT') == 'heroku':
     heroku_db_url = str(os.environ.get('DATABASE_URL'))
     split_heroku_db_url = heroku_db_url.split(':', 1)

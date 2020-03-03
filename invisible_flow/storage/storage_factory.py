@@ -9,7 +9,7 @@ class StorageFactory:
 
     @staticmethod
     def get_storage() -> StorageBase:
-        if os.environ.get('ENVIRONMENT') == 'local':
+        if os.environ.get("ENVIRONMENT") == 'local' or os.environ.get('ENVIRONMENT') == 'docker':
             return LocalStorage()
         elif os.environ.get('ENVIRONMENT') == 'gae':
             gcs_client = storage.Client()
