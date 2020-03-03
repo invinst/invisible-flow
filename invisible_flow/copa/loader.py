@@ -27,19 +27,6 @@ class Loader:
 
         db.session.close()
 
-    def original_load_strategy(self, transformed_data: pd.DataFrame):
-        self.existing_crid = pd.DataFrame(DataAllegation.query.with_entities(DataAllegation.cr_id)).values.flatten().tolist()
-
-        for row in transformed_data.itertuples():
-            if row.cr_id not in self.existing_crid:
-               new_allegation = DataAllegation(cr_id=row.cr_id)
-               db.session.add(new_allegation)
-               self.new_data.append(transformed_data.iloc[row[0]])
-            else:
-                self.matches.append(transformed_data.iloc[row[0]])
-
-        db.session.close()
-
     def get_matches(self):
         return self.matches
 
