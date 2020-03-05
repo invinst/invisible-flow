@@ -8,7 +8,7 @@ from invisible_flow.copa.data_allegation import DataAllegation
 class Loader:
 
     def __init__(self):
-        self.matches = []
+        self.existing_crids = []
         self.new_data = []
 
     def load_into_db(self, transformed_data: pd.DataFrame):
@@ -20,7 +20,7 @@ class Loader:
             try:
                 db.session.commit()
             except IntegrityError:
-                self.matches.append(transformed_data.iloc[row[0]])
+                self.existing_crids.append(transformed_data.iloc[row[0]])
                 db.session.rollback()
             else:
                 self.new_data.append(transformed_data.iloc[row[0]])
@@ -28,7 +28,7 @@ class Loader:
         db.session.close()
 
     def get_matches(self):
-        return self.matches
+        return self.existing_crids
 
     def get_new_data(self):
         return self.new_data
