@@ -1,7 +1,6 @@
 import pandas as pd
 
 from invisible_flow.transformers.copa_scrape_transformer import CopaScrapeTransformer
-from tests.helpers.testing_data import transformed_data as expected_transformed_data
 from tests.helpers.testing_data import transformed_data_with_rows as expected_transformed_data_with_rows
 
 
@@ -18,4 +17,3 @@ class TestCopaTransformer:
         transformer.transform(scraped_data_csv_with_demographics)
         transformed_data = transformer.get_transformed_data()
         pd.testing.assert_frame_equal(transformed_data, expected_transformed_data_with_rows)
-

@@ -1,7 +1,6 @@
 import pytest
 from datetime import datetime
 from unittest.mock import patch
-
 from invisible_flow.copa.saver import Saver
 from invisible_flow.storage import LocalStorage
 from invisible_flow.storage.storage_factory import StorageFactory
@@ -15,7 +14,6 @@ class TestSaver:
         data = []
         for row in transformed_data.itertuples():
             data.append(transformed_data.iloc[row[0]])
-
         yield data
 
     @patch('invisible_flow.app.GlobalsFactory.get_current_datetime_utc', lambda: datetime(2019, 3, 25, 5, 30, 50, 0))

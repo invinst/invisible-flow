@@ -2,6 +2,7 @@ from invisible_flow.constants import COPA_DB_BIND_KEY
 from manage import db
 from datetime import datetime
 
+
 class DataOfficerAllegation(db.Model):
     __bind_key__ = COPA_DB_BIND_KEY
     id = db.Column(db.Integer, primary_key=True)
