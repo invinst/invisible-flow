@@ -21,10 +21,11 @@ class Loader:
             if row.cr_id not in self.existing_crid:
                 new_allegation = DataAllegation(cr_id=row.cr_id)
                 db.session.add(new_allegation)
+
                 self.load_officer_allegation_rows_into_db(row.number_of_officer_rows, row.cr_id)
-                self.new_data.append(transformed_data.iloc[row[0]])
+                self.new_data.append(pd.Series(transformed_data.iloc[row[0]][0]))
             else:
-                self.matches.append(transformed_data.iloc[row[0]])
+                self.matches.append(pd.Series(transformed_data.iloc[row[0]][0]))
 
         db.session.commit()
         db.session.close()
@@ -40,8 +41,6 @@ class Loader:
                 final_outcome_class="NA",
             )
             db.session.add(new_officer_allegation)
-
-
 
     def get_matches(self):
         return self.matches
