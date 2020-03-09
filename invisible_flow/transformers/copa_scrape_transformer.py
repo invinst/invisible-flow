@@ -24,7 +24,8 @@ class CopaScrapeTransformer:
         return transformed_logno
 
     def __transform_officer_demographics_to_number_of_rows(self):
-        number_of_rows = self.initial_data["sex_of_involved_officers"].transform(lambda sex: 0 if pd.isnull(sex) else len(sex.split('|')))
+        number_of_rows = self.initial_data["sex_of_involved_officers"].\
+            transform(lambda sex: 0 if pd.isnull(sex) else len(sex.split('|')))
 
         return number_of_rows
 

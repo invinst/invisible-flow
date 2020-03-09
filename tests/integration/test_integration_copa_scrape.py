@@ -73,7 +73,7 @@ class TestCopaSrapeIntegration:
             assert(match_data_file_contents == expected_match_data_file_contents)
 
             assert(entry_from_db is not None)
-            assert(number_of_rows_in_db == 149)
+            assert(number_of_rows_in_db == 150)
 
             local_upload_dir = LocalStorage().local_upload_directory
 
