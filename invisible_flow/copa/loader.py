@@ -13,7 +13,6 @@ class Loader:
         self.new_data = []
 
     def load_into_db(self, transformed_data: pd.DataFrame):
-
         for row in transformed_data.itertuples():
             new_allegation = DataAllegation(cr_id=row.cr_id)
             db.session.add(new_allegation)
@@ -26,6 +25,7 @@ class Loader:
                 db.session.rollback()
             else:
                 self.new_data.append(pd.Series(transformed_data.iloc[row[0]][0]))
+
         db.session.close()
 
     def load_officer_allegation_rows_into_db(self, number_of_rows: int, cr_id: str):
