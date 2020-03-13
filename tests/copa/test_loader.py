@@ -1,5 +1,6 @@
 import pytest
 
+from invisible_flow.copa.data_officer_allegation import DataOfficerAllegation
 from manage import db
 from invisible_flow.constants import COPA_DB_BIND_KEY
 from tests.helpers.testing_data import transformed_data_with_rows
@@ -20,11 +21,17 @@ class TestLoader:
 
     def test_load_data_into_empty_database(self):
         Loader().load_into_db(transformed_data_with_rows)
-        queried_data = DataAllegation.query.all()
+        queried_allegation_data = DataAllegation.query.all()
 
-        assert (len(queried_data) == len(transformed_data_with_rows))
-        assert (queried_data[0].cr_id == transformed_data_with_rows.cr_id[0])
-        assert (queried_data[4].cr_id == transformed_data_with_rows.cr_id[4])
+        assert (len(queried_allegation_data) == len(transformed_data_with_rows))
+        assert (queried_allegation_data[0].cr_id == transformed_data_with_rows.cr_id[0])
+        assert (queried_allegation_data[4].cr_id == transformed_data_with_rows.cr_id[4])
+
+        queried_officer_data = DataOfficerAllegation.query.all()
+        assert (len(queried_officer_data) == transformed_data_with_rows['number_of_officer_rows'].sum())
+
+        fourth_cr_id = transformed_data_with_rows['cr_id'][2]
+        assert(queried_officer_data[3].allegation_id == fourth_cr_id)
 
     def test_load_data_with_matches_into_database(self):
         insert_allegation_into_database(DataAllegation(cr_id="1087378"))
