@@ -10,6 +10,14 @@ transformed_data = pd.DataFrame(
 transformed_data_with_rows = pd.DataFrame(
         {
             'cr_id': ["1008899", "1087378", "1087387", "1087308", "1008913"],
-            'number_of_officer_rows': [0, 0, 2, 0, 0]
+            'number_of_officer_rows': [1, 1, 2, 1, 1]
+        }
+    )
+
+
+transformed_data_no_officer = pd.DataFrame(
+        {
+            'cr_id': ["1008899"],
+            'number_of_officer_rows': [1]
         }
     )
