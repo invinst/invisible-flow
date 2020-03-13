@@ -24,9 +24,8 @@ class Loader:
                 self.existing_crids.append(pd.Series(transformed_data.iloc[row[0]][0]))
                 db.session.rollback()
             else:
-                self.new_data.append(pd.Series(transformed_data.iloc[row[0]][0]))
+                self.new_data.append(pd.Series(transformed_data.iloc[row[0]][0])
 
-        db.session.commit()
         db.session.close()
 
     def load_officer_allegation_rows_into_db(self, number_of_rows: int, cr_id: str):

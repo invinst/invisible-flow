@@ -52,6 +52,13 @@ class TestLoader:
 
         new_data = testLoader.get_new_data()
 
-        assert (expected_new_data[0].equals(new_data[0]))
-        assert (expected_new_data[1].equals(new_data[1]))
-        assert (expected_new_data[2].equals(new_data[2]))
+        assert(expected_new_data[0].equals(new_data[0]))
+        assert(expected_new_data[1].equals(new_data[1]))
+        assert(expected_new_data[2].equals(new_data[2]))
+
+    def setup_db_with_mock_data_rows(self):
+        for crid in range(10000):
+            new_allegation = DataAllegation(cr_id=crid)
+            db.session.add(new_allegation)
+        db.session.commit()
+        db.session.close()
