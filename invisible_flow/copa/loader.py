@@ -1,4 +1,5 @@
 import pandas as pd
+from sqlalchemy.exc import IntegrityError
 
 from invisible_flow.copa.data_officer_allegation import DataOfficerAllegation
 from manage import db
@@ -8,24 +9,22 @@ from invisible_flow.copa.data_allegation import DataAllegation
 class Loader:
 
     def __init__(self):
-        self.existing_crid = pd.DataFrame(
-            DataAllegation.query.with_entities(DataAllegation.cr_id)
-        ).values.flatten().tolist()
-        self.matches = []
+        self.existing_crids = []
         self.new_data = []
 
     def load_into_db(self, transformed_data: pd.DataFrame):
-
         for row in transformed_data.itertuples():
-
-            if row.cr_id not in self.existing_crid:
-                new_allegation = DataAllegation(cr_id=row.cr_id)
-                db.session.add(new_allegation)
-
+            new_allegation = DataAllegation(cr_id=row.cr_id)
+            db.session.add(new_allegation)
+            try:
+                db.session.commit()
                 self.load_officer_allegation_rows_into_db(row.number_of_officer_rows, row.cr_id)
-                self.new_data.append(pd.Series(transformed_data.iloc[row[0]][0]))
+                db.session.commit()
+            except IntegrityError:
+                self.existing_crids.append(pd.Series(transformed_data.iloc[row[0]][0]))
+                db.session.rollback()
             else:
-                self.matches.append(pd.Series(transformed_data.iloc[row[0]][0]))
+                self.new_data.append(pd.Series(transformed_data.iloc[row[0]][0]))
 
         db.session.commit()
         db.session.close()
@@ -43,7 +42,7 @@ class Loader:
             db.session.add(new_officer_allegation)
 
     def get_matches(self):
-        return self.matches
+        return self.existing_crids
 
     def get_new_data(self):
         return self.new_data
