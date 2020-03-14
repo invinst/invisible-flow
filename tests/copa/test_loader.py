@@ -55,6 +55,10 @@ class TestLoader:
         assert(expected_new_data[1].equals(new_data[1]))
         assert(expected_new_data[2].equals(new_data[2]))
 
+        queried_officer_data = DataOfficerAllegation.query.all()
+        testLoader.load_into_db(transformed_data_with_rows)
+        assert(len(queried_officer_data) == len(DataOfficerAllegation.query.all()))
+
     def setup_db_with_mock_data_rows(self):
         for crid in range(10000):
             new_allegation = DataAllegation(cr_id=crid)
