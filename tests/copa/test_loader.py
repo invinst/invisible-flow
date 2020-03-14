@@ -51,7 +51,6 @@ class TestLoader:
         assert (pd.Series(expected_matches[1][0]).equals(matches[1]))
 
         new_data = testLoader.get_new_data()
-<<<<<<< HEAD
         assert(expected_new_data[0].equals(new_data[0]))
         assert(expected_new_data[1].equals(new_data[1]))
         assert(expected_new_data[2].equals(new_data[2]))
@@ -62,9 +61,3 @@ class TestLoader:
             db.session.add(new_allegation)
         db.session.commit()
         db.session.close()
-=======
-
-        assert (expected_new_data[0].equals(new_data[0]))
-        assert (expected_new_data[1].equals(new_data[1]))
-        assert (expected_new_data[2].equals(new_data[2]))
->>>>>>> [#81][Kyle/Jovanka] Fix tests related to data officer allegations; story values as Series; replace missing value in test fixture
