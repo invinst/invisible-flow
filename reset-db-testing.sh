@@ -1,3 +1,4 @@
+# this is to help QA db
 ECHO -- Preparing to clean database --
 
 partA="postgresql-"
