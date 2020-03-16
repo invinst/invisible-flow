@@ -5,6 +5,7 @@ from datetime import datetime
 
 class DataOfficerAllegation(db.Model):
     __bind_key__ = COPA_DB_BIND_KEY
+    __tablename__ = 'data_officerallegation'
     id = db.Column(db.Integer, primary_key=True)
     allegation_id = db.Column(db.String(30))
     allegation_category_id = db.Column(db.Integer)
