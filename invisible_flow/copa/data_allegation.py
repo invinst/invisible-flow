@@ -9,9 +9,11 @@ from sqlalchemy.dialects import postgresql  # type: ignore
 class DataAllegation(db.Model):
     __bind_key__ = COPA_DB_BIND_KEY
     cr_id = db.Column(db.String(30), nullable=False, primary_key=True)
+    crid = db.Column(db.String(30))
     summary = db.Column(db.Text, nullable=False, default='')
     add1 = db.Column(db.String(16), nullable=False, default='')
     add2 = db.Column(db.String(255), nullable=False, default='')
+    source = db.Column(db.String(255), nullable=False, default='')
     beat_id = db.Column(db.Integer)
     city = db.Column(db.String(255), nullable=False, default='')
     incident_date = db.Column(db.DateTime)
