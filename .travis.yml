@@ -7,7 +7,7 @@ cache:
   - "$HOME/.npm"
 - pip
 services:
-  - postgresql
+- postgresql
 addons:
   postgresql: '9.6'
   apt:
@@ -21,10 +21,10 @@ jobs:
     - cd frontend
     - npm ci && cd ..
     before_script:
-      - psql -c "create user invisible_flow;"
-      - psql -c "create database invisible_flow_testing with owner invisible_flow;"
-      - psql invisible_flow_testing -c "CREATE EXTENSION postgis;"
-      - export ENVIRONMENT=travis
+    - psql -c "create user invisible_flow;"
+    - psql -c "create database invisible_flow_testing with owner invisible_flow;"
+    - psql invisible_flow_testing -c "CREATE EXTENSION postgis;"
+    - export ENVIRONMENT=travis
     script:
     - flake8 .
     - mypy invisible_flow
@@ -32,14 +32,13 @@ jobs:
     - python run-api-tests.py
     - cd frontend
     - npm run test && cd ..
-  # removed buildpack on Heroku; troubleshooting
   - stage: Heroku_deploy
     if: branch = master
     before_deploy: cd frontend && npm ci && npm run build && cd ..
     deploy:
       provider: heroku
       api_key:
-        secure: QbWwVT3L9osHvPlRF4alMEONziI0OPJAFSO8YpsB1moKQv19TBBLsZkwATOzaL4MNp/e6DybNmLIJX5NwmEljcdekATePiUzj1h8HmqNC4vcc7AUZtxBMdIA3jcKkfJIqvCPK5QYH6n7+9uhVXKUNvOZTTH9oGIUurUP+5aeOOJ5xcfKsQkkdGiPMgbLhIjRUApdHkSuFv+shrASSb/lN3SwcB598Dpg70btRQ/Xl8BaT6q/3kcP4eWJDufG8dQezattQBqUIHZD8heCuUzcangSOdoI/bHuOwM0qh+OgxirzXQ8Be32GnPnXRgG2t/8KQg3VyTvfJrHQbv7HeLMdV2R0L1UJGYKp+1ns/I5Kqw6UMQqdAgiy2Wwjc5u+X21gFuPD/Ve7bBXuBU7R5hMMbUVcJtb/v8QF+HlyCu+DEey4MBzJWjGFZh1a5ygNP4XlZbm5XYm+rjevA5ptEwc/LlrBKgkzwvO3+DA0qis8StZ2PPHJozKvpJRQobtzFzJoTBJLMtUzFlocr9toIbkK/lKvzW0ur2shXbj4hcxboi5bxo0UwJu+3YoR4tGP8s4PXo3j1KPcdtDXfqjOpGu2SJYYPS0/Z47deYlACsIIkrY7PDi0XtOMrwNQ3bH5YI9PFSy5YT/yEVxyg5ZysS9DB4E4RfpH+9d4p7eThaQCnk=
+        secure: LsoPKhseA4E6w44LK1YXsrBra7Pmbq2wI66H6q6zRm6nQwTB1YjMvseSGehNtI49tVRGsuOhLCjJjlzoA25j/BUzNqiv+FzvCFXog6nlJlmujE7I0mp7psFVyJerqPpDFAxBrUjVi1VWGjBsoYNNk+FwV83gqdnwp5ASTvx7FlYDHUErqQVHsdqS4OfA/eeuThFEzSO27X/O4p+M4O3BJ3zdj7towkAM7KO8Fcz/AgrvS0WTutPilE+ooO+3r8utqJflbGne/WzuJbuQd/9dmQ9hYcighJ/jLX3KJidOyIkeAhltQMvWD155DnSYkPWrHSKOwzuZcfzgQScWITzBWPeL5Q7N5BYqP7G9RD1fD4XVHtxgM/wEqJrm1XE0tcoEamv4lS96NVudI2UlyVE/9MPT/M9sQaom/fvd+Xx8ap0bMoMr8qnurGeYppRaDrnrfQmgLJfE5xiM6IZkW597M+G9eO6JxWSlAj4EKTVzWNqitV6wbieBmb6SGewweTvQIAPVtNZD/MQxcjr2BF3rJbe6HoJWZl3Ty5d/j3qkOMMGDZ/7iay4AAdyIDgvu84mtk+cr4Il6ntZzw/merV0vMjmeInVXg7Axtxp3aWG1FpRCjiV5e2hRlqxkLRag2HttCfCcwz2P7CwkUeGazJfEABiaXFI2o05g11pT060nWo=
       app: invisiflow-testing
       on:
         repo: invinst/invisible-flow
