@@ -37,7 +37,7 @@ RUN python3 -m venv venv && \
 
 USER root
 
-RUN useradd invisible_flow_testing; echo "invisible_flow_testing:password"|chpasswd; chmod +w .coverage
+RUN useradd invisible_flow_testing; echo "invisible_flow_testing:password"|chpasswd;
 
 USER postgres
 
