@@ -78,6 +78,7 @@ venv/
 ######################
 *.log
 *.sqlite
+dump.sql
 
 # Patches #
 ###########

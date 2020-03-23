@@ -14,7 +14,7 @@ class Loader:
 
     def load_into_db(self, transformed_data: pd.DataFrame):
         for row in transformed_data.itertuples():
-            new_allegation = DataAllegation(cr_id=row.cr_id)
+            new_allegation = DataAllegation(crid=row.cr_id, cr_id=row.cr_id)
             db.session.add(new_allegation)
             try:
                 db.session.commit()
