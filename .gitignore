@@ -110,3 +110,4 @@ htmlcov
 *.orig
 CHANGELOG.temp
 googleCred.json
+dump.sql
