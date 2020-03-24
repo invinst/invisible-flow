@@ -1,97 +1,108 @@
-[![Build Status](https://travis-ci.com/invinst/invisible-flow.svg?branch=master)](https://travis-ci.com/invinst/invisible-flow)
+#  Invisible Flow 
 
-## Goal: To be able to update a running database of police complaints managed by the Invisible Institute, based on the prior work at [the original repo](https://github.com/invinst/chicago-police-data)
+This project aids in the process of data entry and tracking for the Citizens Police Data Project (CPDP), an initiative of the Invisible Institute. The [CPDP](https://cpdp.co/) is an interactive data tool for holding police accountable to the public they serve.
+  
+This tool cleans and stores data that is scraped from the Civilian Office of Police Accountability ([COPA](https://www.chicagocopa.org/about-copa/mission-history/)) API, which houses all allegations against the Chicago Police Department.
 
-If you want to get started, feel free to pick up a story [the Rearchitecting Data Pipeline Project](https://github.com/invinst/invisible-flow/projects/1) RFP means Ready for pickup! Pick up stories that have this at the end.
 
-The stories are organized from top to bottom as dependencies. That is, if you see story A above story B, then story B depends on story A. When you see a __ mark that starts a new set of stories that are self contained. Further, any story tagged "can be done in parallel" can also be done out of order.
+## Local environment setup
+To set up this project on your local machine, please follow the rest of this document step by step.
 
-If you don't see anything to do but still want to do something, feel free to pick one of the later stories and use stubs to interact with dependencies.
+### Install docker
+##### Mac or Windows
+[Download Docker here](https://www.docker.com/products/docker). 
 
-Most of the background you need to complete these stories will be in the "definitions" card, but if you find yourself in need of more information here are some important links:
+**[ Note ]** Docker for Windows only supports Windows 10. If you have an earlier version of Windows you'll need to install  [docker toolbox](https://docs.docker.com/toolbox/toolbox_install_windows/)  instead.
+##### Linux
+On Linux, run  `apt-get install docker`. 
 
-- [Important links](https://docs.google.com/document/d/1fGi61CmjcWeY6xFlV0qHKrPLH4AqJkDkd70YWtOaQIg/edit?usp=sharing) including an overview of the current data pipeline
-- [Onboarding notes](https://docs.google.com/document/d/1QIxJwsO7xY1-SbfmNyFxXGcDqBtex4QeeDGfRtrTMHA/edit?usp=sharing)
+### Install PyCharm
+We recommend using PyCharm for your IDE. 
+[Download PyCharm](https://www.jetbrains.com/pycharm/download/#section=mac).
 
-### Software Requirements:
+### Frontend Setup
+Once you've cloned the repository, run the following from your local project folder:
+  
 
-2. Python 3.7+ 
-3. An IDE (like PyCharm)
+      cd frontend
+      npm install
+  
 
-## Local environment setup:
-Backend:
-1. Make sure python 3 is installed
-1. Activate the python virtual environment:
-    1. `python3 -m venv venv`
-    1. `source venv/bin/activate` 
-1. `pip3 install -r requirements.txt`
-1. `pre-commit install`
-1. Switch project interpreter to the venv in your IDE
-    - Pycharm instructions can be found [here](https://www.jetbrains.com/help/pycharm/creating-virtual-environment.html)
+Let **npm** do its thing. Once complete run:
 
-You can run the app one of two ways:
+      npm run build
 
-1. To run it locally with flask as the [wsgi](https://flask.palletsprojects.com/en/1.1.x/deploying/)
-```
-$ cd invisible_flow
-$ export FLASK_APP=app.py
-$ export ENVIRONMENT=local
-$ flask run
-```
-2. To run it the same way it's run on GAE, run `gunicorn -b :$PORT invisible_flow.app:app -c gunicorn.config.py`
+To make sure that the frontend built successfully, check the `frontend` directory for a new folder named `build` and note that it also updates the `node_modules` folder.
 
-Frontend:
-1. To run it locally
-```
-$ cd frontend
-$ npm start
-```
+### Add `dump.sql` to your root directory
+The presence of the `dump.sql` file in our project ensures that all contributors have the same schema imported into their database when building the app with docker. 
 
-### Running the tests
-Backend:
-* To run the tests execute `pytest tests`
-* arguments
-  * m [argument] - run tests with [argument] mark
-     * To run the tests with a certain test focused, mark the focused test with `@pytest.mark.focus`
-     * This uses the [pytest mark system](https://docs.pytest.org/en/latest/mark.html)
+ 1. Download the .sql file from this [Dropbox link](https://www.dropbox.com/s/riixbrze6apmcrn/cpdp-apr-5-2019.sql?dl=0).
+    
+ 2. Rename the file `dump.sql` 
+ 3. Add the file to your local project's root directory.
 
-Frontend:
+****[ Important! ]**** Before moving on, make sure that you've followed the instructions up until this point.
+
+### Build app with docker
+
+**[ Stop ]** If you haven't already added `dump.sql` to your root directory and set up your frontend, do so now by following instructions above.
+
+Once the above steps are complete, return to your project's root directory `invisible-flow` and run in your terminal:
+
+    docker build -t invisible_flow:latest .
+
+### Run app locally with docker
+This project outputs `.csv` files. In order to set this up: 
+
+ 1. Decide where you would like to store these files (it can be anywhere you choose). 
+ 2. Copy the absolute file path to this directory from your home directory (i.e, `~/Downloads`).
+
+The command to **run the app locally** is:
+
+    docker run -t -i -p5000:5000 -v <INSERT_PATH_TO_CSV_DOWNLOAD_LOCATION>:/app/invisible_flow/local_upload/ invisible_flow:latest
+
+Be sure to insert the file path copied above in Step 2 where it says `<INSERT_PATH_TO_CSV_DOWNLOAD_LOCATION>`. For example: 
+
+    docker run -t -i -p5000:5000 -v ~/Downloads:/app/invisible_flow/local_upload/ invisible_flow:latest
+
+
+#### Check if the app is running correctly
+ 1. When the app is running locally, open `http://0.0.0.0:5000/` in a browser to view. 
+ 2. Click **Initiate Scrape**. This should update the database with data from COPA and may take a few minutes to complete.
+ 3. After the scape finishes, check that the `invisible_flow_testing` database in the docker container was updated by doing the following:
+
+	
+	    docker ps
+    
+   Copy the `CONTAINER ID` from the output of that command (i.e., `274ff13bc055`) and run:
+    
+	    docker exec -it <INSERT_CONTAINER_ID> bash
+	
+Something like this will show up in your terminal: 
+
+	    postgres@274ff13bc055:/app$
+
+From there you can access the database running inside of the current docker container by entering: 
+	 
+		 psql invisible_flow_testing
+
+Try querying:
+		
+		SELECT * FROM data_officerallegation;
+If you see a populated table, you should be all set up!
+
+
+### Tests 
+##### Running Backend Tests:  
+* To run the tests execute `pytest tests`  arguments  
+	* m [argument] - run tests with [argument] mark  
+    * To run the tests with a certain test focused, mark the focused test with `@pytest.mark.focus`  
+ * This uses the [pytest mark system](https://docs.pytest.org/en/latest/mark.html)  
+  
+##### Running Frontend Tests:  
 * To run the tests execute `npm run test`
 
-### Google Cloud Bucket
-Note: only needed for testing initiating scrape
+### Help
 
-Once onboard a team member will give download access, `json` file for testing purposes
-1. rename JSON file to `googleCred.json` and place in root project directory
-2. run the following commands in the root directory:
-    ```
-    $ export GOOGLE_APPLICATION_CREDENTIALS={your path here}/googleCred.json
-    $ export GCS_BUCKET={bucket name here}
-    $ export FLASK_APP=app.py
-    $ export ENVIRONMENT=gae
-    $ flask run
-    ```
-3. Navigate to *localhost:5000*
-
-If set up properly, hitting scrape should output 'success' message in browser.
-
-Note: JSON file has been added to the `.gitignore` as it **is not to be committed**, use naming convention as above
-
-### Postgres Database
-1. Install Postgres App and Postgres
-
-2. Run the following commands to create DB:
-    ```
-   psql -c "create user invisible_flow;"
-   psql -c "create database invisible_flow_testing with owner invisible_flow;"
-    ```
-3. Connect to invisible_flow_testing and run following command:
-   ```
-   CREATE EXTENSION postgis;
-   ```
-    Note: Sometimes after pulling most recent commits, you will need to recreate postgis extension
-
-1. To load the beat information into the data_area table, connect to the database and run
-    ```
-   \copy data_area from '/path/to/project/cpdp_beats.sql';
-    ```
+ If you need help with anything, feel free to contact a team member.
