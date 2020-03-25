@@ -8,6 +8,7 @@ ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 ENV ENVIRONMENT=docker
 ENV FLASK_APP=app.py
+ENV FLASK_ENV=development
 
 RUN apt update -y && \
     apt-get install -y python-pip && \
@@ -17,7 +18,8 @@ RUN apt update -y && \
     apt-get install -y postgresql && \
     apt-get install -y python-psycopg2 && \
     apt-get install -y postgis && \
-    apt-get install -y libpq-dev
+    apt-get install -y libpq-dev && \
+    apt-get install -y vim
 
 COPY ./requirements.txt /app/requirements.txt
 
@@ -33,7 +35,7 @@ RUN python3 -m venv venv && \
     . venv/bin/activate && \
     /venv/bin/pre-commit install && \
     export FLASK_APP=app.py && \
-    export ENVIRONMENT=docker
+    export ENVIRONMENT=development
 
 USER root
 
