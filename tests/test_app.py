@@ -1,14 +1,14 @@
 from datetime import datetime
 from io import BytesIO
 from unittest.mock import call, patch, MagicMock
-
 import pytest
 import pandas as pd
 from flask.testing import FlaskClient
 
 from invisible_flow.app import app
-from invisible_flow.constants import FOIA_RESPONSE_FIELD_NAME, COPA_DB_BIND_KEY
+from invisible_flow.constants import FOIA_RESPONSE_FIELD_NAME, COPA_DB_BIND_KEY, DB_URL_LOCAL
 from invisible_flow.storage import LocalStorage
+import sqlalchemy
 from invisible_flow.storage.storage_factory import StorageFactory
 from invisible_flow.transformers import CaseInfoAllegationsTransformer, CopaScrapeTransformer
 from manage import db
@@ -91,7 +91,7 @@ class TestInvisibleFlowApp:
             transform_mock.return_value = [pd.DataFrame(), pd.DataFrame()]
 
             db.session.close()
-            db.drop_all()
+            sqlalchemy.sql.func.drop_database(DB_URL_LOCAL)
             db.create_all(bind=COPA_DB_BIND_KEY)
 
             response = client.get('/copa_scrape', content_type='html/text')
@@ -100,5 +100,6 @@ class TestInvisibleFlowApp:
             assert b'Success' in response.data
             transform_mock.assert_called()
 
-            db.drop_all()
-            db.session.close()
+            # db.drop_all()
+            # sqlalchemy.sql.func.drop_database(DB_URL_LOCAL)
+            # db.session.close()
