@@ -13,6 +13,9 @@ from invisible_flow.storage.storage_factory import StorageFactory
 from invisible_flow.transformers import CaseInfoAllegationsTransformer, CopaScrapeTransformer
 from manage import db
 
+from sqlalchemy.schema import DropTable
+from sqlalchemy.ext.compiler import compiles
+
 
 class TestInvisibleFlowApp:
 
@@ -90,8 +93,9 @@ class TestInvisibleFlowApp:
                 patch.object(StorageFactory, 'get_storage'):
             transform_mock.return_value = [pd.DataFrame(), pd.DataFrame()]
 
+         
             db.session.close()
-            db.drop_all()
+            self.drop_with_cascade()
             db.create_all(bind=COPA_DB_BIND_KEY)
 
             response = client.get('/copa_scrape', content_type='html/text')
@@ -100,5 +104,14 @@ class TestInvisibleFlowApp:
             assert b'Success' in response.data
             transform_mock.assert_called()
 
-            db.drop_all()
+            self.drop_with_cascade()
             db.session.close()
+
+    def drop_with_cascade(self):
+        for table_name in db.metadata.tables.keys(): 
+            DropTable(table_name)
+
+
+    @compiles(DropTable, "postgresql")
+    def _compile_drop_table(self, compiler, **kwargs):
+        return compiler.visit_drop_table(self) + " CASCADE"
