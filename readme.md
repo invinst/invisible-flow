@@ -60,20 +60,16 @@ This project outputs `.csv` files. In order to set this up:
 
 The command to **run the app locally** is:
 
-    docker run -t -i -p5000:5000 -v <INSERT_PATH_TO_CSV_DOWNLOAD_LOCATION>:/app/invisible_flow/local_upload/ invisible_flow:latest
-
-Be sure to insert the file path copied above in Step 2 where it says `<INSERT_PATH_TO_CSV_DOWNLOAD_LOCATION>`. For example: 
-
-    docker run -t -i -p5000:5000 -v ~/Downloads:/app/invisible_flow/local_upload/ invisible_flow:latest
+    docker run -t -i -p5000:5000  -v "$(pwd):/app/" invisible_flow:latest
 
 
 #### Check if the app is running correctly
- 1. When the app is running locally, open `http://0.0.0.0:5000/` in a browser to view. 
+ 1. When the app is running locally, open `http://0.0.0.0:5000/` in a browser to view.
  2. Click **Initiate Scrape**. This should update the database with data from COPA and may take a few minutes to complete.
  3. After the scape finishes, check that the `invisible_flow_testing` database in the docker container was updated by doing the following:
 
-	
-	    docker ps
+
+        docker ps
     
    Copy the `CONTAINER ID` from the output of that command (i.e., `274ff13bc055`) and run:
     
