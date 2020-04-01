@@ -91,11 +91,24 @@ If you see a populated table, you should be all set up!
 
 ### Tests 
 ##### Running Backend Tests:  
-* To run the tests execute `pytest tests`  arguments  
-	* m [argument] - run tests with [argument] mark  
-    * To run the tests with a certain test focused, mark the focused test with `@pytest.mark.focus`  
- * This uses the [pytest mark system](https://docs.pytest.org/en/latest/mark.html)  
+Backend tests should be run while the app is running locally. Open up a new terminal window and execute:
+
+    docker ps
+    
+Copy the `CONTAINER ID` from the output of that command (i.e., `274ff13bc055`) and run:
+    
+	docker exec -it <INSERT_CONTAINER_ID> bash
+	
+Something like this will show up in your terminal:
+
+    postgres@274ff13bc055:/app$  
+
+You can then run: 
+
+    pytest tests    
   
+To run the tests with a certain test focused, mark the focused test with `@pytest.mark.focus`
+
 ##### Running Frontend Tests:  
 * To run the tests execute `npm run test`
 
