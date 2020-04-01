@@ -92,8 +92,6 @@ class TestInvisibleFlowApp:
         with patch.object(CopaScrapeTransformer, 'transform') as transform_mock, \
                 patch.object(StorageFactory, 'get_storage'):
             transform_mock.return_value = [pd.DataFrame(), pd.DataFrame()]
-
-         
             db.session.close()
             self.drop_with_cascade()
             db.create_all(bind=COPA_DB_BIND_KEY)
@@ -108,9 +106,8 @@ class TestInvisibleFlowApp:
             db.session.close()
 
     def drop_with_cascade(self):
-        for table_name in db.metadata.tables.keys(): 
+        for table_name in db.metadata.tables.keys():
             DropTable(table_name)
-
 
     @compiles(DropTable, "postgresql")
     def _compile_drop_table(self, compiler, **kwargs):

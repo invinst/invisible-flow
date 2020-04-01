@@ -1,6 +1,5 @@
 import pytest
 import datetime
-import pdb
 from invisible_flow.constants import COPA_DB_BIND_KEY
 from invisible_flow.copa.data_officer_allegation import DataOfficerAllegation
 from manage import db
