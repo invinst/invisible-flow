@@ -14,7 +14,10 @@ class Loader:
 
     def load_into_db(self, transformed_data: pd.DataFrame):
         for row in transformed_data.itertuples():
-            new_allegation = DataAllegation(crid=row.cr_id, cr_id=row.cr_id)
+            if 'beat_id' in transformed_data.columns.values:
+                new_allegation = DataAllegation(crid=row.cr_id, cr_id=row.cr_id, beat_id=row.beat_id)
+            else:
+                new_allegation = DataAllegation(crid=row.cr_id, cr_id=row.cr_id)
             db.session.add(new_allegation)
             try:
                 db.session.commit()
@@ -25,7 +28,6 @@ class Loader:
                 db.session.rollback()
             else:
                 self.new_data.append(pd.Series(transformed_data.iloc[row[0]][0]))
-
         db.session.close()
 
     def load_officer_allegation_rows_into_db(self, number_of_rows: int, cr_id: str):

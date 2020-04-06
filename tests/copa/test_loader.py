@@ -3,7 +3,7 @@ import pytest
 from invisible_flow.copa.data_officer_allegation import DataOfficerAllegation
 from manage import db
 from invisible_flow.constants import COPA_DB_BIND_KEY
-from tests.helpers.testing_data import transformed_data_with_rows
+from tests.helpers.testing_data import transformed_data_with_rows, transformed_data_with_beat_id
 from tests.helpers.testing_data import transformed_data
 from invisible_flow.copa.loader import Loader
 from invisible_flow.copa.data_allegation import DataAllegation
@@ -65,3 +65,10 @@ class TestLoader:
             db.session.add(new_allegation)
         db.session.commit()
         db.session.close()
+
+    def test_load_data_with_beat_id(self):
+        testLoader = Loader()
+        testLoader.load_into_db(transformed_data_with_beat_id)
+
+        queried_data_allegation = DataAllegation.query.all()
+        assert(queried_data_allegation[0].beat_id == 111)
