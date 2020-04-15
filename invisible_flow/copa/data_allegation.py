@@ -27,6 +27,7 @@ class DataAllegation(db.Model):
 
     def __repr__(self):
         return f'<cr_id: {self.cr_id}, ' \
+               f'crid: {self.crid}, ' \
                f'summary: {self.summary}, ' \
                f'add1: {self.add1}, ' \
                f'add2: {self.add2}, ' \
