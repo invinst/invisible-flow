@@ -11,7 +11,7 @@ class Allegation:
     is_officer_complaint: bool
     location: str
     summary: str
-    cr_id: str
+    crid: str
 
     def __iter__(self):
         return iter([
@@ -23,7 +23,7 @@ class Allegation:
             self.is_officer_complaint,
             self.location,
             self.summary,
-            self.cr_id
+            self.crid
         ])
 
     def to_array(self):
@@ -36,5 +36,5 @@ class Allegation:
             self.is_officer_complaint,
             self.location,
             self.summary,
-            self.cr_id
+            self.crid
         ]

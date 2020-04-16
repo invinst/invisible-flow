@@ -5,4 +5,4 @@ from attr import dataclass
 class PoliceUnit:
     tags: str
     unit_name: str
-    cr_id: str
+    crid: str

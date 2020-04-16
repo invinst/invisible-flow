@@ -24,18 +24,18 @@ class TestLoader:
         queried_allegation_data = DataAllegation.query.all()
 
         assert (len(queried_allegation_data) == len(transformed_data_with_rows))
-        assert (queried_allegation_data[0].cr_id == transformed_data_with_rows.cr_id[0])
-        assert (queried_allegation_data[4].cr_id == transformed_data_with_rows.cr_id[4])
+        assert (queried_allegation_data[0].crid == transformed_data_with_rows.crid[0])
+        assert (queried_allegation_data[4].crid == transformed_data_with_rows.crid[4])
 
         queried_officer_data = DataOfficerAllegation.query.all()
         assert (len(queried_officer_data) == transformed_data_with_rows['number_of_officer_rows'].sum())
 
-        fourth_cr_id = transformed_data_with_rows['cr_id'][2]
-        assert(queried_officer_data[3].allegation_id == fourth_cr_id)
+        fourth_crid = transformed_data_with_rows['crid'][2]
+        assert(queried_officer_data[3].allegation_id == fourth_crid)
 
     def test_load_data_with_matches_into_database(self):
-        insert_allegation_into_database(DataAllegation(cr_id="1087378"))
-        insert_allegation_into_database(DataAllegation(cr_id="1087387"))
+        insert_allegation_into_database(DataAllegation(crid="1087378"))
+        insert_allegation_into_database(DataAllegation(crid="1087387"))
 
         expected_matches = [transformed_data_with_rows.iloc[1], transformed_data_with_rows.iloc[2]]
         expected_new_data = [pd.Series(transformed_data.iloc[0][0]),
@@ -61,7 +61,7 @@ class TestLoader:
 
     def setup_db_with_mock_data_rows(self):
         for crid in range(10000):
-            new_allegation = DataAllegation(cr_id=crid)
+            new_allegation = DataAllegation(crid=crid)
             db.session.add(new_allegation)
         db.session.commit()
         db.session.close()

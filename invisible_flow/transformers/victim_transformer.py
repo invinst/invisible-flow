@@ -28,7 +28,7 @@ class VictimTransformer(TransformerBase):
             .drop(columns=['COMPLAINT_DATE', 'IAD_OPS', 'PARTY_TYPE', 'PARTY_SUBTYPE', 'PARTY_INJURED',
                            'INJURY_CONDITION', 'INJURY_DESCRIPTION', 'SEX']) \
             .rename(columns={
-                'LOG_NO': 'cr_id',
+                'LOG_NO': 'crid',
                 'RACE': 'race',
                 'BIRTH_YEAR': 'birth_year'
             })

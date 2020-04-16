@@ -25,7 +25,7 @@ class TestAugment:
     #         db.session.add(AllegationCategory(
     #             category=categories[i],
     #             category_code=i,
-    #             cr_id='cats meow' + str(i)
+    #             crid='cats meow' + str(i)
     #         ))
     #         db.session.commit()
     #

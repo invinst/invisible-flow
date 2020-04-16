@@ -35,7 +35,7 @@ class TestCopaSrapeIntegration:
 
         for log_no in log_number_from_csv:
             data_allegation = DataAllegation(
-                cr_id=log_no
+                crid=log_no
             )
             db.session.add(data_allegation)
 

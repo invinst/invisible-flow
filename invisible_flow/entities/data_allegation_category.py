@@ -5,4 +5,4 @@ from attr import dataclass
 class AllegationCategory:
     category: str
     category_code: str
-    cr_id: str
+    crid: str

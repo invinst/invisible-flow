@@ -42,7 +42,7 @@ class AccusedTransformer(TransformerBase):
                 accused_df.loc[:, allegationcategory_columns].rename(columns={
                     allegationcategory_columns[0]: 'category',
                     allegationcategory_columns[1]: 'category_code',
-                    allegationcategory_columns[2]: 'cr_id'
+                    allegationcategory_columns[2]: 'crid'
                 }).to_csv(index=False)
             ), (
                 'data_officer',
@@ -54,21 +54,21 @@ class AccusedTransformer(TransformerBase):
                     officer_columns[4]: 'middle_initial',
                     officer_columns[5]: 'race',
                     officer_columns[6]: 'rank',
-                    officer_columns[7]: 'cr_id'
+                    officer_columns[7]: 'crid'
                 }).to_csv(index=False)
             ), (
                 'data_officerbadgenumber',
                 accused_df.loc[:, officerbadgenumber_columns].rename(columns={
                     officerbadgenumber_columns[0]: 'officer_id',
                     officerbadgenumber_columns[1]: 'star',
-                    officerbadgenumber_columns[2]: 'cr_id'
+                    officerbadgenumber_columns[2]: 'crid'
                 }).to_csv(index=False)
             ), (
                 'data_policeunit',
                 accused_df.loc[:, policeunit_columns].rename(columns={
                     policeunit_columns[0]: 'tags',
                     policeunit_columns[1]: 'unit_name',
-                    policeunit_columns[2]: 'cr_id'
+                    policeunit_columns[2]: 'crid'
                 }).to_csv(index=False)
             )
         ]

@@ -12,7 +12,7 @@ class TestAllegation:
             is_officer_complaint=True,
             location='',
             summary='',
-            cr_id='1053951'
+            crid='1053951'
         )
         allegation_array = allegation.to_array()
         expected_array = [

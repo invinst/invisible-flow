@@ -21,7 +21,7 @@ class ComplainantTransformer(TransformerBase):
         complainant_df_with_renamed_columns = complainant_df \
             .drop(columns=['COMPLAINT_DATE', 'IAD_OPS', 'PARTY_TYPE', 'PARTY_SUBTYPE']) \
             .rename(columns={
-                'LOG_NO': 'cr_id',
+                'LOG_NO': 'crid',
                 'RACE': 'race',
                 'SEX': 'gender'
             })

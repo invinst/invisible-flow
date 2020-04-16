@@ -6,4 +6,4 @@ class Complainant:
     gender: str
     race: str
     age: int
-    cr_id: str
+    crid: str

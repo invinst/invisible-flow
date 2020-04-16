@@ -18,7 +18,7 @@ class TestDataAllegation:
 
     def get_data_allegation(self):
         return DataAllegation(
-            cr_id='cr_id',
+            crid='crid',
             summary='summary',
             add1='add1',
             add2='add2',

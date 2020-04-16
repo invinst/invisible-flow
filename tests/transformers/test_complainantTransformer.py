@@ -25,7 +25,7 @@ class TestComplainantTransformer(IFTestBase):
     def test_transform(self):
         with open(self.complainant_input_path) as input_file:
             input_str = input_file.read()
-            expected_output = 'cr_id,race,gender,age\n1010785,BLACK,MALE,{}\n'.format(CURRENT_YEAR - 1962)
+            expected_output = 'crid,race,gender,age\n1010785,BLACK,MALE,{}\n'.format(CURRENT_YEAR - 1962)
 
             actual_output = ComplainantTransformer().transform('', input_str)[0]
             assert actual_output[0] == 'complainants'

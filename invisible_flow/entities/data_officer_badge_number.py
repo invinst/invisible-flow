@@ -5,4 +5,4 @@ from attr import dataclass
 class OfficerBadgeNumber:
     officer_id: str
     star: str
-    cr_id: str
+    crid: str

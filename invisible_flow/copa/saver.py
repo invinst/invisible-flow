@@ -15,7 +15,7 @@ class Saver:
         if not list_of_series:
             data_bytes = b""
         else:
-            data_bytes = pd.concat(list_of_series, ignore_index=True).to_csv(header=['cr_id'], index=False)\
+            data_bytes = pd.concat(list_of_series, ignore_index=True).to_csv(header=['crid'], index=False)\
                 .encode('utf-8')
 
         self.storage.store_byte_string(filename, data_bytes, f"COPA_SCRAPE-{self.current_time}")

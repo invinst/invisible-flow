@@ -8,8 +8,7 @@ from sqlalchemy.dialects import postgresql  # type: ignore
 
 class DataAllegation(db.Model):
     __bind_key__ = COPA_DB_BIND_KEY
-    cr_id = db.Column(db.String(30), nullable=False, primary_key=True)
-    crid = db.Column(db.String(30))
+    crid = db.Column(db.String(30), nullable=False, primary_key=True)
     summary = db.Column(db.Text, nullable=False, default='')
     add1 = db.Column(db.String(16), nullable=False, default='')
     add2 = db.Column(db.String(255), nullable=False, default='')
@@ -26,7 +25,7 @@ class DataAllegation(db.Model):
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     def __repr__(self):
-        return f'<cr_id: {self.cr_id}, ' \
+        return f'<crid: {self.crid}, ' \
                f'crid: {self.crid}, ' \
                f'summary: {self.summary}, ' \
                f'add1: {self.add1}, ' \

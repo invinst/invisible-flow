@@ -10,4 +10,4 @@ class Officer:
     middle_initial: str
     race: str
     rank: str
-    cr_id: str
+    crid: str

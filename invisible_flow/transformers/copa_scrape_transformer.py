@@ -18,7 +18,7 @@ class CopaScrapeTransformer:
         number_rows = self.__transform_officer_demographics_to_number_of_rows()
         beat_id = self.__transform_beat_id()
 
-        self.transformed_data.insert(0, "cr_id", crid)
+        self.transformed_data.insert(0, "crid", crid)
         self.transformed_data.insert(1, "number_of_officer_rows", number_rows)
         self.transformed_data.insert(2, "beat_id", beat_id)
 

@@ -27,7 +27,7 @@ class TestCaseInfoAllegationsTransformer(IFTestBase):
                 is_officer_complaint=False,
                 location='COMMERCIAL / BUSINESS OFFICE',
                 summary='',
-                cr_id='1053951'
+                crid='1053951'
             )
             assert allegation_to_test == expected_allegation
             assert len(actual_allegations) == 9
@@ -42,7 +42,7 @@ class TestCaseInfoAllegationsTransformer(IFTestBase):
             is_officer_complaint=True,
             location='location',
             summary='summary',
-            cr_id='cr_id'
+            crid='crid'
         )
         allegations = [a, a]
         df = CaseInfoAllegationsTransformer.transform_allegations_to_database_ready_df(allegations)
@@ -55,7 +55,7 @@ class TestCaseInfoAllegationsTransformer(IFTestBase):
             True,
             'location',
             'summary',
-            'cr_id'
+            'crid'
         ], [
             'add1',
             'add2',
@@ -65,7 +65,7 @@ class TestCaseInfoAllegationsTransformer(IFTestBase):
             True,
             'location',
             'summary',
-            'cr_id'
+            'crid'
 
         ]]
         column_names = [
@@ -77,7 +77,7 @@ class TestCaseInfoAllegationsTransformer(IFTestBase):
             'is_officer_complaint',
             'location',
             'summary',
-            'cr_id'
+            'crid'
         ]
         expected_df = pd.DataFrame(source_arrays, columns=column_names)
         assert expected_df.equals(df)
