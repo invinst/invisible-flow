@@ -33,7 +33,6 @@ WORKDIR /app
 
 RUN python3 -m venv venv && \
     . venv/bin/activate && \
-    /venv/bin/pre-commit install --install-hooks && \
     export FLASK_APP=app.py && \
     export ENVIRONMENT=development
 
