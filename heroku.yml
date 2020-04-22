@@ -5,5 +5,3 @@ setup:
 build:
   docker:
     web: Dockerfile
-run:
-  web: docker run -t -i -p5000:5000  -v "$(pwd):/app/" invisible_flow:latest
