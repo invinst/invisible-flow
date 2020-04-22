@@ -42,7 +42,7 @@ RUN useradd invisible_flow_testing; echo "invisible_flow_testing:password"|chpas
 
 USER postgres
 
-CMD initdb; createdb; pg_ctl -D /var/lib/postgresql/data start; echo "create user invisible_flow WITH login;" | psql; \
+CMD initdb; pg_ctl -D /var/lib/postgresql/data start; createdb; echo "create user invisible_flow WITH login;" | psql; \
     echo "create user invisible_flow_testing WITH login;" | psql; echo "ALTER ROLE invisible_flow_testing SUPERUSER" | psql; \
     echo "CREATE DATABASE invisible_flow_testing;" | psql; echo "GRANT ALL PRIVILEGES ON DATABASE invisible_flow_testing TO invisible_flow_testing;" | psql; \
     echo "CREATE EXTENSION postgis;" | psql -U invisible_flow_testing; \
