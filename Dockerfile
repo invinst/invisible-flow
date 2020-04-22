@@ -42,7 +42,7 @@ RUN useradd invisible_flow_testing; echo "invisible_flow_testing:password"|chpas
 
 USER postgres
 
-CMD initdb; pg_ctl -D /var/lib/postgresql/data start; echo "create user invisible_flow WITH login;" | psql; \
+CMD initdb; createdb; pg_ctl -D /var/lib/postgresql/data start; echo "create user invisible_flow WITH login;" | psql; \
     echo "create user invisible_flow_testing WITH login;" | psql; echo "ALTER ROLE invisible_flow_testing SUPERUSER" | psql; \
     echo "CREATE DATABASE invisible_flow_testing;" | psql; echo "GRANT ALL PRIVILEGES ON DATABASE invisible_flow_testing TO invisible_flow_testing;" | psql; \
     echo "CREATE EXTENSION postgis;" | psql -U invisible_flow_testing; \
@@ -51,4 +51,4 @@ CMD initdb; pg_ctl -D /var/lib/postgresql/data start; echo "create user invisibl
     psql invisible_flow_testing < schema.sql; \
     echo "ALTER TABLE data_allegation ADD COLUMN cr_id character varying(50);" | psql -U invisible_flow_testing; \
     cd invisible_flow; \
-    flask run --host=0.0.0.0:$PORT
+    flask run --host=0.0.0.0
