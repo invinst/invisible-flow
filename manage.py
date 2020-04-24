@@ -28,7 +28,7 @@ if os.environ.get('ENVIRONMENT') == 'heroku':
     credentials_content = os.environ.get("GOOGLE_CREDENTIALS")
 
     with open("/app/{credentials_file}".format(credentials_file=credentials_file), "w") as writer:
-        writer.write(credentials_content)
+        writer.write("{credentials_content}".format(credentials_content=credentials_content))
 
 
 copa_db_filename: Optional[str] = ''
