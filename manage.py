@@ -27,7 +27,7 @@ if os.environ.get('ENVIRONMENT') == 'heroku':
     credentials_file = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
     credentials_content = os.environ.get("GOOGLE_CREDENTIALS")
 
-    with open("/app/{credentials_file}".format(credentials_file=credentials_file), "w") as writer:
+    with open("/app/invisible_flow/{credentials_file}".format(credentials_file=credentials_file), "w") as writer:
         writer.write("{credentials_content}".format(credentials_content=credentials_content))
 
 
