@@ -27,7 +27,7 @@ credentials_file = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS") # in heroku,
 credentials_content = os.environ.get("GOOGLE_CREDENTIALS")
 
 with open("/app/{credentials_file}".format(credentials_file=credentials_file), "w") as writer:
-        writer.write(credentials_content)
+    writer.write(credentials_content)
 
 
 copa_db_filename: Optional[str] = ''

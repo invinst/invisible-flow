@@ -110,5 +110,4 @@ htmlcov
 /examples/movies/movies.db
 *.orig
 CHANGELOG.temp
-googleCred.json
 dump.sql
