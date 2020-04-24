@@ -11,6 +11,25 @@ from invisible_flow.constants import JOB_DB_BIND_KEY, COPA_DB_BIND_KEY
 job_db_file = tempfile.NamedTemporaryFile(suffix='.db')
 job_db_filename = f'sqlite:///{job_db_file.name}'
 
+
+"""
+
+
+This section should write the env variable to fs.
+use os.environ.get('MY_ENVIRONMENT_VARIABLE') to set some stuff based on env.
+use some sort of file system writer to write a file to this directory.
+
+
+"""
+
+credentials_file = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS") # in heroku, this env var is "googleCred.json" but
+# i think we want the file path to be "/app/googleCred.json"
+credentials_content = os.environ.get("GOOGLE_CREDENTIALS")
+
+with open("/app/{credentials_file}".format(credentials_file=credentials_file), "w") as writer:
+        writer.write(credentials_content)
+
+
 copa_db_filename: Optional[str] = ''
 if os.environ.get("ENVIRONMENT") == 'local' or os.environ.get('ENVIRONMENT') == 'travis':
     copa_db_filename = 'postgres+psycopg2://invisible_flow@localhost:5432/invisible_flow_testing'
