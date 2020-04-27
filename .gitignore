@@ -78,7 +78,6 @@ venv/
 ######################
 *.log
 *.sqlite
-dump.sql
 
 # Patches #
 ###########
@@ -110,4 +109,3 @@ htmlcov
 /examples/movies/movies.db
 *.orig
 CHANGELOG.temp
-dump.sql
