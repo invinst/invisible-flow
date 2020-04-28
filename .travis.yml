@@ -32,7 +32,7 @@ jobs:
     - python run-api-tests.py
     - cd frontend
     - npm run test && cd ..
-  - stage: Heroku_deploy
+  - stage: Heroku_deploy_testing
     if: branch = master
     before_deploy: cd frontend && npm ci && npm run build && cd ..
     deploy:
