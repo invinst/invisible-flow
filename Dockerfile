@@ -25,6 +25,7 @@ COPY ./requirements.txt /app/requirements.txt
 
 RUN python3 -m venv venv && \
     . venv/bin/activate && \
+    python3 -m pip install wheel && \
     python3 -m pip install -r ./app/requirements.txt
 
 COPY . /app
