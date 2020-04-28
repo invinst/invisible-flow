@@ -54,6 +54,7 @@ jobs:
       app: invisiflow-staging
       on:
         repo: invinst/invisible-flow
+        branch: staging
       skip_cleanup: true
     script: skip
 env:
