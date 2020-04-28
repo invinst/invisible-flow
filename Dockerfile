@@ -41,6 +41,7 @@ USER root
 
 RUN useradd invisible_flow_testing; echo "invisible_flow_testing:password"|chpasswd;
 
+
 USER postgres
 
 
