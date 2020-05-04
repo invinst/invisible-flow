@@ -49,7 +49,7 @@ CMD initdb; pg_ctl -D /var/lib/postgresql/data start; createdb; echo "create use
     echo "CREATE EXTENSION postgis;" | psql -U invisible_flow_testing; \
     service postgresql start; \
     echo "password" | su invisible_flow_testing; \
-    psql invisible_flow_testing < schema.sql; \
+    psql invisible_flow_testing < invisible-flow-dump.sql; \
     echo "ALTER TABLE data_allegation ADD COLUMN cr_id character varying(50);" | psql -U invisible_flow_testing; \
     cd invisible_flow; \
     flask run --host=0.0.0.0 --port=$PORT

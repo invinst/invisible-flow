@@ -109,3 +109,4 @@ htmlcov
 /examples/movies/movies.db
 *.orig
 CHANGELOG.temp
+invisible-flow-dump.sql
