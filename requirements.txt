@@ -32,7 +32,9 @@ Flask-Babel==0.12.2
 Flask-Caching==1.3.3
 Flask-Injector==0.12.0
 Flask-Login==0.4.1
+Flask-Migrate
 Flask-OpenID==1.2.5
+Flask-Script
 Flask-SQLAlchemy==2.4.0
 flask-swagger==0.2.13
 Flask-Testing==0.7.1
