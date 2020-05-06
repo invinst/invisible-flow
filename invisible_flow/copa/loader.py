@@ -4,6 +4,7 @@ from sqlalchemy.exc import IntegrityError
 from invisible_flow.copa.data_officer_allegation import DataOfficerAllegation
 from manage import db
 from invisible_flow.copa.data_allegation import DataAllegation
+from invisible_flow.copa.data_officer_unknown import DataOfficerUnknown
 
 
 class Loader:
