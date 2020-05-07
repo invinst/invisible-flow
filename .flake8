@@ -1,4 +1,4 @@
 [flake8]
 max-line-length=120
-exclude = venv, .tox, dist, doc, build, *.egg, data, .git
+exclude = venv, .tox, dist, doc, build, *.egg, data, .git, ./invisible_flow/migrations/**
 max-complexity = 10
