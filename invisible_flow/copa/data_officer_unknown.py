@@ -5,6 +5,7 @@ from datetime import datetime
 
 class DataOfficerUnknown(db.Model):
     __bind_key__ = COPA_DB_BIND_KEY
+    __tablename__ = 'data_officerunknown'
     id = db.Column(db.String(30), nullable=False, primary_key=True)
     data_officerallegation_id = db.Column(db.String(30))
     age = db.Column(db.Integer)
