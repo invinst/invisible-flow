@@ -34,7 +34,19 @@ Let **npm** do its thing. Once complete run:
 
 To make sure that the frontend built successfully, check the `frontend` directory for a new folder named `build` and note that it also updates the `node_modules` folder.
 
+### Add `invisible-flow-dump.sql` to your root directory
+The presence of the `invisible-flow-dump.sql` file in our project ensures that all contributors have the same schema and default data imported into their database when building the app with docker. 
+
+ 1. Download the .sql file from this [Dropbox link](https://www.dropbox.com/s/riixbrze6apmcrn/cpdp-apr-5-2019.sql?dl=0).
+
+ 2. Rename the file `invisible-flow-dump.sql` 
+ 3. Add the file to your local project's root directory.
+
+****[ Important! ]**** Before moving on, make sure that you've followed the instructions up until this point.
+
 ### Build app with docker
+
+**[ Stop ]** If you haven't already added `invisible-flow-dump.sql` to your root directory and set up your frontend, do so now by following instructions above.
 
 Once the above steps are complete, return to your project's root directory `invisible-flow` and run in your terminal:
 
@@ -45,10 +57,11 @@ This project outputs `.csv` files. In order to set this up:
 
  1. Decide where you would like to store these files (it can be anywhere you choose). 
  2. Copy the absolute file path to this directory from your home directory (i.e, `~/Downloads`).
+ 3. Replace "$(pwd)" with the file path.
 
 The command to **run the app locally** is:
 
-    docker run -t -i -p5000:5000  -v "$(pwd):/app/" invisible_flow:latest
+    docker run -t -i -p5000:5000 -e PORT=5000 -v "$(pwd):/app/" invisible_flow:latest
 
 
 #### Check if the app is running correctly

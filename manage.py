@@ -8,6 +8,8 @@ from flask_sqlalchemy import SQLAlchemy  # type:ignore
 from invisible_flow.app_factory import app
 from invisible_flow.constants import JOB_DB_BIND_KEY, COPA_DB_BIND_KEY
 
+from flask_migrate import Migrate
+
 job_db_file = tempfile.NamedTemporaryFile(suffix='.db')
 job_db_filename = f'sqlite:///{job_db_file.name}'
 
@@ -52,7 +54,8 @@ def setup_db(_app: Flask) -> SQLAlchemy:
             JOB_DB_BIND_KEY: job_db_filename,
             COPA_DB_BIND_KEY: copa_db_filename
         },
-        # 'SQLALCHEMY_DATABASE_URI':        <-- WAS IST DASS ADEOLU?
+        'SQLALCHEMY_DATABASE_URI': copa_db_filename,
+        'SQLALCHEMY_TRACK_MODIFICATIONS': False
     }
 
     _app.config.update(db_config)
@@ -61,3 +64,5 @@ def setup_db(_app: Flask) -> SQLAlchemy:
 
 
 db = setup_db(app)
+
+migrate = Migrate(app, db)
