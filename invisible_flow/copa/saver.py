@@ -1,4 +1,5 @@
 from typing import List
+import os
 
 from invisible_flow.globals_factory import GlobalsFactory
 import pandas as pd
@@ -11,11 +12,10 @@ class Saver:
         self.current_time = GlobalsFactory.get_current_datetime_utc().isoformat(sep='_').replace(':', '-')
         self.storage = StorageFactory.get_storage()
 
-    def save_to_csv(self, list_of_series: List[pd.DataFrame], filename: str):
-        if not list_of_series:
-            data_bytes = b""
-        else:
-            data_bytes = pd.concat(list_of_series, ignore_index=True).to_csv(header=['cr_id'], index=False)\
-                .encode('utf-8')
+    def save_to_csv(self, data_from_copa_scrape: pd.DataFrame, filename: str):
+        outdir = f"local_upload/COPA_SCRAPE-{self.current_time}"
+        if not os.path.exists(outdir):
+            os.mkdir(outdir)
+        path_to_csv_storage = outdir + "/" + filename
+        data_from_copa_scrape.to_csv(path_to_csv_storage, index=False)
 
-        self.storage.store_byte_string(filename, data_bytes, f"COPA_SCRAPE-{self.current_time}")
