@@ -27,6 +27,7 @@ class Loader:
             try:
                 db.session.commit()
                 self.load_officer_allegation_rows_into_db(row.number_of_officer_rows, row.cr_id)
+                self.load_officer_rows_into_db(row.officers)
                 db.session.commit()
             except IntegrityError:
                 self.existing_crids.append(transformed_data.iloc[row[0]][0])
@@ -41,6 +42,17 @@ class Loader:
         self.match_data = pd.DataFrame({'cr_id': self.existing_crids, 'beat_id': self.existing_beat_ids})
         db.session.close()
 
+    def load_officer_rows_into_db(self, officer_rows: pd.Series):
+        for (idx, officer) in officer_rows.items():
+            new_officer = DataOfficerUnknown(
+                age=officer['age'],
+                race=officer['race'],
+                gender=officer['gender'],
+                years_on_force=officer['years_on_force']
+            )
+            db.session.add(new_officer)
+
+
     def load_officer_allegation_rows_into_db(self, number_of_rows: int, cr_id: str):
         for row_index in range(0, number_of_rows):
             new_officer_allegation = DataOfficerAllegation(
@@ -52,6 +64,8 @@ class Loader:
                 final_outcome_class="NA",
             )
             db.session.add(new_officer_allegation)
+
+
 
     def get_matches(self):
         return self.match_data

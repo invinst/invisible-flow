@@ -10,6 +10,10 @@ from tests.helpers.testing_data import transformed_data_with_rows, transformed_d
 from invisible_flow.copa.loader import Loader
 from invisible_flow.copa.data_allegation import DataAllegation
 
+from invisible_flow.copa.data_officer_unknown import DataOfficerUnknown
+from invisible_flow.copa.data_allegation import insert_allegation_into_database
+import pandas as pd
+
 
 class TestLoader:
 
@@ -68,3 +72,23 @@ class TestLoader:
 
         queried_data_allegation = DataAllegation.query.all()
         assert (queried_data_allegation[0].beat_id == 111)
+
+    @pytest.mark.focus
+    def test_load_officer_data(self):
+        testLoader = Loader()
+        transformed_data_with_officers = pd.DataFrame({
+            'cr_id': ["1008899"],
+                        'number_of_officer_rows': [1],
+                        'beat_id': [433],
+                        'officers': [
+                            pd.Series([{
+                                 'age': 30,
+                                 'race': 'caucasian',
+                                 'gender': 'f',
+                                 'years_on_force': 4
+                            }])]
+
+        })
+        testLoader.load_into_db(transformed_data_with_officers)
+        queried_data_officerunknown = DataOfficerUnknown.query.all()
+        assert(len(queried_data_officerunknown) == 1)
