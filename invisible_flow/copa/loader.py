@@ -14,7 +14,7 @@ class Loader:
         self.existing_beat_ids = []
         self.crids = []
         self.beat_ids = []
-        self.new_data = pd.DataFrame(columns=['crid','beat_id'])
+        self.new_data = pd.DataFrame(columns=['crid', 'beat_id'])
 
     def load_into_db(self, transformed_data: pd.DataFrame):
         for row in transformed_data.itertuples():
@@ -29,15 +29,15 @@ class Loader:
                 db.session.commit()
             except IntegrityError:
                 self.existing_crids.append(pd.Series(transformed_data.iloc[row[0]][0]))
-                self.beat_ids.append(pd.Series(transformed_data.iloc[row[0]][0]))
+                self.existing_beat_ids.append(pd.Series(transformed_data.iloc[row[0]][0]))
 
                 db.session.rollback()
             else:
-                #assumes crid and beat_ids match at all times
+                # assumes crid and beat_ids match at all times
                 self.crids.append(transformed_data.iloc[row[0]][0])
                 self.beat_ids.append(transformed_data.iloc[row[0]][2])
 
-        self.new_data = pd.DataFrame({'crid':self.crids,'beat_id':self.beat_ids})
+        self.new_data = pd.DataFrame({'crid': self.crids, 'beat_id': self.beat_ids})
         db.session.close()
 
     def load_officer_allegation_rows_into_db(self, number_of_rows: int, cr_id: str):
@@ -53,7 +53,7 @@ class Loader:
             db.session.add(new_officer_allegation)
 
     def get_matches(self):
-        return pd.DataFrame({'crid':self.existing_crids,'beat_id':self.existing_beat_ids})
+        return pd.DataFrame({'crid': self.existing_crids, 'beat_id': self.existing_beat_ids})
 
     def get_new_data(self):
         return self.new_data
