@@ -1,6 +1,3 @@
-# flake8: noqa
-import pdb
-
 import pandas as pd
 from sqlalchemy.exc import IntegrityError
 
@@ -22,7 +19,6 @@ class Loader:
 
     def load_into_db(self, transformed_data: pd.DataFrame):
         for row in transformed_data.itertuples():
-            # pdb.set_trace()
             if 'beat_id' in transformed_data.columns.values:
                 new_allegation = DataAllegation(crid=row.cr_id, cr_id=row.cr_id, beat_id=row.beat_id)
             else:
@@ -35,7 +31,6 @@ class Loader:
             except IntegrityError:
                 self.existing_crids.append(transformed_data.iloc[row[0]][0])
                 self.existing_beat_ids.append(transformed_data.iloc[row[0]][2])
-                # pdb.set_trace()
                 db.session.rollback()
             else:
                 # assumes crid and beat_ids match at all times

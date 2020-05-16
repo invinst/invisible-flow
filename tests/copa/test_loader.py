@@ -28,20 +28,18 @@ class TestLoader:
         db.create_all(bind=COPA_DB_BIND_KEY)
 
     def test_load_data_into_empty_database(self):
-        Loader().load_into_db(transformed_data_with_rows)
-        #This is where you left off
-        pdb.set_trace()
+        # fixed; swapped place of transformed_data_with_rows with transformed_data_with_beat_id
+        Loader().load_into_db(transformed_data_with_beat_id)
         queried_allegation_data = DataAllegation.query.all()
-        pdb.set_trace()
 
         assert (len(queried_allegation_data) == len(transformed_data_with_rows))
         assert (queried_allegation_data[0].cr_id == transformed_data_with_rows.cr_id[0])
         assert (queried_allegation_data[4].cr_id == transformed_data_with_rows.cr_id[4])
 
         queried_officer_data = DataOfficerAllegation.query.all()
-        assert (len(queried_officer_data) == transformed_data_with_rows['number_of_officer_rows'].sum())
+        assert (len(queried_officer_data) == transformed_data_with_beat_id['number_of_officer_rows'].sum())
 
-        fourth_cr_id = transformed_data_with_rows['cr_id'][2]
+        fourth_cr_id = transformed_data_with_beat_id['cr_id'][2]
         assert (queried_officer_data[3].allegation_id == fourth_cr_id)
 
     # def test_load_data_with_matches_into_database(self):
