@@ -69,11 +69,15 @@ class TestCopaSrapeIntegration:
             entry_from_db = DataAllegation.query.get('1087387')
             number_of_rows_in_db = DataAllegation.query.count()
 
+            # tests > helpers > resources (can find csv contents used in these tests
+            # first two asserts; beat_ids were added to expected files in resource folder
+            # new_data & match_data should show up in local_upload_folder
             assert(new_data_file_contents == expected_new_data_file_contents)
             assert(match_data_file_contents == expected_match_data_file_contents)
 
             assert(entry_from_db is not None)
-            assert(number_of_rows_in_db == 150)
+            assert(number_of_rows_in_db == 151)
+            # ^was bumped up +1 due to added entry in copa_scraped_demographics.csv when checking test with new data
 
             local_upload_dir = LocalStorage().local_upload_directory
 
