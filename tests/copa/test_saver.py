@@ -25,7 +25,7 @@ class TestSaver:
         with patch.object(StorageFactory, 'get_storage') as storage_mock, \
                 patch.object(LocalStorage, 'store_byte_string') as store_byte_string_mock:
 
-            storage_mock.return_value = LocalStorage()  # environ local/docker/etc
+            storage_mock.return_value = LocalStorage()
 
             test_saver = Saver()
             test_saver.save_to_csv(empty_df, "filename")
