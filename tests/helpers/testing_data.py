@@ -37,3 +37,10 @@ expected_transformed_data_with_beat_id = pd.DataFrame(
             'beat_id': [433, 111, 111, 0, 0]
         }
 )
+
+expected_load_data = pd.DataFrame(
+        {
+            'cr_id': ["1008899", "1087378", "1087387", "1087308", "1008913"],
+            'beat_id': [433, 111, 111, 0, 0]
+        }
+)
