@@ -10,5 +10,7 @@ class Saver:
         self.storage = StorageFactory.get_storage()
 
     def save_to_csv(self, data_from_copa_scrape: pd.DataFrame, filename: str):
+        if not data_from_copa_scrape.empty:
+            data_from_copa_scrape["beat_id"] = data_from_copa_scrape["beat_id"].transform(lambda beat: '' if beat == 0 else beat)
         data_bytes = data_from_copa_scrape.to_csv(index=False).encode('utf-8')
         self.storage.store_byte_string(filename, data_bytes, f"COPA_SCRAPE-{self.current_time}")

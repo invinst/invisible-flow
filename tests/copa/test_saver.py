@@ -46,7 +46,7 @@ class TestSaver:
             line below used to only have crids being compared in list form, changed get_data to bring in dataframe
             instead of just single list and compared to expected which includes both crid/beat_id
             '''
-            expected_file_contents = b"cr_id,beat_id\n1008899,433\n1087378,111\n1087387,111\n1087308,0\n1008913,0\n"
+            expected_file_contents = b"cr_id,beat_id\n1008899,433\n1087378,111\n1087387,111\n1087308,\n1008913,\n"
 
             store_byte_string_mock.assert_called_with("filename",
                                                       expected_file_contents,
