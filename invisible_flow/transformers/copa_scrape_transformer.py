@@ -48,16 +48,16 @@ class CopaScrapeTransformer:
                 beat_ids_list = beat.split('|')
                 return self.validate_beat_ids(beat_ids_list)
             else:
-                return int(beat) if self.beat_is_valid(int(beat)) else int(0)
+                return int(beat) if self.beat_is_valid(int(beat)) else int()
         elif pd.isna(beat):
-            return int(0)
+            return int()
         elif type(beat) == int:
-            return int(beat) if self.beat_is_valid(beat) else int(0)
+            return int(beat) if self.beat_is_valid(beat) else int()
         elif type(beat) == float:
-            return int(beat) if self.beat_is_valid(int(beat)) else int(0)
+            return int(beat) if self.beat_is_valid(int(beat)) else int()
 
     def validate_beat_ids(self, beat_ids):
-        valid_beat = int(0)
+        valid_beat = int()
         for beat_id in beat_ids:
             if int(beat_id) in self.valid_beat_list:
                 valid_beat = int(beat_id)
