@@ -1,3 +1,5 @@
+import pdb
+
 import pandas as pd
 from sqlalchemy.exc import IntegrityError
 
@@ -23,10 +25,11 @@ class Loader:
                 new_allegation = DataAllegation(crid=row.cr_id, cr_id=row.cr_id, beat_id=row.beat_id)
             else:
                 new_allegation = DataAllegation(crid=row.cr_id, cr_id=row.cr_id)
-            db.session.add(new_allegation)
+                db.session.add(new_allegation)
             try:
                 db.session.commit()
-                self.load_officer_allegation_rows_into_db(row.number_of_officer_rows, row.cr_id)
+                #pdb.set_trace()
+                self.load_officer_allegation_rows_into_db(row.number_of_officer_rows, row.cr_id, row)
                 self.load_officer_rows_into_db(row.officers)
                 db.session.commit()
             except IntegrityError:
@@ -42,6 +45,7 @@ class Loader:
         self.match_data = pd.DataFrame({'cr_id': self.existing_crids, 'beat_id': self.existing_beat_ids})
         db.session.close()
 
+
     def load_officer_rows_into_db(self, officer_rows: pd.Series):
         for (idx, officer) in officer_rows.items():
             new_officer = DataOfficerUnknown(
@@ -53,7 +57,7 @@ class Loader:
             db.session.add(new_officer)
 
 
-    def load_officer_allegation_rows_into_db(self, number_of_rows: int, cr_id: str):
+    def load_officer_allegation_rows_into_db(self, number_of_rows: int, cr_id: str, row):
         for row_index in range(0, number_of_rows):
             new_officer_allegation = DataOfficerAllegation(
                 allegation_id=cr_id,
@@ -63,8 +67,17 @@ class Loader:
                 final_outcome="NA",
                 final_outcome_class="NA",
             )
-            db.session.add(new_officer_allegation)
 
+            db.session.add(new_officer_allegation)
+            db.session.commit()
+            new_data_unknown_officer = DataOfficerUnknown(
+                data_officerallegation_id=new_officer_allegation.id,
+                age=row.officer_age[row_index],
+                race=row.officer_race[row_index],
+                gender=row.officer_gender[row_index]
+            )
+            db.session.add(new_data_unknown_officer)
+            db.session.commit()
 
 
     def get_matches(self):
