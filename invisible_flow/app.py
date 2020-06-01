@@ -61,8 +61,8 @@ def copa_scrape():
     loader.load_into_db(transformed_data)
 
     saver = Saver()
-    saver.save_to_csv(loader.get_new_data(), "new_data.csv")
-    saver.save_to_csv(loader.get_matches(), "match_data.csv")
+    saver.save_to_csv(loader.get_new_allegation_data(), "new_data.csv")
+    saver.save_to_csv(loader.get_allegation_matches(), "match_data.csv")
 
     return Response(status=200, response='Success')
 

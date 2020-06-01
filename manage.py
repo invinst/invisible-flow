@@ -66,7 +66,7 @@ def setup_db(_app: Flask) -> SQLAlchemy:
 
 db = setup_db(app)
 
-migrate = Migrate(app, db)
+migrate = Migrate(app, db, compare_type=True)
 
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)

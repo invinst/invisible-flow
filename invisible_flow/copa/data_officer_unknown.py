@@ -6,8 +6,8 @@ from datetime import datetime
 class DataOfficerUnknown(db.Model):
     __bind_key__ = COPA_DB_BIND_KEY
     __tablename__ = 'data_officerunknown'
-    id = db.Column(db.String(30), nullable=False, primary_key=True)
-    data_officerallegation_id = db.Column(db.String(30))
+    id = db.Column(db.Integer, nullable=True, primary_key=True)
+    data_officerallegation_id = db.Column(db.Integer)
     age = db.Column(db.Integer)
     gender = db.Column(db.String(1), nullable=False)
     race = db.Column(db.String(50), nullable=False)
