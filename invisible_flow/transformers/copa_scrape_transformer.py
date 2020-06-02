@@ -17,15 +17,32 @@ class CopaScrapeTransformer:
         crid = self.__transform_logno_to_crid()
         number_rows = self.__transform_officer_demographics_to_number_of_rows()
         beat_id = self.__transform_beat_id()
+        officer_age = self.__transform_officer_demographic("age_of_involved_officers")
+        officer_gender = self.__transform_officer_gender()
+        officer_race = self.__transform_officer_demographic("race_of_involved_officers")
 
         self.transformed_data.insert(0, "cr_id", crid)
         self.transformed_data.insert(1, "number_of_officer_rows", number_rows)
         self.transformed_data.insert(2, "beat_id", beat_id)
+        self.transformed_data.insert(3, "officer_race", officer_race)
+        self.transformed_data.insert(4, "officer_gender", officer_gender)
+        self.transformed_data.insert(5, "officer_age", officer_age)
 
     def __transform_logno_to_crid(self):
         transformed_logno = self.initial_data["log_no"].transform(lambda logno: logno)
 
         return transformed_logno
+
+    def __transform_officer_demographic(self, column):
+        return self.initial_data[column].apply(lambda x: [] if pd.isna(x) else x.split(' | '))
+
+    def __transform_officer_gender(self):
+        def split_and_clean(input):
+            if not pd.isna(input):
+                return [x.strip()[0].upper() for x in input.split(" | ")]
+            else:
+                return []
+        return self.initial_data["sex_of_involved_officers"].apply(lambda value: split_and_clean(value))
 
     def __transform_officer_demographics_to_number_of_rows(self):
         number_of_rows = self.initial_data["sex_of_involved_officers"].\
