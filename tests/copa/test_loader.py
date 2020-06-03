@@ -46,7 +46,6 @@ class TestLoader:
         new_data = testLoader.get_new_allegation_data()
         assert_frame_equal(new_data, expected_new_data, check_dtype=False)
 
-
     def test_get_matches(self):
         expected_matches = expected_load_data
 
@@ -65,7 +64,6 @@ class TestLoader:
         db.session.commit()
         db.session.close()
 
-    @pytest.mark.focus
     def test_load_data_with_beat_id(self):
         testLoader = Loader()
         testLoader.load_into_db(expected_transformed_data_with_beat_id)

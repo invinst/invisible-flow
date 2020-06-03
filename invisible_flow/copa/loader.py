@@ -46,14 +46,15 @@ class Loader:
             )
             db.session.add(new_officer_allegation)
             db.session.commit()
-            new_data_unknown_officer = DataOfficerUnknown(
-                data_officerallegation_id=new_officer_allegation.id,
-                age=row.officer_age[row_index],
-                race=row.officer_race[row_index],
-                gender=row.officer_gender[row_index]
-            )
-            db.session.add(new_data_unknown_officer)
-            db.session.commit()
+            if len(row.officer_age) >= 1:
+                new_data_unknown_officer = DataOfficerUnknown(
+                    data_officerallegation_id=new_officer_allegation.id,
+                    age=row.officer_age[row_index],
+                    race=row.officer_race[row_index],
+                    gender=row.officer_gender[row_index]
+                )
+                db.session.add(new_data_unknown_officer)
+                db.session.commit()
 
     def get_allegation_matches(self):
         return self.match_allegation_data
