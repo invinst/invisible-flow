@@ -51,7 +51,8 @@ class Loader:
                     data_officerallegation_id=new_officer_allegation.id,
                     age=row.officer_age[row_index],
                     race=row.officer_race[row_index],
-                    gender=row.officer_gender[row_index]
+                    gender=row.officer_gender[row_index],
+                    years_on_force=row.officer_years_on_force[row_index]
                 )
                 db.session.add(new_data_unknown_officer)
                 db.session.commit()

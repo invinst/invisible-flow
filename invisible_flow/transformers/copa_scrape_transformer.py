@@ -20,6 +20,7 @@ class CopaScrapeTransformer:
         officer_age = self.__transform_officer_demographic("age_of_involved_officers")
         officer_gender = self.__transform_officer_gender()
         officer_race = self.__transform_officer_demographic("race_of_involved_officers")
+        officer_years_on_force = self.__transform_officer_demographic("years_on_force_of_officers")
 
         self.transformed_data.insert(0, "cr_id", crid)
         self.transformed_data.insert(1, "number_of_officer_rows", number_rows)
@@ -27,6 +28,7 @@ class CopaScrapeTransformer:
         self.transformed_data.insert(3, "officer_race", officer_race)
         self.transformed_data.insert(4, "officer_gender", officer_gender)
         self.transformed_data.insert(5, "officer_age", officer_age)
+        self.transformed_data.insert(6, "officer_years_on_force", officer_years_on_force)
 
     def __transform_logno_to_crid(self):
         transformed_logno = self.initial_data["log_no"].transform(lambda logno: logno)

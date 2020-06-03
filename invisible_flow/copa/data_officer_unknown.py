@@ -11,7 +11,7 @@ class DataOfficerUnknown(db.Model):
     age = db.Column(db.String(50))
     gender = db.Column(db.String(1), nullable=True)
     race = db.Column(db.String(50), nullable=True)
-    years_on_force = db.Column(db.Integer)
+    years_on_force = db.Column(db.String(50))
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
