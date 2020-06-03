@@ -20,7 +20,7 @@ class Loader:
             else:
                 new_allegation = DataAllegation(crid=row.cr_id, cr_id=row.cr_id)
             db.session.add(new_allegation)
-            try: #Save cr_id to db
+            try:  # Save cr_id to db
                 db.session.commit()
                 # ^This will throw an IntegrityError if the datallegation already exists in the database
             except IntegrityError:  # if cr_id in db, put in "existing" dataframe (i.e. match data csv)

@@ -5,12 +5,11 @@ import pytest
 from invisible_flow.copa.data_officer_allegation import DataOfficerAllegation
 from manage import db
 from invisible_flow.constants import COPA_DB_BIND_KEY
-from tests.helpers.testing_data import transformed_data_with_rows, transformed_data_with_beat_id, \
+from tests.helpers.testing_data import transformed_data_with_beat_id, \
     expected_transformed_data_with_beat_id, expected_load_data
 from invisible_flow.copa.loader import Loader
 from invisible_flow.copa.data_allegation import DataAllegation
 from invisible_flow.copa.data_officer_unknown import DataOfficerUnknown
-from invisible_flow.copa.data_allegation import insert_allegation_into_database
 
 
 class TestLoader:
@@ -21,9 +20,7 @@ class TestLoader:
         db.drop_all()
         db.create_all(bind=COPA_DB_BIND_KEY)
 
-
     def test_load_data_into_empty_database(self):
-        # fixed; swapped place of transformed_data_with_rows with transformed_data_with_beat_id
         Loader().load_into_db(expected_transformed_data_with_beat_id)
         queried_allegation_data = DataAllegation.query.all()
 
