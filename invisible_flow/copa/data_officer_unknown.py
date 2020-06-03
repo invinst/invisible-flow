@@ -8,9 +8,9 @@ class DataOfficerUnknown(db.Model):
     __tablename__ = 'data_officerunknown'
     id = db.Column(db.Integer, nullable=True, primary_key=True)
     data_officerallegation_id = db.Column(db.Integer)
-    age = db.Column(db.Integer)
-    gender = db.Column(db.String(1), nullable=False)
-    race = db.Column(db.String(50), nullable=False)
+    age = db.Column(db.String(50))
+    gender = db.Column(db.String(1), nullable=True)
+    race = db.Column(db.String(50), nullable=True)
     years_on_force = db.Column(db.Integer)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
