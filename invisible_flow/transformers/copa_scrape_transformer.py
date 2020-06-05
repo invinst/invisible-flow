@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from io import BytesIO
 from invisible_flow.constants import VALID_BEATS, RACE_MAPPER
 
@@ -54,6 +55,7 @@ class CopaScrapeTransformer:
         return number_of_rows
 
     def __transform_beat_id(self):
+        self.initial_data["beat"] = self.initial_data["beat"].apply(lambda beat: np.nan if beat == "Unknown" else beat)
         return self.initial_data["beat"].transform(lambda beat: self.transform_beat_id_helper(beat))
 
     def get_transformed_data(self):
@@ -68,13 +70,13 @@ class CopaScrapeTransformer:
                 beat_ids_list = beat.split('|')
                 return self.validate_beat_ids(beat_ids_list)
             else:
-                return int(beat) if self.beat_is_valid(beat) else int()
+                return int(beat) if self.beat_is_valid(int(beat)) else int()
         elif pd.isna(beat):
             return int()
         elif type(beat) == int:
             return int(beat) if self.beat_is_valid(beat) else int()
         elif type(beat) == float:
-            return int(beat) if self.beat_is_valid(beat) else int()
+            return int(beat) if self.beat_is_valid(int(beat)) else int()
 
     def validate_beat_ids(self, beat_ids):
         valid_beat = int()
@@ -85,8 +87,6 @@ class CopaScrapeTransformer:
         return int(valid_beat)
 
     def beat_is_valid(self, beat):
-        if type(beat) == str and beat == "Unknown":
-            return False
         if beat in self.valid_beat_list:
             return True
         else:

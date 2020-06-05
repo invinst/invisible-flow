@@ -1,10 +1,11 @@
 import pandas as pd
+import pytest
 
 from invisible_flow.transformers.copa_scrape_transformer import CopaScrapeTransformer
 
 scraped_data_csv_with_demographics = b'"log_no","beat","race_of_involved_officers","sex_of_involved_officers",' \
                                      + b'"age_of_involved_officers","years_on_force_of_officers"\n' \
-                                     + b'"1008899","433","White","Male","40-49","0-4"' \
+                                     + b'"1008899","Unknown","White","Male","40-49","0-4"' \
                                      + b'\n"1087378","0111","Black or African American","Male","40-49","0-4"' \
                                      + b'\n"1087387","0111","White | White","Female | Female",' \
                                        b'"40-49 | 40-49","0-4 | 0-4"' \
@@ -46,7 +47,7 @@ class TestCopaTransformer:
             {
                 'cr_id': ["1008899", "1087378", "1087387", "1087308", "1008913"],
                 'number_of_officer_rows': [1, 1, 2, 1, 1],
-                'beat_id': [433, 111, 111, 0, 0],
+                'beat_id': [0, 111, 111, 0, 0],
                 'officer_race': [["White"], ["Black"], ["White", "White"],
                                  ["Hispanic"], ["Hispanic"]],
                 'officer_gender': [['M'], ['M'], ['F', 'F'], ['M'], ['F']],
