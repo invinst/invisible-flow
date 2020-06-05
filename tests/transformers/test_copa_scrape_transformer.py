@@ -1,5 +1,4 @@
 import pandas as pd
-import pytest
 
 from invisible_flow.transformers.copa_scrape_transformer import CopaScrapeTransformer
 
