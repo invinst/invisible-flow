@@ -1,4 +1,5 @@
 import pandas as pd
+
 from invisible_flow.transformers.copa_scrape_transformer import CopaScrapeTransformer
 
 scraped_data_csv_with_demographics = b'"log_no","beat","race_of_involved_officers","sex_of_involved_officers",' \
@@ -20,8 +21,19 @@ scraped_data_csv_single_demographic_entry = b'"log_no","beat","race_of_involved_
 
 scraped_data_csv_multiple_demographics = b'"log_no","beat","race_of_involved_officers","sex_of_involved_officers",' \
                                          + b'"age_of_involved_officers","years_on_force_of_officers"' \
-                                         + b'\n"1008899","433","White | African American / Black","Male | Unknown",' \
+                                         + b'\n"1008899","433","White | Black or African American","Male | Unknown",' \
                                            b'"30-39 | 20-29","0-4 | 0-4"'
+
+scraped_data_with_all_races = pd.DataFrame({
+    'log_no': ["1008899"],
+    'beat': ['0111'],
+    'race_of_involved_officers': ['White | Black or African American | Hispanic, Latino, or Spanish Origin | Unknown '
+                                  '| Asian or Pacific Islander | Middle Eastern or North African | American Indian or '
+                                  'Alaska Native'],
+    'sex_of_involved_officers': ['Male | Male | Non-Binary/Third Gender | Female | Male | Female | Unknown'],
+    'years_on_force_of_officers': ["0-4 | 0-4 | 0-4 | 0-4 | 0-4 | 0-4 | 0-4"],
+    'age_of_involved_officers': ["40-49 | 40-49 | 40-49 | 40-49 | 40-49 | 40-49 | 40-49"]
+})
 
 
 class TestCopaTransformer:
@@ -35,8 +47,8 @@ class TestCopaTransformer:
                 'cr_id': ["1008899", "1087378", "1087387", "1087308", "1008913"],
                 'number_of_officer_rows': [1, 1, 2, 1, 1],
                 'beat_id': [433, 111, 111, 0, 0],
-                'officer_race': [["White"], ["Black or African American"], ["White", "White"],
-                                 ["Hispanic, Latino, or Spanish Origin"], ["Hispanic, Latino, or Spanish Origin"]],
+                'officer_race': [["White"], ["Black"], ["White", "White"],
+                                 ["Hispanic"], ["Hispanic"]],
                 'officer_gender': [['M'], ['M'], ['F', 'F'], ['M'], ['F']],
                 'officer_age': [["40-49"], ["40-49"], ["40-49", "40-49"], ["40-49"], ["40-49"]],
                 'officer_years_on_force': [["0-4"], ["0-4"], ["0-4", "0-4"], ["0-4"], ["0-4"]]
@@ -78,8 +90,24 @@ class TestCopaTransformer:
             'cr_id': ["1008899"],
             'number_of_officer_rows': [2],
             'beat_id': [433],
-            'officer_race': [["White", "African American / Black"]],
+            'officer_race': [["White", "Black"]],
             'officer_gender': [["M", "U"]],
             'officer_age': [["30-39", "20-29"]],
             'officer_years_on_force': [["0-4", "0-4"]]
         }))
+
+    def test__transform_officer_race_demographics(self):
+        transformer = CopaScrapeTransformer()
+        transformer.transform(scraped_data_with_all_races.to_csv(index=False).encode('utf-8'))
+        transformed_data = transformer.get_transformed_data()
+        pd.testing.assert_frame_equal(transformed_data, pd.DataFrame({
+            'cr_id': ["1008899"],
+            'number_of_officer_rows': [7],
+            'beat_id': [111],
+            'officer_race': [['White', 'Black', 'Hispanic', 'Unknown',
+                              'Asian/Pacific', "Middle Eastern or North African",
+                              "Native American/Alaskan Native"]],
+            'officer_gender': [['M', 'M', 'N', 'F', 'M', 'F', "U"]],
+            'officer_age': [["40-49", "40-49", "40-49", "40-49", "40-49", "40-49", "40-49"]],
+            'officer_years_on_force': [["0-4", "0-4", "0-4", "0-4", "0-4", "0-4", "0-4"]]
+        }), check_dtype=False)

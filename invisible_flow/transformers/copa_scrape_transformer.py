@@ -1,6 +1,6 @@
 import pandas as pd
 from io import BytesIO
-from invisible_flow.constants import VALID_BEATS
+from invisible_flow.constants import VALID_BEATS, RACE_MAPPER
 
 
 class CopaScrapeTransformer:
@@ -19,7 +19,7 @@ class CopaScrapeTransformer:
         beat_id = self.__transform_beat_id()
         officer_age = self.__transform_officer_demographic("age_of_involved_officers")
         officer_gender = self.__transform_officer_gender()
-        officer_race = self.__transform_officer_demographic("race_of_involved_officers")
+        officer_race = self.__transform_officer_race()
         officer_years_on_force = self.__transform_officer_demographic("years_on_force_of_officers")
 
         self.transformed_data.insert(0, "cr_id", crid)
@@ -39,15 +39,16 @@ class CopaScrapeTransformer:
         return self.initial_data[column].apply(lambda x: [] if pd.isna(x) else x.split(' | '))
 
     def __transform_officer_gender(self):
-        def split_and_clean(input):
-            if not pd.isna(input):
-                return [x.strip()[0].upper() for x in input.split(" | ")]
+        def split_and_clean(value):
+            if not pd.isna(value):
+                return [x.strip()[0].upper() for x in value.split(" | ")]
             else:
                 return []
+
         return self.initial_data["sex_of_involved_officers"].apply(lambda value: split_and_clean(value))
 
     def __transform_officer_demographics_to_number_of_rows(self):
-        number_of_rows = self.initial_data["sex_of_involved_officers"].\
+        number_of_rows = self.initial_data["sex_of_involved_officers"]. \
             transform(lambda sex: 1 if pd.isnull(sex) else len(sex.split('|')))
 
         return number_of_rows
@@ -88,3 +89,18 @@ class CopaScrapeTransformer:
             return True
         else:
             return False
+
+    def __transform_officer_race(self):
+        def split_and_map(value):
+            if not pd.isna(value):
+                mapped_races = []
+                for race in value.split(" | "):
+                    try:
+                        mapped_races.append(RACE_MAPPER[race.strip()])
+                    except KeyError:
+                        mapped_races.append(race)
+                return mapped_races
+            else:
+                return []
+
+        return self.initial_data["race_of_involved_officers"].apply(lambda value: split_and_map(value))

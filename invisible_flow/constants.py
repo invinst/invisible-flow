@@ -30,3 +30,13 @@ VALID_BEATS = [111, 112, 113, 114, 121, 122, 123, 124, 131, 132, 133,
                2212, 2213, 2221, 2222, 2223, 2232, 2233, 2234, 2411, 2412, 2413,
                2422, 2423, 2424, 2431, 2432, 2433, 2511, 2512, 2513, 2514, 2515,
                2521, 2522, 2523, 2524, 2525, 2531, 2532, 2533, 2534, 2535, 3100]
+
+RACE_MAPPER = {
+    "White": "White",
+    "Unknown": "Unknown",
+    "Black or African American": "Black",
+    "Hispanic, Latino, or Spanish Origin": "Hispanic",
+    "Asian or Pacific Islander": "Asian/Pacific",
+    "Middle Eastern or North African": "Middle Eastern or North African",
+    "American Indian or Alaska Native": "Native American/Alaskan Native"
+}
