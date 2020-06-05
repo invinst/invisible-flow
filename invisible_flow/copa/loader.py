@@ -31,7 +31,6 @@ class Loader:
                 self.new_allegation_data = self.new_allegation_data.append(
                     {'cr_id': row.cr_id, 'beat_id': row.beat_id}, ignore_index=True)
                 self.load_officers_into_db(row.number_of_officer_rows, row.cr_id, row)
-
         db.session.close()
 
     def load_officers_into_db(self, number_of_rows: int, cr_id: str, row):
