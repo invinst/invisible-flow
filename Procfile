@@ -1,1 +1,1 @@
-web: gunicorn invisible_flow.app:app
+web: python3 manage.py db upgrade --directory invisible_flow/migrations && gunicorn invisible_flow.app:app
