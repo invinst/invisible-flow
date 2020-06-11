@@ -1,5 +1,6 @@
 import os
 import tempfile
+from flask_script import Manager
 from typing import Optional
 
 from flask import Flask
@@ -8,7 +9,7 @@ from flask_sqlalchemy import SQLAlchemy  # type:ignore
 from invisible_flow.app_factory import app
 from invisible_flow.constants import JOB_DB_BIND_KEY, COPA_DB_BIND_KEY
 
-from flask_migrate import Migrate
+from flask_migrate import Migrate, MigrateCommand
 
 job_db_file = tempfile.NamedTemporaryFile(suffix='.db')
 job_db_filename = f'sqlite:///{job_db_file.name}'
@@ -66,3 +67,10 @@ def setup_db(_app: Flask) -> SQLAlchemy:
 db = setup_db(app)
 
 migrate = Migrate(app, db)
+
+manager = Manager(app)
+manager.add_command('db', MigrateCommand)
+
+
+if __name__ == '__main__':
+    manager.run()

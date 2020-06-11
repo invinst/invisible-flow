@@ -1,6 +1,7 @@
 import pandas as pd
+import numpy as np
 from io import BytesIO
-from invisible_flow.constants import VALID_BEATS
+from invisible_flow.constants import VALID_BEATS, RACE_MAPPER
 
 
 class CopaScrapeTransformer:
@@ -17,23 +18,44 @@ class CopaScrapeTransformer:
         crid = self.__transform_logno_to_crid()
         number_rows = self.__transform_officer_demographics_to_number_of_rows()
         beat_id = self.__transform_beat_id()
+        officer_age = self.__transform_officer_demographic("age_of_involved_officers")
+        officer_gender = self.__transform_officer_gender()
+        officer_race = self.__transform_officer_race()
+        officer_years_on_force = self.__transform_officer_demographic("years_on_force_of_officers")
 
         self.transformed_data.insert(0, "cr_id", crid)
         self.transformed_data.insert(1, "number_of_officer_rows", number_rows)
         self.transformed_data.insert(2, "beat_id", beat_id)
+        self.transformed_data.insert(3, "officer_race", officer_race)
+        self.transformed_data.insert(4, "officer_gender", officer_gender)
+        self.transformed_data.insert(5, "officer_age", officer_age)
+        self.transformed_data.insert(6, "officer_years_on_force", officer_years_on_force)
 
     def __transform_logno_to_crid(self):
         transformed_logno = self.initial_data["log_no"].transform(lambda logno: logno)
 
         return transformed_logno
 
+    def __transform_officer_demographic(self, column):
+        return self.initial_data[column].apply(lambda x: [] if pd.isna(x) else x.split(' | '))
+
+    def __transform_officer_gender(self):
+        def split_and_clean(value):
+            if not pd.isna(value):
+                return [x.strip()[0].upper() for x in value.split(" | ")]
+            else:
+                return []
+
+        return self.initial_data["sex_of_involved_officers"].apply(lambda value: split_and_clean(value))
+
     def __transform_officer_demographics_to_number_of_rows(self):
-        number_of_rows = self.initial_data["sex_of_involved_officers"].\
+        number_of_rows = self.initial_data["sex_of_involved_officers"]. \
             transform(lambda sex: 1 if pd.isnull(sex) else len(sex.split('|')))
 
         return number_of_rows
 
     def __transform_beat_id(self):
+        self.initial_data["beat"] = self.initial_data["beat"].apply(lambda beat: np.nan if beat == "Unknown" else beat)
         return self.initial_data["beat"].transform(lambda beat: self.transform_beat_id_helper(beat))
 
     def get_transformed_data(self):
@@ -69,3 +91,18 @@ class CopaScrapeTransformer:
             return True
         else:
             return False
+
+    def __transform_officer_race(self):
+        def split_and_map(value):
+            if not pd.isna(value):
+                mapped_races = []
+                for race in value.split(" | "):
+                    try:
+                        mapped_races.append(RACE_MAPPER[race.strip()])
+                    except KeyError:
+                        mapped_races.append(race)
+                return mapped_races
+            else:
+                return []
+
+        return self.initial_data["race_of_involved_officers"].apply(lambda value: split_and_map(value))

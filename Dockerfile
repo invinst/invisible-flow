@@ -48,8 +48,7 @@ CMD initdb; pg_ctl -D /var/lib/postgresql/data start; createdb; echo "create use
     echo "CREATE DATABASE invisible_flow_testing;" | psql; echo "GRANT ALL PRIVILEGES ON DATABASE invisible_flow_testing TO invisible_flow_testing;" | psql; \
     echo "CREATE EXTENSION postgis;" | psql -U invisible_flow_testing; \
     service postgresql start; \
+    python3 manage.py db upgrade --directory invisible_flow/migrations; \
     echo "password" | su invisible_flow_testing; \
-    echo "ALTER TABLE data_allegation ADD COLUMN cr_id character varying(50);" | psql -U invisible_flow_testing; \
     cd invisible_flow; \
-    flask db upgrade; \
     flask run --host=0.0.0.0 --port=$PORT

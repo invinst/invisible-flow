@@ -10,12 +10,8 @@ from invisible_flow.copa.data_officer_unknown import DataOfficerUnknown  # noqa:
 class Loader:
 
     def __init__(self):
-        self.existing_crids = []
-        self.existing_beat_ids = []
-        self.crids = []
-        self.beat_ids = []
-        self.match_data = pd.DataFrame(columns=['cr_id', 'beat_id'])
-        self.new_data = pd.DataFrame(columns=['cr_id', 'beat_id'])
+        self.match_allegation_data = pd.DataFrame(columns=['cr_id', 'beat_id'])
+        self.new_allegation_data = pd.DataFrame(columns=['cr_id', 'beat_id'])
 
     def load_into_db(self, transformed_data: pd.DataFrame):
         for row in transformed_data.itertuples():
@@ -24,24 +20,20 @@ class Loader:
             else:
                 new_allegation = DataAllegation(crid=row.cr_id, cr_id=row.cr_id)
             db.session.add(new_allegation)
-            try:
+            try:  # Save cr_id to db
                 db.session.commit()
-                self.load_officer_allegation_rows_into_db(row.number_of_officer_rows, row.cr_id)
-                db.session.commit()
-            except IntegrityError:
-                self.existing_crids.append(transformed_data.iloc[row[0]][0])
-                self.existing_beat_ids.append(transformed_data.iloc[row[0]][2])
+                # ^This will throw an IntegrityError if the datallegation already exists in the database
+            except IntegrityError:  # if cr_id in db, put in "existing" dataframe (i.e. match data csv)
+                self.match_allegation_data = self.match_allegation_data.append(
+                    {'cr_id': row.cr_id, 'beat_id': row.beat_id}, ignore_index=True)
                 db.session.rollback()
-            else:
-                # assumes crid and beat_ids match at all times
-                self.crids.append(transformed_data.iloc[row[0]][0])
-                self.beat_ids.append(transformed_data.iloc[row[0]][2])
-
-        self.new_data = pd.DataFrame({'cr_id': self.crids, 'beat_id': self.beat_ids})
-        self.match_data = pd.DataFrame({'cr_id': self.existing_crids, 'beat_id': self.existing_beat_ids})
+            else:  # else put in "new" dataframe (i.e. new data csv)
+                self.new_allegation_data = self.new_allegation_data.append(
+                    {'cr_id': row.cr_id, 'beat_id': row.beat_id}, ignore_index=True)
+                self.load_officers_into_db(row.number_of_officer_rows, row.cr_id, row)
         db.session.close()
 
-    def load_officer_allegation_rows_into_db(self, number_of_rows: int, cr_id: str):
+    def load_officers_into_db(self, number_of_rows: int, cr_id: str, row):
         for row_index in range(0, number_of_rows):
             new_officer_allegation = DataOfficerAllegation(
                 allegation_id=cr_id,
@@ -52,9 +44,20 @@ class Loader:
                 final_outcome_class="NA",
             )
             db.session.add(new_officer_allegation)
+            db.session.commit()
+            if len(row.officer_age) >= 1:
+                new_data_unknown_officer = DataOfficerUnknown(
+                    data_officerallegation_id=new_officer_allegation.id,
+                    age=row.officer_age[row_index],
+                    race=row.officer_race[row_index],
+                    gender=row.officer_gender[row_index],
+                    years_on_force=row.officer_years_on_force[row_index]
+                )
+                db.session.add(new_data_unknown_officer)
+                db.session.commit()
 
-    def get_matches(self):
-        return self.match_data
+    def get_allegation_matches(self):
+        return self.match_allegation_data
 
-    def get_new_data(self):
-        return self.new_data
+    def get_new_allegation_data(self):
+        return self.new_allegation_data
