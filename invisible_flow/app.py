@@ -5,7 +5,7 @@ from flask import render_template, Response, Request
 
 from invisible_flow.app_factory import app
 from invisible_flow.copa.loader import Loader
-from invisible_flow.copa.saver import Saver
+from invisible_flow.copa.saver import Saver, strip_zeroes_from_beat_id, cast_col_to_int
 from invisible_flow.globals_factory import GlobalsFactory
 from invisible_flow.storage.storage_factory import StorageFactory
 from invisible_flow.transformers.transformer_factory import TransformerFactory
@@ -50,7 +50,6 @@ def index(path):
 
 @app.route('/copa_scrape', methods=['GET'])
 def copa_scrape():
-
     scraped_data = scrape_data()
 
     transformer = CopaScrapeTransformer()
@@ -61,9 +60,16 @@ def copa_scrape():
     loader.load_into_db(transformed_data)
 
     saver = Saver()
-    saver.save_to_csv(loader.get_new_allegation_data(), "new_data.csv")
-    saver.save_to_csv(loader.get_allegation_matches(), "match_data.csv")
 
+    saver.save_to_csv(strip_zeroes_from_beat_id(loader.get_allegation_matches()), "match_data.csv")
+
+    saver.save_to_csv(strip_zeroes_from_beat_id(loader.get_new_allegation_data()), "new_allegation_data.csv")
+
+    saver.save_to_csv(cast_col_to_int(loader.new_officer_unknown_data, "data_officerallegation_id"),
+                      "new_officer_unknown.csv")
+    saver.save_to_csv(loader.new_officer_allegation_data, "new_officer_allegation.csv")
+
+    # do further processing on officer unknown
     return Response(status=200, response='Success')
 
 

@@ -59,12 +59,18 @@ class TestCopaSrapeIntegration:
             copa_scrape()
 
             match_data_file_contents = LocalStorage().get('match_data.csv', "COPA_SCRAPE-2019-03-25_05-30-50")
-            new_data_file_contents = LocalStorage().get('new_data.csv', "COPA_SCRAPE-2019-03-25_05-30-50")
+            new_allegation_file_contents = LocalStorage().get('new_allegation_data.csv', "COPA_SCRAPE-2019-03-25_05-30-50")
+            new_officer_unknown_file_contents = LocalStorage().get('new_officer_unknown.csv', "COPA_SCRAPE-2019-03-25_05-30-50")
+            new_officer_allegation_file_contents = LocalStorage().get('new_officer_allegation.csv', "COPA_SCRAPE-2019-03-25_05-30-50")
 
             expected_match_data_file_contents = open(os.path.join(IFTestBase.resource_directory,
                                                                   'expected_match_copa_data.csv')).read()
-            expected_new_data_file_contents = open(os.path.join(IFTestBase.resource_directory,
-                                                                'expected_new_copa_data.csv')).read()
+            expected_new_allegation_data = open(os.path.join(IFTestBase.resource_directory,
+                                                                'expected_new_allegation_data.csv')).read()
+            expected_new_officer_unknown_data = open(os.path.join(IFTestBase.resource_directory,
+                                                                'expected_new_officer_unknown.csv')).read()
+            expected_new_officer_allegation_data = open(os.path.join(IFTestBase.resource_directory,
+                                                                'expected_new_officer_allegation.csv')).read()
 
             entry_from_db = DataAllegation.query.get('1087387')
             number_of_rows_in_db = DataAllegation.query.count()
@@ -72,8 +78,10 @@ class TestCopaSrapeIntegration:
             # tests > helpers > resources (can find csv contents used in these tests
             # first two asserts; beat_ids were added to expected files in resource folder
             # new_data & match_data should show up in local_upload_folder
-            assert(new_data_file_contents == expected_new_data_file_contents)
             assert(match_data_file_contents == expected_match_data_file_contents)
+            assert(new_allegation_file_contents == expected_new_allegation_data)
+            assert(new_officer_unknown_file_contents == expected_new_officer_unknown_data)
+            assert(new_officer_allegation_file_contents == expected_new_officer_allegation_data)
 
             assert(entry_from_db is not None)
             assert(number_of_rows_in_db == 151)
@@ -82,6 +90,8 @@ class TestCopaSrapeIntegration:
             local_upload_dir = LocalStorage().local_upload_directory
 
             os.remove(os.path.join(local_upload_dir, "COPA_SCRAPE-2019-03-25_05-30-50", 'match_data.csv'))
-            os.remove(os.path.join(local_upload_dir, "COPA_SCRAPE-2019-03-25_05-30-50", 'new_data.csv'))
+            os.remove(os.path.join(local_upload_dir, "COPA_SCRAPE-2019-03-25_05-30-50", 'new_allegation_data.csv'))
+            os.remove(os.path.join(local_upload_dir, "COPA_SCRAPE-2019-03-25_05-30-50", 'new_officer_allegation.csv'))
+            os.remove(os.path.join(local_upload_dir, "COPA_SCRAPE-2019-03-25_05-30-50", 'new_officer_unknown.csv'))
 
             os.rmdir(os.path.join(local_upload_dir, "COPA_SCRAPE-2019-03-25_05-30-50"))

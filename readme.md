@@ -85,7 +85,7 @@ Try querying:
 If you see a populated table, you should be all set up!
 
 ### Flask Database Migrations 
-1. Make desired change to the SQLAlchemy entities in `invisible_flow/entities`.    
+1. Make desired change to the SQLAlchemy models in `invisible_flow/copa`.    
     
 2. Follow the steps in the previous section to enter your locally running Docker container, then change into the `invisible_flow` directory: `cd invisible_flow`.  
   
