@@ -1,4 +1,3 @@
-import pdb
 
 import pandas as pd
 from sqlalchemy.exc import IntegrityError

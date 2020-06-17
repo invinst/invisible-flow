@@ -30,7 +30,6 @@ class TestCopaSrapeIntegration:
         yield copa_data
 
     def initialize_database(self, db):
-
         log_number_from_csv = ["1008899", "1087378", "1008915", "1009311", "1009355"]
 
         for log_no in log_number_from_csv:
@@ -45,7 +44,6 @@ class TestCopaSrapeIntegration:
     def test_copa_scrape_integration(self, get_copa_data_demographics):
         with patch.object(StorageFactory, 'get_storage') as storage_mock, \
                 patch('invisible_flow.app.scrape_data') as scrape_mock:
-
             scrape_mock.return_value = get_copa_data_demographics
 
             storage_mock.return_value = LocalStorage()
@@ -59,18 +57,21 @@ class TestCopaSrapeIntegration:
             copa_scrape()
 
             match_data_file_contents = LocalStorage().get('match_data.csv', "COPA_SCRAPE-2019-03-25_05-30-50")
-            new_allegation_file_contents = LocalStorage().get('new_allegation_data.csv', "COPA_SCRAPE-2019-03-25_05-30-50")
-            new_officer_unknown_file_contents = LocalStorage().get('new_officer_unknown.csv', "COPA_SCRAPE-2019-03-25_05-30-50")
-            new_officer_allegation_file_contents = LocalStorage().get('new_officer_allegation.csv', "COPA_SCRAPE-2019-03-25_05-30-50")
+            new_allegation_file_contents = LocalStorage().get('new_allegation_data.csv',
+                                                              "COPA_SCRAPE-2019-03-25_05-30-50")
+            new_officer_unknown_file_contents = LocalStorage().get('new_officer_unknown.csv',
+                                                                   "COPA_SCRAPE-2019-03-25_05-30-50")
+            new_officer_allegation_file_contents = LocalStorage().get('new_officer_allegation.csv',
+                                                                      "COPA_SCRAPE-2019-03-25_05-30-50")
 
             expected_match_data_file_contents = open(os.path.join(IFTestBase.resource_directory,
                                                                   'expected_match_copa_data.csv')).read()
             expected_new_allegation_data = open(os.path.join(IFTestBase.resource_directory,
-                                                                'expected_new_allegation_data.csv')).read()
+                                                             'expected_new_allegation_data.csv')).read()
             expected_new_officer_unknown_data = open(os.path.join(IFTestBase.resource_directory,
-                                                                'expected_new_officer_unknown.csv')).read()
+                                                                  'expected_new_officer_unknown.csv')).read()
             expected_new_officer_allegation_data = open(os.path.join(IFTestBase.resource_directory,
-                                                                'expected_new_officer_allegation.csv')).read()
+                                                                     'expected_new_officer_allegation.csv')).read()
 
             entry_from_db = DataAllegation.query.get('1087387')
             number_of_rows_in_db = DataAllegation.query.count()
@@ -78,13 +79,13 @@ class TestCopaSrapeIntegration:
             # tests > helpers > resources (can find csv contents used in these tests
             # first two asserts; beat_ids were added to expected files in resource folder
             # new_data & match_data should show up in local_upload_folder
-            assert(match_data_file_contents == expected_match_data_file_contents)
-            assert(new_allegation_file_contents == expected_new_allegation_data)
-            assert(new_officer_unknown_file_contents == expected_new_officer_unknown_data)
-            assert(new_officer_allegation_file_contents == expected_new_officer_allegation_data)
+            assert (match_data_file_contents == expected_match_data_file_contents)
+            assert (new_allegation_file_contents == expected_new_allegation_data)
+            assert (new_officer_unknown_file_contents == expected_new_officer_unknown_data)
+            assert (new_officer_allegation_file_contents == expected_new_officer_allegation_data)
 
-            assert(entry_from_db is not None)
-            assert(number_of_rows_in_db == 151)
+            assert (entry_from_db is not None)
+            assert (number_of_rows_in_db == 151)
             # ^was bumped up +1 due to added entry in copa_scraped_demographics.csv when checking test with new data
 
             local_upload_dir = LocalStorage().local_upload_directory
