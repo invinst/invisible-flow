@@ -16,6 +16,8 @@ addons:
 jobs:
   include:
   - stage: test
+    exclude:
+      - if: branch = sandbox
     install:
     - pip install -r requirements.txt
     - cd frontend
@@ -32,6 +34,19 @@ jobs:
     - python run-api-tests.py
     - cd frontend
     - npm run test && cd ..
+  - stage: Heroku_deploy_sandbox
+    if: branch = sandbox
+    before_deploy: cd frontend && npm ci && npm run build && cd ..
+    deploy:
+      provider: heroku
+      api_key:
+        secure: onbG3IKjk1B3uX0Foqw6nIAtcMNBo+cmDL8467LmdsojZ/3L3ZLe7iIPnmLlQT2/CBMRG0w//TeC8HSu63xmIzYngNdVq4EvzZ28rY5zDk3Ib4XU0xDMPeo2P8a4VRzFS2ztOZ6Wh7F+9iwzb+7dy0IBLnEaQGG0GZQ0ZCrCh3lb2CJ9/TPepzuSzMzTgW1I7/oF5Z0lziU22sYCl/bhLrL3GVtv7p3/PDD9C30aOcsV2ubT+HXciEREBg7G/0c7Zdc7EkxPGtua11pwu1XFXwhtd9rkPrpRFPfMgLEMmWvbCo/c9G/mG/nynkRCYZzWlz8F27QP9MjwrV4VVMuw+gdT2uNDLPZWzICiAdV2SL6TLFsKTI6knt5adUhweHQhamnm0PrZp45JtksroXOtVG4VLUxtoRsOuLkZD6is5bGfQ1IvP/hELMDjI/cW98T/LwDXeNtxYabkNJ/F1X+GJ/TlAQMHwHqaqdotmerTqKSuLUbWI42ofpgzpmvkaKsgFmujeU9JKF1TGb7jOYvmZD6SoPNqa3ZnCzFQHVBth5qSU/o8vaDPixMTAR10yx6Pf48cfo+ube3GY5kGmKhOI1LcigYmwykBLNBVtEUh8meqzJoEC8K99E1K5vL4fUckh/Xnju11S7bTuIeWC6MMaJwwb7Pr4/EbvxkkTc4N/vs=
+      app: invisiflow-sb
+      on:
+        repo: invinst/invisible-flow
+        branch: sandbox
+      skip_cleanup: true
+    script: skip
   - stage: Heroku_deploy_testing
     if: branch = master
     before_deploy: cd frontend && npm ci && npm run build && cd ..
