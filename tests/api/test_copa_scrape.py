@@ -63,6 +63,7 @@ def test_copa_scrape_with_count_errors(self):
     with pytest.raises(ConnectionError):
         scrape_data()
 
+
 def mocked_allegation_requests_get(**kwargs):
     if kwargs['url'] == allegation_query:
         return MockResponse({"key1": "value1"}, 200, "allegation")
@@ -74,13 +75,16 @@ def mocked_allegation_requests_get(**kwargs):
 
     return MockResponse({"key1": "value1"}, 404, "allegation failure")
 
+
 def mocked_allegation_requests_get_failure(**kwargs):
-       return MockResponse({"key1": "value1"}, 404, "allegation failure")
+    return MockResponse({"key1": "value1"}, 404, "allegation failure")
+
 
 @mock.patch('requests.get', side_effect=mocked_allegation_requests_get)
 def test_copa_allegation_scrape(self):
     should_be_allegation = scrape_allegation_data()
     assert should_be_allegation == "allegation"
+
 
 @mock.patch('requests.get', side_effect=mocked_allegation_requests_get_failure)
 def test_copa_allegation_scrape_with_errors(self):

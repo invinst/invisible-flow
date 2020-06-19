@@ -57,12 +57,12 @@ class TestCopaSrapeIntegration:
             copa_scrape()
 
             match_data_file_contents = LocalStorage().get('match_data.csv', "COPA_SCRAPE-2019-03-25_05-30-50")
-            new_allegation_file_contents = LocalStorage().get('new_allegation_data.csv',
-                                                              "COPA_SCRAPE-2019-03-25_05-30-50")
-            new_officer_unknown_file_contents = LocalStorage().get('new_officer_unknown.csv',
-                                                                   "COPA_SCRAPE-2019-03-25_05-30-50")
-            new_officer_allegation_file_contents = LocalStorage().get('new_officer_allegation.csv',
-                                                                      "COPA_SCRAPE-2019-03-25_05-30-50")
+            new_allegation_file_contents = LocalStorage().get(
+                'new_allegation_data.csv', "COPA_SCRAPE-2019-03-25_05-30-50")
+            new_officer_unknown_file_contents = LocalStorage().get(
+                'new_officer_unknown.csv', "COPA_SCRAPE-2019-03-25_05-30-50")
+            new_officer_allegation_file_contents = LocalStorage().get(
+                'new_officer_allegation.csv', "COPA_SCRAPE-2019-03-25_05-30-50")
 
             expected_match_data_file_contents = open(os.path.join(IFTestBase.resource_directory,
                                                                   'expected_match_copa_data.csv')).read()
