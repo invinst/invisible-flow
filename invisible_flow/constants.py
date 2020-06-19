@@ -5,6 +5,8 @@ COPA_DB_BIND_KEY = 'copadb'
 VALID_STATUSES = ['STARTED', 'COMPLETED - SUCCESSFUL', 'COMPLETED - ERROR']
 
 SCRAPE_URL = 'https://data.cityofchicago.org/resource/mft5-nfa8'
+ALLEGATION_BASE_URL = "https://data.cityofchicago.org/resource/mft5-nfa8.csv?$"
+
 VALID_BEATS = [111, 112, 113, 114, 121, 122, 123, 124, 131, 132, 133,
                211, 212, 213, 214, 215, 221, 222, 223, 224, 225, 231,
                232, 233, 234, 235, 311, 312, 313, 314, 321, 322, 323,
