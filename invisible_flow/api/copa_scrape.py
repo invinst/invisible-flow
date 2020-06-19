@@ -20,6 +20,7 @@ def scrape_data():
     else:
         raise ConnectionError(response.content)
 
+
 def scrape_allegation_data():
     allegation_query = "query=SELECT%20log_no,beat"
     if os.environ.get("ENVIRONMENT") == 'local' or \
