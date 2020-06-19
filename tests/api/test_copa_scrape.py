@@ -2,7 +2,8 @@ from unittest import mock
 
 import pytest
 
-from invisible_flow.api.copa_scrape import scrape_data
+from invisible_flow.api.copa_scrape import scrape_data, scrape_allegation_data
+from invisible_flow.constants import ALLEGATION_BASE_URL
 
 
 class MockResponse:
@@ -16,6 +17,9 @@ base_url = "https://data.cityofchicago.org/resource/mft5-nfa8.csv?$"
 base_query = base_url + "query=SELECT%20log_no,beat,race_of_involved_officers,sex_of_involved_officers,"\
                        + "age_of_involved_officers,years_on_force_of_officers"
 count_query = base_url + "query=SELECT%20count(log_no)"
+
+allegation_query = ALLEGATION_BASE_URL + "query=SELECT%20log_no,beat"
+allegation_count_query = ALLEGATION_BASE_URL + "query=SELECT%20count(log_no)"
 
 
 def mocked_rows_requests_get_failure(**kwargs):
@@ -58,3 +62,27 @@ def test_copa_scrape_with_errors(self):
 def test_copa_scrape_with_count_errors(self):
     with pytest.raises(ConnectionError):
         scrape_data()
+
+def mocked_allegation_requests_get(**kwargs):
+    if kwargs['url'] == allegation_query:
+        return MockResponse({"key1": "value1"}, 200, "allegation")
+    elif kwargs['url'] == count_query:
+        content = "count_log_no\n2000"
+        return MockResponse({}, 200, content.encode('utf-8'))
+    elif kwargs['url'] == allegation_query + "%20LIMIT%202000":
+        return MockResponse({"key1": "value1"}, 200, "allegation")
+
+    return MockResponse({"key1": "value1"}, 404, "allegation failure")
+
+def mocked_allegation_requests_get_failure(**kwargs):
+       return MockResponse({"key1": "value1"}, 404, "allegation failure")
+
+@mock.patch('requests.get', side_effect=mocked_allegation_requests_get)
+def test_copa_allegation_scrape(self):
+    should_be_allegation = scrape_allegation_data()
+    assert should_be_allegation == "allegation"
+
+@mock.patch('requests.get', side_effect=mocked_allegation_requests_get_failure)
+def test_copa_allegation_scrape_with_errors(self):
+    with pytest.raises(ConnectionError):
+        scrape_allegation_data()
