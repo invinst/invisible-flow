@@ -1,5 +1,8 @@
+import collections
+
 from invisible_flow.copa.existing_crid import ExistingCrid
 from sqlalchemy.orm.exc import NoResultFound
+from manage import db
 
 
 class Sorter:
@@ -7,7 +10,6 @@ class Sorter:
         self.old_crids = []
         self.new_crids = []
 
-    # sorter queries existing_crid table
     def query_existing_crid_table(self):
         try:
             existing_crids = ExistingCrid.query.one().existing_crids
@@ -15,9 +17,23 @@ class Sorter:
             existing_crids = ''
         return existing_crids
 
-    # sorter sorts scraped_crids into old and new crids
-    def parse_existing_crids(self, scrape_results: list):
-        # call query_existing_crids
-        return
+    def split_crids_into_new_and_old(self, scrape_results: list):
+        existing_crids = set(self.query_existing_crid_table().split(','))
+        scraped_results = set(scrape_results)
+        self.new_crids = scraped_results - existing_crids
+        self.old_crids = scraped_results.intersection(existing_crids)
 
-    # sorter saves new crids to existing_crid table
+    def save_new_crids_to_db(self):
+        old_crids_str = ','.join(self.old_crids)
+        new_crids_str = ','.join(self.new_crids)
+        concatenated_crids = f"{old_crids_str},{new_crids_str}"
+        existing_crid = ExistingCrid.query.one()
+        existing_crid.existing_crids = concatenated_crids
+        db.session.add(existing_crid)
+        db.session.commit()
+
+    def get_grouped_crids(self, scrape_results: list):
+        self.split_crids_into_new_and_old(scrape_results)
+        GroupedCrids = collections.namedtuple('GroupedCrids', 'new_crids existing_crids')
+        grouped_crids = GroupedCrids(new_crids=self.new_crids, existing_crids=self.old_crids)
+        return grouped_crids
