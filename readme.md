@@ -48,15 +48,11 @@ Once the above steps are complete, return to your project's root directory `invi
     docker build -t invisible_flow:latest .
 
 ### Run app locally with docker
-This project outputs `.csv` files. In order to set this up: 
-
- 1. Decide where you would like to store these files (it can be anywhere you choose). 
- 2. Copy the absolute file path to this directory from your home directory (i.e, `~/Downloads`).
- 3. Replace "$(pwd)" with the file path.
-
-The command to **run the app locally** is:
+The following command can be run as is from the project root directory (i.e. `invisible-flow` - note the dash not underscore) or by replacing `"$(pwd)"` with the absolute path to said directory.
 
     docker run -t -i -p5000:5000 -e PORT=5000 -v "$(pwd):/app/" invisible_flow:latest
+
+**Note**: When run locally this project outputs `.csv` files to the `invisible-flow/invisible_flow/local_upload` directory.
 
 
 #### Check if the app is running correctly
