@@ -18,7 +18,6 @@ class TestConverter:
             location='location',
             old_complaint_address='old_complaint_address',
             subjects={"Bassil Abdelal", "Richie Cole", "Omar Young", "Leevon Carter"},
-            point='0101000020E61000009FB3603DC9EA55C0138E6A227DD84440',
             created_at=datetime.datetime.utcnow(),
             updated_at=datetime.datetime.utcnow()
         )
@@ -38,7 +37,6 @@ class TestConverter:
             'location': 'location',
             'old_complaint_address': 'old_complaint_address',
             'subjects': {"Bassil Abdelal", "Richie Cole", "Omar Young", "Leevon Carter"},
-            'point': '0101000020E61000009FB3603DC9EA55C0138E6A227DD84440',
             'created_at': allegation.created_at,
             'updated_at': allegation.updated_at
         }

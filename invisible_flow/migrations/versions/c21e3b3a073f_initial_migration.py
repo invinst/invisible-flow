@@ -33,7 +33,6 @@ def upgrade():
     sa.Column('location', sa.String(length=64), nullable=False),
     sa.Column('old_complaint_address', sa.String(length=255), nullable=True),
     sa.Column('subjects', postgresql.ARRAY(sa.String()), nullable=False),
-    sa.Column('point', Geometry(geometry_type='POINT', srid=4326), nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.Column('updated_at', sa.DateTime(), nullable=False),
     sa.PrimaryKeyConstraint('cr_id')

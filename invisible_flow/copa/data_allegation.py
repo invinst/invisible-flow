@@ -1,9 +1,10 @@
+from datetime import datetime
+
+# These libraries lack mypy typing
+from sqlalchemy.dialects import postgresql  # type: ignore
+
 from invisible_flow.constants import COPA_DB_BIND_KEY
 from manage import db
-from datetime import datetime
-# These libraries lack mypy typing
-from geoalchemy2 import Geometry  # type: ignore
-from sqlalchemy.dialects import postgresql  # type: ignore
 
 
 class DataAllegation(db.Model):
@@ -21,7 +22,6 @@ class DataAllegation(db.Model):
     location = db.Column(db.String(64), nullable=False, default='')
     old_complaint_address = db.Column(db.String(255))
     subjects = db.Column(postgresql.ARRAY(db.String), nullable=False, default=[])
-    point = db.Column(Geometry(geometry_type='POINT', srid=4326))
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
@@ -38,7 +38,6 @@ class DataAllegation(db.Model):
                f'location: {self.location}, ' \
                f'old_complaint_address: {self.old_complaint_address}, ' \
                f'subjects: {self.subjects}, ' \
-               f'point: {self.point}, ' \
                f'created_at: {self.created_at}, ' \
                f'updated_at: {self.updated_at}, ' \
                f'>'

@@ -1,1 +1,1 @@
-web: bootstrap.sh
+web: sh ./bootstrap.sh
