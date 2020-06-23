@@ -38,56 +38,6 @@ class TestInvisibleFlowApp:
 
         assert response.status_code == 405
 
-    @patch('invisible_flow.app.GlobalsFactory.get_current_datetime_utc', lambda: datetime(2019, 3, 25, 5, 30, 50, 0))
-    def test_foia_response_upload_uploads_to_memory(self, client):
-        # todo change this to a decorator
-        with patch('invisible_flow.app.StorageFactory.get_storage') as storage_factory_mock, \
-                patch('invisible_flow.app.TransformerFactory.get_transformer') as get_transformer_mock:
-            storage_mock = LocalStorage()
-            storage_factory_mock.return_value = storage_mock
-            storage_mock.store = MagicMock()
-            storage_mock.store_byte_string = MagicMock()
-
-            get_transformer_mock.return_value = CaseInfoAllegationsTransformer()
-            case_info_transformer_mock = get_transformer_mock()
-
-            case_info_transformer_mock.transform = MagicMock()
-            transform_mock = case_info_transformer_mock.transform
-            transform_mock.return_value = [('accused', 'transformed content')]
-
-            file_name = '{}.csv'.format(FOIA_RESPONSE_FIELD_NAME)
-            data = {
-                'foia_response': (BytesIO(b'some content'), file_name),
-                'response_type': 'accused'
-            }
-
-            response = client.post('/foia_response_upload', data=data, content_type='multipart/form-data')
-
-            assert response.status_code == 200
-            assert b'Success' in response.data
-
-            case_info_transformer_mock.transform.assert_called_with('accused', 'some content')
-
-            calls = [
-                call('accused.csv', b'some content', 'ui-2019-03-25_05-30-50/initial_data'),
-                call('accused.csv', b'transformed content', 'ui-2019-03-25_05-30-50/transformed')
-            ]
-            storage_mock.store_byte_string.assert_has_calls(calls)
-            # TODO test that xlsx is saved with ending
-
-    @pytest.mark.parametrize('extension', ['txt', 'sh', 'py'])
-    def test_unsupported_file_type_throw_on_post_request(self, extension, client):
-        data = {
-            'response_type': 'accused',
-            'field': FOIA_RESPONSE_FIELD_NAME,
-            'foia_response': (BytesIO(b'some content'), '{}.{}'.format(FOIA_RESPONSE_FIELD_NAME, extension))
-        }
-
-        response = client.post('/foia_response_upload', data=data, content_type='multipart/form-data')
-
-        assert response.status_code == 415
-        assert b'Unsupported' in response.data
-
     def test_copa_scrape_endpoint_responds(self, client):
         with patch.object(CopaScrapeTransformer, 'transform') as transform_mock, \
                 patch.object(StorageFactory, 'get_storage'):
@@ -112,3 +62,12 @@ class TestInvisibleFlowApp:
     @compiles(DropTable, "postgresql")
     def _compile_drop_table(self, compiler, **kwargs):
         return compiler.visit_drop_table(self) + " CASCADE"
+
+    def test_copa_scrape_v2(self, client):
+        # verify that new crid rows were saved to database
+        # verify that new crid rows were saved to csv
+        # verify that existing crids were saved to csv
+
+        response = client.get('/copa_scrape_v2', content_type='html/text')
+        assert response.status_code == 200
+        assert b'Success' in response.data

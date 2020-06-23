@@ -1,16 +1,15 @@
+from io import BytesIO
 from logging import getLogger
 from logging.config import dictConfig
 
+import pandas as pd
 from flask import render_template, Response, Request
 
 from invisible_flow.app_factory import app
 from invisible_flow.copa.loader import Loader
 from invisible_flow.copa.saver import Saver, strip_zeroes_from_beat_id, cast_col_to_int
-from invisible_flow.globals_factory import GlobalsFactory
-from invisible_flow.storage.storage_factory import StorageFactory
-from invisible_flow.transformers.transformer_factory import TransformerFactory
-from invisible_flow.validation import is_valid_file_type
-from invisible_flow.api.copa_scrape import scrape_data
+from invisible_flow.api.copa_scrape import scrape_data, scrape_allegation_data
+from invisible_flow.copa.sorter import Sorter
 from invisible_flow.transformers.copa_scrape_transformer import CopaScrapeTransformer
 
 # Logging configuration
@@ -73,44 +72,30 @@ def copa_scrape():
     return Response(status=200, response='Success')
 
 
-@app.route('/foia_response_upload', methods=['POST'])
-def foia_response_upload():
-    request_context: Request = GlobalsFactory.get_request_context()
+@app.route('/copa_scrape_v2', methods=['GET'])
+def copa_scrape_v2():
+    scraped_data = scrape_allegation_data()
+    scraped_df = pd.read_csv(BytesIO(scraped_data), encoding='utf-8', sep=",", dtype=str)
 
-    try:
-        foia_response_file = request_context.files['foia_response']
-    except Exception as e:
-        logger.error(e)
-        return Response(status=400, response="No file with name foia_response was uploaded")
+    crids = list(scraped_df['log_no'].values())
+    sorter = Sorter()
 
-    if not is_valid_file_type(foia_response_file.filename):
-        logger.error(f'Unsupported file type uploaded to FOIA. filename={foia_response_file.filename}')
-        return Response(status=415, response='Unsupported file type. Please upload a .csv .xls or .xlsx file.')
+    grouped_crids = sorter.get_grouped_crids(crids)
 
-    try:
-        response_type = request_context.form['response_type']
-    except Exception as e:
-        logger.error(e)
-        return Response(status=400, response="No response type for the file was specified")
+    new_crids = grouped_crids.new_crids
+    existing_crids = grouped_crids.existing_crids
 
-    logger.info(f'Received foia request of type {response_type}')
+    # extract rows from dataframe associated with new crids
 
-    current_date = GlobalsFactory.get_current_datetime_utc().isoformat(sep='_').replace(':', '-')
+    # transform new crid rows
 
-    file_content: bytes = foia_response_file.read()
+    # load new crid rows to db
 
-    logger.info(f'Storing foia request of type {response_type}')
-    storage = StorageFactory.get_storage()
-    storage.store_byte_string(f'{response_type}.csv', file_content, f'ui-{current_date}/initial_data')
+    # save new crid rows to csv
 
-    logger.info(f'Transforming foia request of type {response_type}')
-    transformer = TransformerFactory.get_transformer(response_type)
-    transformation_result = transformer.transform(response_type, file_content.decode('utf-8'))
-    logger.info(f'Storing transformed file')
-    for result in transformation_result:
-        storage.store_byte_string(f'{result[0]}.csv', result[1].encode('utf-8'), f'ui-{current_date}/transformed')
+    # query db for data allegations associated with existing crids -- convert to df
 
-    logger.info('Successfully uploaded FOIA file')
+    # save existing crids to csv
     return Response(status=200, response='Success')
 
 
