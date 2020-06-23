@@ -10,6 +10,7 @@ from invisible_flow.copa.loader import Loader
 from invisible_flow.copa.saver import Saver, strip_zeroes_from_beat_id, cast_col_to_int
 from invisible_flow.api.copa_scrape import scrape_data, scrape_allegation_data
 from invisible_flow.copa.sorter import Sorter
+from invisible_flow.transformers.allegation_transformer import AllegationTransformer
 from invisible_flow.transformers.copa_scrape_transformer import CopaScrapeTransformer
 
 # Logging configuration
@@ -72,6 +73,7 @@ def copa_scrape():
     return Response(status=200, response='Success')
 
 
+
 @app.route('/copa_scrape_v2', methods=['GET'])
 def copa_scrape_v2():
     scraped_data = scrape_allegation_data()
@@ -85,9 +87,10 @@ def copa_scrape_v2():
     new_crids = grouped_crids.new_crids
     existing_crids = grouped_crids.existing_crids
 
-    # extract rows from dataframe associated with new crids
+    new_allegation_rows = sorter.get_new_allegation_rows()
 
-    # transform new crid rows
+    allegation_transformer = AllegationTransformer()
+    transformed_new_allegation_rows = allegation_transformer.transform()
 
     # load new crid rows to db
 

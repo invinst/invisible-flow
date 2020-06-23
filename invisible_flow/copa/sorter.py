@@ -3,6 +3,7 @@ import collections
 from invisible_flow.copa.existing_crid import ExistingCrid
 from sqlalchemy.orm.exc import NoResultFound
 from manage import db
+import pandas as pd
 
 
 class Sorter:
@@ -37,3 +38,7 @@ class Sorter:
         GroupedCrids = collections.namedtuple('GroupedCrids', 'new_crids existing_crids')
         grouped_crids = GroupedCrids(new_crids=self.new_crids, existing_crids=self.old_crids)
         return grouped_crids
+
+    def get_new_allegation_rows(self, fake_scraped_data):
+        new_allegation_rows = fake_scraped_data[fake_scraped_data['log_no'].isin(self.new_crids)]
+        return new_allegation_rows

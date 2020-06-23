@@ -1,7 +1,11 @@
+import pdb
+
 from invisible_flow.constants import COPA_DB_BIND_KEY
 from invisible_flow.copa.existing_crid import ExistingCrid
 from invisible_flow.copa.sorter import Sorter
 from manage import db
+import pandas as pd
+from pandas.testing import assert_frame_equal
 import pytest
 
 
@@ -69,3 +73,17 @@ class TestSorter:
         grouped_crids = test_sorter.get_grouped_crids(["33333333", "1111111", "999999"])
         assert(grouped_crids.new_crids == set())
         assert(grouped_crids.existing_crids == {"33333333", "1111111", "999999"})
+
+    def test_get_new_rows_should_return_rows_with_new_crids(self):
+        test_sorter = Sorter()
+        test_sorter.new_crids = ["33333333", "1111111", "999999"]
+        fake_scraped_data = pd.DataFrame({
+            "log_no":["33333333", "1111111", "999999","100000","100007"],
+            "beat":["444","555","777","888","999"]
+        })
+        expected_new_rows = pd.DataFrame({
+            "log_no": ["33333333", "1111111", "999999"],
+            "beat": ["444", "555", "777"]
+        })
+        new_rows = test_sorter.get_new_allegation_rows(fake_scraped_data)
+        assert_frame_equal(new_rows,expected_new_rows)
