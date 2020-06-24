@@ -19,3 +19,17 @@ class TestAllegationTransformer():
         test_transformer = AllegationTransformer()
         transformed_scrape_data = test_transformer.transform_beat_id(fake_new_rows)
         assert_series_equal(transformed_scrape_data["beat"], expected_beat_ids)
+
+    def test_transformer_should_change_column_names_to_match_db(self):
+        fake_new_rows = pd.DataFrame({
+            "log_no": ["11111"],
+            "beat": ["111"]
+        })
+
+        test_transformer = AllegationTransformer()
+        transformed_scrape_data = test_transformer.transform(fake_new_rows)
+
+        assert("cr_id" in transformed_scrape_data.columns)
+        assert("beat_id" in transformed_scrape_data.columns)
+        assert("log_no" not in transformed_scrape_data.columns)
+        assert("beat" not in transformed_scrape_data.columns)

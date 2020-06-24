@@ -15,7 +15,7 @@ class DataAllegation(db.Model):
     add1 = db.Column(db.String(16), nullable=False, default='')
     add2 = db.Column(db.String(255), nullable=False, default='')
     source = db.Column(db.String(255), nullable=False, default='')
-    beat_id = db.Column(db.Integer)
+    beat_id = db.Column(db.String())
     city = db.Column(db.String(255), nullable=False, default='')
     incident_date = db.Column(db.DateTime)
     is_officer_complaint = db.Column(db.Boolean, nullable=False, default=False)

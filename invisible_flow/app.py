@@ -6,6 +6,7 @@ import pandas as pd
 from flask import render_template, Response, Request
 
 from invisible_flow.app_factory import app
+from invisible_flow.copa.allegation_loader import AllegationLoader
 from invisible_flow.copa.loader import Loader
 from invisible_flow.copa.saver import Saver, strip_zeroes_from_beat_id, cast_col_to_int
 from invisible_flow.api.copa_scrape import scrape_data, scrape_allegation_data
@@ -90,13 +91,15 @@ def copa_scrape_v2():
     new_allegation_rows = sorter.get_new_allegation_rows()
 
     allegation_transformer = AllegationTransformer()
-    transformed_new_allegation_rows = allegation_transformer.transform()
+    transformed_new_allegation_rows = allegation_transformer.transform(new_allegation_rows)
 
-    # load new crid rows to db
-
-    # save new crid rows to csv
+    allegation_loader = AllegationLoader()
+    allegation_loader.load_allegation_into_db(transformed_new_allegation_rows)
 
     # query db for data allegations associated with existing crids -- convert to df
+
+
+    # save new crid rows to csv
 
     # save existing crids to csv
     return Response(status=200, response='Success')
