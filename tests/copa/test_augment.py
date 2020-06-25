@@ -47,6 +47,7 @@ class TestAugment:
     def test_adding_augmented_copa_record_to_db_no_category_matches(self):
         copa_split_csv = os.path.join(IFTestBase.resource_directory, 'copa_scraped_split.csv')
         df = pd.read_csv(copa_split_csv)
+        db.session.close()
         db.drop_all()
         db.create_all(bind=COPA_DB_BIND_KEY)
 
