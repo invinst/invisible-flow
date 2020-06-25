@@ -62,6 +62,7 @@ class TestLoader:
         db.session.commit()
         db.session.close()
 
+    #fails because we have changed beat_id's type to str on branch 175
     def test_load_data_with_beat_id(self):
         testLoader = Loader()
         testLoader.load_into_db(expected_transformed_data_with_beat_id)
