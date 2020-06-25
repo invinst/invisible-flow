@@ -7,6 +7,7 @@ from invisible_flow.app import copa_scrape
 from invisible_flow.copa.data_allegation import DataAllegation
 from invisible_flow.storage import LocalStorage
 from invisible_flow.storage.storage_factory import StorageFactory
+from invisible_flow.globals_factory import GlobalsFactory
 from tests.helpers.if_test_base import IFTestBase
 from unittest.mock import patch
 from manage import db
