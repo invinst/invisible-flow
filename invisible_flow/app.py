@@ -97,7 +97,7 @@ def copa_scrape_v2():
     allegation_mapper.load_allegation_into_db(transformed_new_allegation_rows)
 
     # query db for data allegations associated with existing crids -- convert to df
-
+    existing_allegation_rows = allegation_mapper.get_existing_data()
 
     # save new crid rows to csv
 
