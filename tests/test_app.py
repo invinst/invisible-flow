@@ -1,16 +1,13 @@
-from datetime import datetime
-from io import BytesIO
-from unittest.mock import call, patch, MagicMock
+from unittest.mock import patch
 
 import pytest
 import pandas as pd
 from flask.testing import FlaskClient
 
 from invisible_flow.app import app
-from invisible_flow.constants import FOIA_RESPONSE_FIELD_NAME, COPA_DB_BIND_KEY
-from invisible_flow.storage import LocalStorage
+from invisible_flow.constants import COPA_DB_BIND_KEY
 from invisible_flow.storage.storage_factory import StorageFactory
-from invisible_flow.transformers import CaseInfoAllegationsTransformer, CopaScrapeTransformer
+from invisible_flow.transformers import CopaScrapeTransformer
 from manage import db
 
 from sqlalchemy.schema import DropTable

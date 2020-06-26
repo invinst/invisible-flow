@@ -1,5 +1,3 @@
-import pdb
-
 import pandas as pd
 
 from invisible_flow.copa.data_allegation import DataAllegation
@@ -7,6 +5,7 @@ from invisible_flow.copa.existing_crid import ExistingCrid
 from sqlalchemy.orm.exc import NoResultFound
 
 from manage import db
+
 
 class AllegationMapper:
 

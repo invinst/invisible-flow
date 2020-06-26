@@ -1,7 +1,4 @@
-import pdb
-
 from invisible_flow.constants import COPA_DB_BIND_KEY
-from invisible_flow.copa.existing_crid import ExistingCrid
 from invisible_flow.copa.sorter import Sorter
 from manage import db
 import pandas as pd
@@ -28,7 +25,7 @@ class TestSorter:
         expected_existing_crids, expected_new_crids, scraped_crids = generate_variables
         test_sorter = Sorter()
 
-        test_sorter.split_crids_into_new_and_old(scraped_crids,expected_existing_crids)
+        test_sorter.split_crids_into_new_and_old(scraped_crids, expected_existing_crids)
 
         assert (test_sorter.old_crids == set(expected_existing_crids.split(',')))
         assert (test_sorter.new_crids == set(expected_new_crids.split(',')))
@@ -36,7 +33,7 @@ class TestSorter:
     def test_no_change_to_existing_crids_when_there_are_no_new_crids(self, generate_variables):
         expected_existing_crids, expected_new_crids, scraped_crids = generate_variables
         test_sorter = Sorter()
-        test_sorter.split_crids_into_new_and_old(expected_existing_crids.split(','),expected_existing_crids)
+        test_sorter.split_crids_into_new_and_old(expected_existing_crids.split(','), expected_existing_crids)
         assert(test_sorter.get_new_crids() == set())
         assert(test_sorter.old_crids == {"33333333", "1111111", "999999"})
 
@@ -44,12 +41,12 @@ class TestSorter:
         test_sorter = Sorter()
         test_sorter.new_crids = ["33333333", "1111111", "999999"]
         fake_scraped_data = pd.DataFrame({
-            "log_no":["33333333", "1111111", "999999","100000","100007"],
-            "beat":["444","555","777","888","999"]
+            "log_no": ["33333333", "1111111", "999999", "100000", "100007"],
+            "beat": ["444", "555", "777", "888", "999"]
         })
         expected_new_rows = pd.DataFrame({
             "log_no": ["33333333", "1111111", "999999"],
             "beat": ["444", "555", "777"]
         })
         new_rows = test_sorter.get_new_allegation_rows(fake_scraped_data)
-        assert_frame_equal(new_rows,expected_new_rows)
+        assert_frame_equal(new_rows, expected_new_rows)

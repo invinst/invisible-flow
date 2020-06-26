@@ -3,8 +3,7 @@ from logging import getLogger
 from logging.config import dictConfig
 
 import pandas as pd
-import pytest
-from flask import render_template, Response, Request
+from flask import render_template, Response
 
 from invisible_flow.app_factory import app
 from invisible_flow.copa.allegation_mapper import AllegationMapper
@@ -18,7 +17,6 @@ from invisible_flow.transformers.allegation_transformer import AllegationTransfo
 from invisible_flow.transformers.copa_scrape_transformer import CopaScrapeTransformer
 
 # Logging configuration
-from invisible_flow.validation import is_valid_file_type
 
 dictConfig({
     'version': 1,
