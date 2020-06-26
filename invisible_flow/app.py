@@ -3,15 +3,15 @@ from logging import getLogger
 from logging.config import dictConfig
 
 import pandas as pd
+import pytest
 from flask import render_template, Response, Request
 
 from invisible_flow.app_factory import app
 from invisible_flow.copa.allegation_mapper import AllegationMapper
+from invisible_flow.copa.allegation_saver import AllegationSaver
 from invisible_flow.copa.loader import Loader
 from invisible_flow.copa.saver import Saver, strip_zeroes_from_beat_id, cast_col_to_int
 from invisible_flow.globals_factory import GlobalsFactory
-from invisible_flow.storage.storage_factory import StorageFactory
-from invisible_flow.transformers.transformer_factory import TransformerFactory
 from invisible_flow.api.copa_scrape import scrape_data, scrape_allegation_data
 from invisible_flow.copa.sorter import Sorter
 from invisible_flow.transformers.allegation_transformer import AllegationTransformer
@@ -84,28 +84,33 @@ def copa_scrape_v2():
     scraped_data = scrape_allegation_data()
     scraped_df = pd.read_csv(BytesIO(scraped_data), encoding='utf-8', sep=",", dtype=str)
 
-    crids = list(scraped_df['log_no'].values())
+    crids = list(scraped_df['log_no'].values)
+
+    allegation_mapper = AllegationMapper()
     sorter = Sorter()
 
-    grouped_crids = sorter.get_grouped_crids(crids)
+    sorter.split_crids_into_new_and_old(crids, allegation_mapper.query_existing_crid_table())
 
-    new_crids = grouped_crids.new_crids
-    existing_crids = grouped_crids.existing_crids
-
-    new_allegation_rows = sorter.get_new_allegation_rows()
+    new_allegation_rows = sorter.get_new_allegation_rows(scraped_df)
 
     allegation_transformer = AllegationTransformer()
     transformed_new_allegation_rows = allegation_transformer.transform(new_allegation_rows)
 
-    allegation_mapper = AllegationMapper()
     allegation_mapper.load_allegation_into_db(transformed_new_allegation_rows)
 
     # query db for data allegations associated with existing crids -- convert to df
     existing_allegation_rows = allegation_mapper.get_existing_data()
 
     # save new crid rows to csv
+    allegation_saver = AllegationSaver()
+    allegation_saver.save_allegation_to_csv(new_allegation_rows, "new_allegation_data")
 
     # save existing crids to csv
+    allegation_saver.save_allegation_to_csv(existing_allegation_rows,"existing_allegation_data")
+
+    # Put new crids in db
+    new_crids = sorter.get_new_crids()
+
     return Response(status=200, response='Success')
 
 
