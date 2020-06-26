@@ -8,7 +8,7 @@ from pandas.util.testing import assert_frame_equal
 from invisible_flow.copa.saver import Saver, strip_zeroes_from_beat_id, cast_col_to_int
 from invisible_flow.storage import LocalStorage
 from invisible_flow.storage.storage_factory import StorageFactory
-from invisible_flow.globals_factory import GlobalsFactory
+from invisible_flow.globals_factory import GlobalsFactory  # noqa: F401
 from tests.helpers.testing_data import expected_load_data
 
 

@@ -10,7 +10,7 @@ from invisible_flow.copa.allegation_mapper import AllegationMapper
 from invisible_flow.copa.allegation_saver import AllegationSaver
 from invisible_flow.copa.loader import Loader
 from invisible_flow.copa.saver import Saver, strip_zeroes_from_beat_id, cast_col_to_int
-from invisible_flow.globals_factory import GlobalsFactory
+from invisible_flow.globals_factory import GlobalsFactory  # noqa: F401
 from invisible_flow.api.copa_scrape import scrape_data, scrape_allegation_data
 from invisible_flow.copa.sorter import Sorter
 from invisible_flow.transformers.allegation_transformer import AllegationTransformer

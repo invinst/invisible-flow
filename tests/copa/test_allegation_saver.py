@@ -5,7 +5,7 @@ import pandas as pd
 from invisible_flow.copa.allegation_saver import AllegationSaver
 from invisible_flow.storage import LocalStorage
 from invisible_flow.storage.storage_factory import StorageFactory
-from invisible_flow.globals_factory import GlobalsFactory
+from invisible_flow.globals_factory import GlobalsFactory  # noqa: F401
 
 
 class TestAllegationSaver:
