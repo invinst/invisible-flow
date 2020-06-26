@@ -17,10 +17,11 @@ class AllegationMapper:
             existing_crids = ''
         return existing_crids
 
-    def save_new_crids_to_db(self,old_crids,new_crids):
+    def save_new_crids_to_db(self, old_crids, new_crids):
         old_crids_str = ','.join(old_crids)
         new_crids_str = ','.join(new_crids)
         concatenated_crids = f"{old_crids_str},{new_crids_str}"
+        # need to add a case where there is no data in ExistingCrid
         existing_crid = ExistingCrid.query.one()
         existing_crid.existing_crids = concatenated_crids
         db.session.add(existing_crid)
