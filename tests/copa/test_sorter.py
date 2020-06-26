@@ -17,10 +17,6 @@ class TestSorter:
         db.drop_all()
         db.create_all(bind=COPA_DB_BIND_KEY)
 
-        crids_in_db = ExistingCrid(existing_crids=generate_variables[0])
-        db.session.add(crids_in_db)
-        db.session.commit()
-
     @pytest.fixture
     def generate_variables(self):
         expected_existing_crids = "33333333,1111111,999999"
@@ -28,51 +24,21 @@ class TestSorter:
         scraped_crids = ["33333333", "1111111", "999999", "4444444", "666666"]
         return expected_existing_crids, expected_new_crids, scraped_crids
 
-    def test_query_should_return_empty_string_when_no_existing_crids(self):
-        db.session.close()
-        db.drop_all()
-        db.create_all(bind=COPA_DB_BIND_KEY)
-
-        test_sorter = Sorter()
-
-        existing_crids = test_sorter.query_existing_crid_table()
-        assert (existing_crids == '')
-
-    def test_query_existing_crids_should_return_existing_crids(self, generate_variables):
-        expected_existing_crids = generate_variables[0]
-
-        test_sorter = Sorter()
-
-        existing_crids = test_sorter.query_existing_crid_table()
-        assert (existing_crids == expected_existing_crids)
-
     def test_parse_existing_crids_should_parse_crids(self, generate_variables):
         expected_existing_crids, expected_new_crids, scraped_crids = generate_variables
         test_sorter = Sorter()
 
-        test_sorter.split_crids_into_new_and_old(scraped_crids)
+        test_sorter.split_crids_into_new_and_old(scraped_crids,expected_existing_crids)
 
         assert (test_sorter.old_crids == set(expected_existing_crids.split(',')))
         assert (test_sorter.new_crids == set(expected_new_crids.split(',')))
 
-    def test_saves_new_crids_db(self, generate_variables):
+    def test_no_change_to_existing_crids_when_there_are_no_new_crids(self, generate_variables):
         expected_existing_crids, expected_new_crids, scraped_crids = generate_variables
         test_sorter = Sorter()
-
-        test_sorter.split_crids_into_new_and_old(scraped_crids)
-        test_sorter.save_new_crids_to_db()
-
-        actual_saved_crids = ExistingCrid.query.one().existing_crids.split(',')
-
-        expected_saved_crids = set(scraped_crids)
-
-        assert (set(actual_saved_crids) == expected_saved_crids)
-
-    def test_no_change_to_existing_crids_when_there_are_no_new_crids(self):
-        test_sorter = Sorter()
-        grouped_crids = test_sorter.get_grouped_crids(["33333333", "1111111", "999999"])
-        assert(grouped_crids.new_crids == set())
-        assert(grouped_crids.existing_crids == {"33333333", "1111111", "999999"})
+        test_sorter.split_crids_into_new_and_old(expected_existing_crids.split(','),expected_existing_crids)
+        assert(test_sorter.get_new_crids() == set())
+        assert(test_sorter.old_crids == {"33333333", "1111111", "999999"})
 
     def test_get_new_rows_should_return_rows_with_new_crids(self):
         test_sorter = Sorter()
