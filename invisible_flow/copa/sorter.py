@@ -12,6 +12,9 @@ class Sorter:
     def get_new_crids(self):
         return self.new_crids
 
+    def get_old_crids(self):
+        return self.old_crids
+
     def get_new_allegation_rows(self, scraped_data):
         new_allegation_rows = scraped_data[scraped_data['log_no'].isin(self.new_crids)]
         return new_allegation_rows

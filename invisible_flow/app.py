@@ -106,10 +106,13 @@ def copa_scrape_v2():
     allegation_saver.save_allegation_to_csv(new_allegation_rows, "new_allegation_data")
 
     # save existing crids to csv
-    allegation_saver.save_allegation_to_csv(existing_allegation_rows,"existing_allegation_data")
+    allegation_saver.save_allegation_to_csv(existing_allegation_rows, "existing_allegation_data")
 
     # Put new crids in db
+    old_crids = sorter.get_old_crids()
     new_crids = sorter.get_new_crids()
+
+    allegation_mapper.save_new_crids_to_db(old_crids,new_crids)
 
     return Response(status=200, response='Success')
 
