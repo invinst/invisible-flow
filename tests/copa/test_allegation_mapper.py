@@ -9,10 +9,11 @@ from invisible_flow.copa.data_allegation import DataAllegation
 from invisible_flow.copa.existing_crid import ExistingCrid
 from manage import db
 
+
 class TestAllegationMapper:
 
     @pytest.fixture(autouse=True)
-    def set_up(self,generate_variables):
+    def set_up(self, generate_variables):
         db.session.close()
         db.drop_all()
         db.create_all(bind=COPA_DB_BIND_KEY)
@@ -36,7 +37,7 @@ class TestAllegationMapper:
         test_mapper = AllegationMapper()
 
         existing_crids = test_mapper.query_existing_crid_table()
-        pdb.set_trace()
+
         assert (existing_crids == '')
 
     def test_query_existing_crids_should_return_existing_crids(self, generate_variables):
@@ -53,14 +54,13 @@ class TestAllegationMapper:
 
         test_mapper = AllegationMapper()
 
-        test_mapper.save_new_crids_to_db(expected_existing_crids.split(','),expected_new_crids.split(','))
+        test_mapper.save_new_crids_to_db(expected_existing_crids.split(','), expected_new_crids.split(','))
 
         actual_saved_crids = ExistingCrid.query.one().existing_crids.split(',')
 
         expected_saved_crids = set(scraped_crids)
 
         assert (set(actual_saved_crids) == expected_saved_crids)
-
 
     def test_allegation_mapper_should_load_new_rows(self):
         test_mapper = AllegationMapper()
@@ -80,11 +80,11 @@ class TestAllegationMapper:
         test_mapper = AllegationMapper()
 
         fake_existing_data = pd.DataFrame({
-            "cr_id": ["33333333", "1111111", "999999","888888"],
+            "cr_id": ["33333333", "1111111", "999999", "888888"],
             "beat_id": ["111", "112", "114", "115"]
         })
 
         test_mapper.load_allegation_into_db(fake_existing_data)
 
         existing_data = test_mapper.get_existing_data()
-        assert_frame_equal(existing_data,fake_existing_data)
+        assert_frame_equal(existing_data, fake_existing_data)
