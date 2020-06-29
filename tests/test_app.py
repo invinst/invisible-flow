@@ -64,11 +64,11 @@ class TestInvisibleFlowApp:
         # verify that new crid rows were saved to database
         # verify that new crid rows were saved to csv
         # verify that existing crids were saved to csv
+        with patch.object(StorageFactory, 'get_storage'):
+            db.session.close()
+            db.drop_all()
+            db.create_all(bind=COPA_DB_BIND_KEY)
 
-        db.session.close()
-        db.drop_all()
-        db.create_all(bind=COPA_DB_BIND_KEY)
-
-        response = client.get('/copa_scrape_v2', content_type='html/text')
-        assert response.status_code == 200
-        assert b'Success' in response.data
+            response = client.get('/copa_scrape_v2', content_type='html/text')
+            assert response.status_code == 200
+            assert b'Success' in response.data
