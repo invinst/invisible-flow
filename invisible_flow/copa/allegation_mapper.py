@@ -16,8 +16,6 @@ class AllegationMapper:
             existing_crids = ''
         return existing_crids
 
-
-
     def save_new_crids_to_db(self, old_crids, new_crids):
         old_crids_str = ','.join(old_crids)
         new_crids_str = ','.join(new_crids)
@@ -30,7 +28,6 @@ class AllegationMapper:
             only_new_crids = ExistingCrid(existing_crids=f"{new_crids_str}")
             db.session.add(only_new_crids)
         db.session.commit()
-
 
     def load_allegation_into_db(self, new_allegation_rows: pd.DataFrame):
         db.session.bulk_insert_mappings(DataAllegation, new_allegation_rows.to_dict(orient="records"))
