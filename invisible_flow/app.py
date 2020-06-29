@@ -82,6 +82,7 @@ def copa_scrape():
     allegation_scraper()
     return Response(status=200, response='Success')
 
+
 def allegation_scraper():
     scraped_data = scrape_allegation_data()
     scraped_df = pd.read_csv(BytesIO(scraped_data), encoding='utf-8', sep=",", dtype=str)
