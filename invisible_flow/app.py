@@ -52,8 +52,8 @@ def index(path):
     return render_template('index.html')
 
 
-@app.route('/copa_scrape', methods=['GET'])
-def copa_scrape():
+@app.route('/copa_scrape_deprecated', methods=['GET'])
+def copa_scrape_deprecated():
     scraped_data = scrape_data()
 
     transformer = CopaScrapeTransformer()
@@ -77,8 +77,12 @@ def copa_scrape():
     return Response(status=200, response='Success')
 
 
-@app.route('/copa_scrape_v2', methods=['GET'])
-def copa_scrape_v2():
+@app.route('/copa_scrape', methods=['GET'])
+def copa_scrape():
+    allegation_scraper()
+    return Response(status=200, response='Success')
+
+def allegation_scraper():
     scraped_data = scrape_allegation_data()
     scraped_df = pd.read_csv(BytesIO(scraped_data), encoding='utf-8', sep=",", dtype=str)
 
@@ -111,8 +115,6 @@ def copa_scrape_v2():
     new_crids = sorter.get_new_crids()
 
     allegation_mapper.save_new_crids_to_db(old_crids, new_crids)
-
-    return Response(status=200, response='Success')
 
 
 if __name__ == '__main__':
