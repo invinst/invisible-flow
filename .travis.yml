@@ -29,7 +29,6 @@ jobs:
     - flake8 .
     - mypy invisible_flow
     - pytest --cov=invisible_flow tests --cov-fail-under 70
-    - python run-api-tests.py
     - cd frontend
     - npm run test && cd ..
   - stage: Heroku_deploy_testing
