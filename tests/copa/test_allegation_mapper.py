@@ -48,7 +48,6 @@ class TestAllegationMapper:
         existing_crids = test_mapper.query_existing_crid_table()
         assert (existing_crids == expected_existing_crids)
 
-    @pytest.mark.focus
     def test_saves_new_crids_db(self, generate_variables):
         expected_existing_crids, expected_new_crids, scraped_crids = generate_variables
 

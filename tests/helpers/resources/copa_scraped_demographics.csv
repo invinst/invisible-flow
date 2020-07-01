@@ -1,11 +1,11 @@
 "log_no","beat","race_of_involved_officers","sex_of_involved_officers","age_of_involved_officers","years_on_force_of_officers"
-"1008899",,,,,
-"1087378",,,,,
+"1008899",111,,,,
+"1087378",111,,,,
 "1087387",332,"African American / Black | White","Male | Male","30-39 | 20-29","5-9 | 0-4"
 "1087308",,,,,
 "1008913",,,,,
 "1087346",,,,,
-"1008915",523,"African American / Black","Male","30-39","5-9"
+"1008915",111,"African American / Black","Male","30-39","5-9"
 "1008922",2212,"White","Male","50-59","15-19"
 "1078504",1524,"White | White","Male | Male","40-49 | 20-29","20-24 | 0-4"
 "1090472",,,,,
@@ -130,7 +130,7 @@
 "1090458",,,,,
 "1090493",,,,,
 "1090522",,,,,
-"1009311",234,"African American / Black","Male","30-39","5-9"
+"1009311",111,"African American / Black","Male","30-39","5-9"
 "1024755",1024,"White | Hispanic","Male | Male","40-49 | 30-39","10-14 | 10-14"
 "1090466",,,,,
 "1009323",823,"White","Male","30-39","5-9"
@@ -147,6 +147,6 @@
 "1009348",,,,,
 "1088795",1233,"Hispanic | Unknown","Male | Unknown","30-39 | Unknown","0-4 | 25-29"
 "1038190",1122,"Hispanic | White | White","Male | Female | Male","30-39 | 30-39 | 30-39","5-9 | 5-9 | 5-9"
-"1009355",,,,,
+"1009355",111,,,,
 "1090445",,,,,
 "1086957",1423,"Asian/Pacific Islander","Male","50-59","15-19"
