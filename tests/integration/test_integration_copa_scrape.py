@@ -36,7 +36,7 @@ class TestCopaSrapeIntegration:
         existing_crids_str = "1008899,1087378,1008915,1009311,1009355"
 
         for log_no in log_number_from_csv:
-            data_allegation = DataAllegation(cr_id=log_no,beat_id="111")
+            data_allegation = DataAllegation(cr_id=log_no, beat_id="111")
             db.session.add(data_allegation)
 
         existing_crids = ExistingCrid(existing_crids=existing_crids_str)
@@ -65,12 +65,14 @@ class TestCopaSrapeIntegration:
 
             copa_scrape()
 
-            existing_allegation_file_contents = LocalStorage().get('existing_allegation_data.csv', "COPA_SCRAPE-2019-03-25_05-30-50")
+            existing_allegation_file_contents = LocalStorage().get('existing_allegation_data.csv',
+                                                                   "COPA_SCRAPE-2019-03-25_05-30-50")
             new_allegation_file_contents = LocalStorage().get(
                 'new_allegation_data.csv', "COPA_SCRAPE-2019-03-25_05-30-50")
 
-            expected_existing_allegation_file_contents = open(os.path.join(IFTestBase.resource_directory,
-                                                                  'expected_existing_allegation_data.csv')).read()
+            expected_existing_allegation_file_contents = open(os.path.join(
+                IFTestBase.resource_directory, 'expected_existing_allegation_data.csv')).read()
+
             expected_new_allegation_data = open(os.path.join(IFTestBase.resource_directory,
                                                              'expected_new_allegation_data.csv')).read()
 
