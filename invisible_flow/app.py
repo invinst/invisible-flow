@@ -93,23 +93,22 @@ def allegation_scraper():
     sorter = Sorter()
 
     sorter.split_crids_into_new_and_old(crids, allegation_mapper.query_existing_crid_table())
-
     new_allegation_rows = sorter.get_new_allegation_rows(scraped_df)
+
+    # query db for data allegations associated with existing crids -- convert to df
+    existing_allegation_rows = allegation_mapper.get_existing_data()
 
     allegation_transformer = AllegationTransformer()
     transformed_new_allegation_rows = allegation_transformer.transform(new_allegation_rows)
 
     allegation_mapper.load_allegation_into_db(transformed_new_allegation_rows)
 
-    # query db for data allegations associated with existing crids -- convert to df
-    existing_allegation_rows = allegation_mapper.get_existing_data()
-
     # save new crid rows to csv
     allegation_saver = AllegationSaver()
-    allegation_saver.save_allegation_to_csv(new_allegation_rows, "new_allegation_data")
+    allegation_saver.save_allegation_to_csv(new_allegation_rows, "new_allegation_data.csv")
 
     # save existing crids to csv
-    allegation_saver.save_allegation_to_csv(existing_allegation_rows, "existing_allegation_data")
+    allegation_saver.save_allegation_to_csv(existing_allegation_rows, "existing_allegation_data.csv")
 
     # Put new crids in db
     old_crids = sorter.get_old_crids()
