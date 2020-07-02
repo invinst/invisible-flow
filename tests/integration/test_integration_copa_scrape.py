@@ -47,12 +47,7 @@ class TestCopaSrapeIntegration:
     @patch('invisible_flow.app.GlobalsFactory.get_current_datetime_utc', lambda: datetime(2019, 3, 25, 5, 30, 50, 0))
     def test_copa_scrape_integration(self, get_copa_data_demographics):
         with patch.object(StorageFactory, 'get_storage') as storage_mock, \
-<<<<<<< HEAD
-                patch('invisible_flow.app.scrape_data') as scrape_mock:
-=======
                 patch('invisible_flow.app.scrape_allegation_data') as scrape_mock:
-
->>>>>>> [175][Aaron/Hayden/Reb] Cleaned up integration test for allegation flow
             scrape_mock.return_value = get_copa_data_demographics
 
             storage_mock.return_value = LocalStorage()
