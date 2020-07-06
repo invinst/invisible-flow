@@ -1,41 +1,33 @@
-import React from 'react';
-import StartScrapeButton from './StartScrapeButton';
+import React, {useState} from 'react';
+import {LoadingPage} from "../Features/LoadingPage";
+import {useHistory} from 'react-router-dom';
+import {clearIntervalAndGoToStatusPage, runCopaJob} from "./MainPageHelper";
 
-class MainPage extends React.Component{
-  constructor(props){
-    super(props);
-    this.state = {
-        isScraping: false
-    };
-    this.toggleLoading = this.toggleLoading.bind(this);
-  }
+export function MainPage() {
+    const [isLoading, setLoading] = useState(false)
 
-  toggleLoading() {
-    this.setState({isScraping: !this.state.isScraping});
-  }
+    const [isFinishedLoading, setFinishedLoading] = useState(false)
+    const [maybeIntervalID, setMaybeIntervalId] = useState(null)
 
-  render() {
-    if(this.state.isScraping){
-        return(
-            <div className='MainPageLoading'>
-              <h1>COPA Scrape</h1>
-              <div class="spinner-box">
-                <div class="spinner"></div>
-                <p>Scraping...</p>
-              </div>
-            </div>
-        );
+    const history = useHistory();
 
-    } else{
-        return(
-        <div className='MainPage'>
-          <h1>COPA Scrape</h1>
-          <StartScrapeButton toggleLoading={this.toggleLoading}/>
-        </div>
-      );
+    if (isFinishedLoading && maybeIntervalID) {
+        console.log('clearing interval id')
+        clearIntervalAndGoToStatusPage(maybeIntervalID, history)
     }
-  }
 
+    const handleClick = function () {
+        setLoading(oldState => !oldState)
+        runCopaJob(setFinishedLoading, setMaybeIntervalId);
+    };
+
+
+    return (<div>
+
+        {isLoading ?
+            <LoadingPage/> :
+            <button id="start-scrape" onClick={handleClick}>Initiate scrape</button>}
+    </div>)
 }
 
 export default MainPage;
