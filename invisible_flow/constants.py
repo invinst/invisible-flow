@@ -6,6 +6,8 @@ VALID_STATUSES = ['STARTED', 'COMPLETED - SUCCESSFUL', 'COMPLETED - ERROR']
 
 SCRAPE_URL = 'https://data.cityofchicago.org/resource/mft5-nfa8'
 ALLEGATION_BASE_URL = "https://data.cityofchicago.org/resource/mft5-nfa8.csv?$"
+OFFICER_BASE_URL = "https://data.cityofchicago.org/resource/ufxy-tgry.csv?$"
+
 
 VALID_BEATS = [111, 112, 113, 114, 121, 122, 123, 124, 131, 132, 133,
                211, 212, 213, 214, 215, 221, 222, 223, 224, 225, 231,

@@ -6,12 +6,12 @@ import pandas as pd
 from flask import render_template, Response
 
 from invisible_flow.app_factory import app
-from invisible_flow.copa.allegation_mapper import AllegationMapper
+from invisible_flow.copa.mapper import Mapper
 from invisible_flow.copa.allegation_saver import AllegationSaver
 from invisible_flow.copa.loader import Loader
 from invisible_flow.copa.saver import Saver, strip_zeroes_from_beat_id, cast_col_to_int
 from invisible_flow.globals_factory import GlobalsFactory  # noqa: F401
-from invisible_flow.api.copa_scrape import scrape_data, scrape_allegation_data
+from invisible_flow.api.copa_scrape import scrape_data, scrape_allegation_data, scrape_officer_data, scrape_crids
 from invisible_flow.copa.sorter import Sorter
 from invisible_flow.transformers.allegation_transformer import AllegationTransformer
 from invisible_flow.transformers.copa_scrape_transformer import CopaScrapeTransformer
@@ -79,20 +79,24 @@ def copa_scrape_deprecated():
 
 @app.route('/copa_scrape', methods=['GET'])
 def copa_scrape():
-    allegation_scraper()
+    sorter = Sorter()
+    mapper = Mapper()
+
+    scraped_crids = scrape_crids()
+    scraped_crids_df = pd.read_csv(BytesIO(scraped_crids), encoding='utf-8', sep=",", dtype=str)
+    crids = list(scraped_crids_df['log_no'].values)
+
+    sorter.split_crids_into_new_and_old(crids, mapper.query_existing_crid_table())
+
+    allegation_scraper(sorter, mapper)
+    officer_scraper(sorter, mapper)
     return Response(status=200, response='Success')
 
 
-def allegation_scraper():
+def allegation_scraper(sorter: Sorter, allegation_mapper: Mapper):
     scraped_data = scrape_allegation_data()
     scraped_df = pd.read_csv(BytesIO(scraped_data), encoding='utf-8', sep=",", dtype=str)
 
-    crids = list(scraped_df['log_no'].values)
-
-    allegation_mapper = AllegationMapper()
-    sorter = Sorter()
-
-    sorter.split_crids_into_new_and_old(crids, allegation_mapper.query_existing_crid_table())
     new_allegation_rows = sorter.get_new_allegation_rows(scraped_df)
 
     # query db for data allegations associated with existing crids -- convert to df
@@ -115,6 +119,12 @@ def allegation_scraper():
     new_crids = sorter.get_new_crids()
 
     allegation_mapper.save_new_crids_to_db(old_crids, new_crids)
+
+
+def officer_scraper(sorter: Sorter, mapper: Mapper):
+    scraped_data = scrape_officer_data()
+    scraped_df = pd.read_csv(BytesIO(scraped_data), encoding='utf-8', sep=",", dtype=str)
+    return scraped_df
 
 
 if __name__ == '__main__':

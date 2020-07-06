@@ -1,7 +1,7 @@
 import pytest
 
 from invisible_flow.constants import COPA_DB_BIND_KEY
-from invisible_flow.copa.allegation_mapper import AllegationMapper
+from invisible_flow.copa.mapper import Mapper
 import pandas as pd
 from pandas.testing import assert_frame_equal
 
@@ -10,7 +10,7 @@ from invisible_flow.copa.existing_crid import ExistingCrid
 from manage import db
 
 
-class TestAllegationMapper:
+class TestMapper:
 
     @pytest.fixture(autouse=True)
     def set_up(self, generate_variables):
@@ -34,7 +34,7 @@ class TestAllegationMapper:
         db.drop_all()
         db.create_all(bind=COPA_DB_BIND_KEY)
 
-        test_mapper = AllegationMapper()
+        test_mapper = Mapper()
 
         existing_crids = test_mapper.query_existing_crid_table()
 
@@ -43,7 +43,7 @@ class TestAllegationMapper:
     def test_query_existing_crids_should_return_existing_crids(self, generate_variables):
         expected_existing_crids = generate_variables[0]
 
-        test_mapper = AllegationMapper()
+        test_mapper = Mapper()
 
         existing_crids = test_mapper.query_existing_crid_table()
         assert (existing_crids == expected_existing_crids)
@@ -51,7 +51,7 @@ class TestAllegationMapper:
     def test_saves_new_crids_db(self, generate_variables):
         expected_existing_crids, expected_new_crids, scraped_crids = generate_variables
 
-        test_mapper = AllegationMapper()
+        test_mapper = Mapper()
 
         test_mapper.save_new_crids_to_db(expected_existing_crids.split(','), expected_new_crids.split(','))
 
@@ -62,7 +62,7 @@ class TestAllegationMapper:
         assert (set(actual_saved_crids) == expected_saved_crids)
 
     def test_allegation_mapper_should_load_new_rows(self):
-        test_mapper = AllegationMapper()
+        test_mapper = Mapper()
 
         fake_new_rows = pd.DataFrame({
             "cr_id": ["33333333", "1111111", "999999", "100000", "100007"],
@@ -76,7 +76,7 @@ class TestAllegationMapper:
         assert(len(queried_allegation_data) == len(fake_new_rows.index))
 
     def test_mapper_get_existing_data_should_return_existing_data(self):
-        test_mapper = AllegationMapper()
+        test_mapper = Mapper()
 
         fake_existing_data = pd.DataFrame({
             "cr_id": ["33333333", "1111111", "999999", "888888"],

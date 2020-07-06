@@ -7,7 +7,7 @@ from sqlalchemy.orm.exc import NoResultFound
 from manage import db
 
 
-class AllegationMapper:
+class Mapper:
 
     def query_existing_crid_table(self):
         try:
