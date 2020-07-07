@@ -17,6 +17,7 @@ base_url = "https://data.cityofchicago.org/resource/mft5-nfa8.csv?$"
 base_query = base_url + "query=SELECT%20log_no,beat,race_of_involved_officers,sex_of_involved_officers,"\
                        + "age_of_involved_officers,years_on_force_of_officers"
 count_query = base_url + "query=SELECT%20count(log_no)"
+officer_count_query = OFFICER_BASE_URL + "query=SELECT%20count(log_no)"
 
 allegation_query = ALLEGATION_BASE_URL + "query=SELECT%20log_no,beat"
 allegation_count_query = ALLEGATION_BASE_URL + "query=SELECT%20count(log_no)"
@@ -98,7 +99,7 @@ def test_copa_allegation_scrape_with_errors(self):
 def mocked_officer_requests_get(**kwargs):
     if kwargs['url'] == officer_query:
         return MockResponse({"key1": "value1"}, 200, "officer")
-    elif kwargs['url'] == count_query:
+    elif kwargs['url'] == officer_count_query:
         content = "count_log_no\n2000"
         return MockResponse({}, 200, content.encode('utf-8'))
     elif kwargs['url'] == officer_query + "%20LIMIT%202000":
