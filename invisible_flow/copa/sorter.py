@@ -15,6 +15,6 @@ class Sorter:
     def get_old_crids(self):
         return self.old_crids
 
-    def get_new_allegation_rows(self, scraped_data):
-        new_allegation_rows = scraped_data[scraped_data['log_no'].isin(self.new_crids)]
-        return new_allegation_rows
+    def get_new_copa_rows(self, scraped_data):
+        new_rows = scraped_data[scraped_data['log_no'].isin(self.new_crids)]
+        return new_rows

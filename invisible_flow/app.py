@@ -93,19 +93,19 @@ def copa_scrape():
     return Response(status=200, response='Success')
 
 
-def allegation_scraper(sorter: Sorter, allegation_mapper: Mapper):
+def allegation_scraper(sorter: Sorter, mapper: Mapper):
     scraped_data = scrape_allegation_data()
     scraped_df = pd.read_csv(BytesIO(scraped_data), encoding='utf-8', sep=",", dtype=str)
 
-    new_allegation_rows = sorter.get_new_allegation_rows(scraped_df)
+    new_allegation_rows = sorter.get_new_copa_rows(scraped_df)
 
     # query db for data allegations associated with existing crids -- convert to df
-    existing_allegation_rows = allegation_mapper.get_existing_data()
+    existing_allegation_rows = mapper.get_existing_allegation_data()
 
     allegation_transformer = AllegationTransformer()
     transformed_new_allegation_rows = allegation_transformer.transform(new_allegation_rows)
 
-    allegation_mapper.load_allegation_into_db(transformed_new_allegation_rows)
+    mapper.load_allegation_into_db(transformed_new_allegation_rows)
 
     # save new crid rows to csv
     allegation_saver = AllegationSaver()
@@ -118,12 +118,17 @@ def allegation_scraper(sorter: Sorter, allegation_mapper: Mapper):
     old_crids = sorter.get_old_crids()
     new_crids = sorter.get_new_crids()
 
-    allegation_mapper.save_new_crids_to_db(old_crids, new_crids)
+    mapper.save_new_crids_to_db(old_crids, new_crids)
 
 
 def officer_scraper(sorter: Sorter, mapper: Mapper):
     scraped_data = scrape_officer_data()
     scraped_df = pd.read_csv(BytesIO(scraped_data), encoding='utf-8', sep=",", dtype=str)
+
+    new_officer_rows = sorter.get_new_copa_rows(scraped_df)
+
+    existing_officer_rows = mapper.get_existing_allegation_data()
+
     return scraped_df
 
 

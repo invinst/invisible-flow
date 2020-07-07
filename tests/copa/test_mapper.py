@@ -75,7 +75,7 @@ class TestMapper:
 
         assert(len(queried_allegation_data) == len(fake_new_rows.index))
 
-    def test_mapper_get_existing_data_should_return_existing_data(self):
+    def test_mapper_get_allegation_existing_data_should_return_existing_data(self):
         test_mapper = Mapper()
 
         fake_existing_data = pd.DataFrame({
@@ -85,5 +85,23 @@ class TestMapper:
 
         test_mapper.load_allegation_into_db(fake_existing_data)
 
-        existing_data = test_mapper.get_existing_data()
+        existing_data = test_mapper.get_existing_allegation_data()
+        assert_frame_equal(existing_data, fake_existing_data)
+
+    def test_mapper_get_officer_existing_data_should_return_existing_data(self):
+        test_mapper = Mapper()
+
+        fake_existing_data = pd.DataFrame({
+            "cr_id": ["33333333", "1111111", "999999", "888888"],
+            "race": ['White', 'Hispanic', 'Asian/Pacific', 'White'],
+            "gender": ['M', 'M', 'M', 'M'],
+            "age": ['40-49', '40-49', '40-49', '40-49'],
+            "years_on_force": ['0-4', '0-4', '0-4', '0-4']
+
+        })
+
+        test_mapper.load_officer_into_db(fake_existing_data)
+
+        existing_data = test_mapper.get_existing_officer_data()
+
         assert_frame_equal(existing_data, fake_existing_data)

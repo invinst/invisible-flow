@@ -48,5 +48,5 @@ class TestSorter:
             "log_no": ["33333333", "1111111", "999999"],
             "beat": ["444", "555", "777"]
         })
-        new_rows = test_sorter.get_new_allegation_rows(fake_scraped_data)
+        new_rows = test_sorter.get_new_copa_rows(fake_scraped_data)
         assert_frame_equal(new_rows, expected_new_rows)
