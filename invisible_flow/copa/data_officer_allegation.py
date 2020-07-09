@@ -19,6 +19,10 @@ class DataOfficerAllegation(db.Model):
     final_outcome = db.Column(db.String(32), nullable=False)
     final_outcome_class = db.Column(db.String(20), nullable=False)
     disciplined = db.Column(db.Boolean)
+    age = db.Column(db.String(50))
+    gender = db.Column(db.String(1), nullable=True)
+    race = db.Column(db.String(50), nullable=True)
+    years_on_force = db.Column(db.String(50))
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
