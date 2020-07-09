@@ -92,7 +92,7 @@ class TestMapper:
         test_mapper = Mapper()
 
         fake_existing_data = pd.DataFrame({
-            "cr_id": ["33333333", "1111111", "999999", "888888"],
+            "allegation_id": ["33333333", "1111111", "999999", "888888"],
             "race": ['White', 'Hispanic', 'Asian/Pacific', 'White'],
             "gender": ['M', 'M', 'M', 'M'],
             "age": ['40-49', '40-49', '40-49', '40-49'],
@@ -105,3 +105,4 @@ class TestMapper:
         existing_data = test_mapper.get_existing_officer_data()
 
         assert_frame_equal(existing_data, fake_existing_data)
+

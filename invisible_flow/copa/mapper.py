@@ -1,3 +1,5 @@
+import pdb
+
 import pandas as pd
 
 from invisible_flow.copa.data_allegation import DataAllegation
@@ -39,12 +41,13 @@ class Mapper:
         return pd.DataFrame(existing_data, columns=['cr_id', 'beat_id'])
 
     def get_existing_officer_data(self):
-        existing_data = DataOfficerUnknown.query.with_entities(DataOfficerUnknown.cr_id,
-                                                               DataOfficerUnknown.gender, DataOfficerUnknown.age,
-                                                               DataOfficerUnknown.race,
-                                                               DataOfficerUnknown.years_on_force).all()
+        existing_data = DataOfficerAllegation.query.with_entities(DataOfficerAllegation.allegation_id,
+                                                               DataOfficerAllegation.race, DataOfficerAllegation.gender,
+                                                               DataOfficerAllegation.age,
+                                                               DataOfficerAllegation.years_on_force).all()
 
-        return pd.DataFrame(existing_data, columns=['cr_id', 'gender', 'age', 'race', 'years_on_force'])
+        return pd.DataFrame(existing_data, columns=['allegation_id', 'race', 'gender', 'age',
+                                                    'years_on_force'])
 
     def load_officer_into_db(self, new_officer_rows):
-        db.session.bulk_insert_mappings(DataOfficerUnknown, new_officer_rows.to_dict(orient="records"))
+        db.session.bulk_insert_mappings(DataOfficerAllegation, new_officer_rows.to_dict(orient="records"))

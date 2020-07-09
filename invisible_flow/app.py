@@ -17,6 +17,7 @@ from invisible_flow.transformers.allegation_transformer import AllegationTransfo
 from invisible_flow.transformers.copa_scrape_transformer import CopaScrapeTransformer
 
 # Logging configuration
+from invisible_flow.transformers.officer_transformer import OfficerTransformer
 
 dictConfig({
     'version': 1,
@@ -85,6 +86,7 @@ def copa_scrape():
     scraped_crids = scrape_crids()
     scraped_crids_df = pd.read_csv(BytesIO(scraped_crids), encoding='utf-8', sep=",", dtype=str)
     crids = list(scraped_crids_df['log_no'].values)
+    # why go from df to list to set(in copa_scraper)? why not just go from df to set?
 
     sorter.split_crids_into_new_and_old(crids, mapper.query_existing_crid_table())
 
@@ -128,6 +130,27 @@ def officer_scraper(sorter: Sorter, mapper: Mapper):
     new_officer_rows = sorter.get_new_copa_rows(scraped_df)
 
     existing_officer_rows = mapper.get_existing_allegation_data()
+
+    # Transform new rows --> first create an instance of transform
+    transformer = OfficerTransformer()
+
+    # Create new transformed rows
+    new_transformed_officer_rows = transformer.transform(new_officer_rows)
+
+    # Load transformed rows into DB
+    mapper.load_officer_into_db(new_transformed_officer_rows)
+
+    # Get officerallegation_ids ?
+
+    # Create new instance of Saver to save new rows into CSV
+
+    # Save existing rows to CSV
+
+    # Save new crids in memory
+
+    # Save existing crids in memory
+
+    # Save both crids in db
 
     return scraped_df
 
