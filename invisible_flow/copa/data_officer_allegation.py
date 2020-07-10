@@ -2,7 +2,7 @@ from invisible_flow.constants import COPA_DB_BIND_KEY
 from manage import db
 from datetime import datetime
 
-
+# TEST
 class DataOfficerAllegation(db.Model):
     __bind_key__ = COPA_DB_BIND_KEY
     __tablename__ = 'data_officerallegation'
