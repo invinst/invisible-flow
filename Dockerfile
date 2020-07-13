@@ -17,7 +17,6 @@ RUN apt update -y && \
     apt-get install -y python3-venv && \
     apt-get install -y postgresql && \
     apt-get install -y python-psycopg2 && \
-    apt-get install -y postgis && \
     apt-get install -y libpq-dev && \
     apt-get install -y vim
 
@@ -46,7 +45,6 @@ USER postgres
 CMD initdb; pg_ctl -D /var/lib/postgresql/data start; createdb; echo "create user invisible_flow WITH login;" | psql; \
     echo "create user invisible_flow_testing WITH login;" | psql; echo "ALTER ROLE invisible_flow_testing SUPERUSER" | psql; \
     echo "CREATE DATABASE invisible_flow_testing;" | psql; echo "GRANT ALL PRIVILEGES ON DATABASE invisible_flow_testing TO invisible_flow_testing;" | psql; \
-    echo "CREATE EXTENSION postgis;" | psql -U invisible_flow_testing; \
     service postgresql start; \
     python3 manage.py db upgrade --directory invisible_flow/migrations; \
     echo "password" | su invisible_flow_testing; \
