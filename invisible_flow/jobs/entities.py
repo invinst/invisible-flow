@@ -4,7 +4,8 @@ from invisible_flow.constants import JOB_DB_BIND_KEY, VALID_STATUSES
 from manage import db
 
 
-class JobRecord(db.Model):
+class JobRecordModel(db.Model):
+
     __bind_key__ = JOB_DB_BIND_KEY
     id = db.Column(db.Integer, primary_key=True)
     status = db.Column(db.String)
@@ -20,6 +21,10 @@ class JobRecord(db.Model):
                 f', but received {attribute_value}')
 
 
-def insert_job_record_into_database(job: JobRecord):
+    def __eq__(self, obj: object) -> bool:
+        return isinstance(obj, JobRecordModel) and obj.id == self.id and obj.status == self.status
+
+
+def insert_job_record_into_database(job: JobRecordModel):
     db.session.add(job)
     db.session.commit()
