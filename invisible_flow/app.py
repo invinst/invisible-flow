@@ -129,7 +129,7 @@ def officer_scraper(sorter: Sorter, mapper: Mapper):
 
     new_officer_rows = sorter.get_new_copa_rows(scraped_df)
 
-    existing_officer_rows = mapper.get_existing_allegation_data()
+    existing_officer_rows = mapper.get_existing_officer_data()
 
     # Transform new rows --> first create an instance of transform
     transformer = OfficerTransformer()
@@ -140,7 +140,10 @@ def officer_scraper(sorter: Sorter, mapper: Mapper):
     # Load transformed rows into DB
     mapper.load_officer_into_db(new_transformed_officer_rows)
 
-    # Get officerallegation_ids ?
+    # Get officerallegation_ids here?
+
+    # allegation_saver = AllegationSaver()
+    # allegation_saver.save_allegation_to_csv(new_officer_rows, "new_officer_allegation_data.csv")
 
     # Create new instance of Saver to save new rows into CSV
 
