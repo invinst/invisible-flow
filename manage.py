@@ -1,19 +1,13 @@
 import os
-import tempfile
-from flask_script import Manager
 from typing import Optional
 
 from flask import Flask
+from flask_migrate import Migrate, MigrateCommand
+from flask_script import Manager
 from flask_sqlalchemy import SQLAlchemy  # type:ignore
 
 from invisible_flow.app_factory import app
-from invisible_flow.constants import JOB_DB_BIND_KEY, COPA_DB_BIND_KEY
-
-from flask_migrate import Migrate, MigrateCommand
-
-job_db_file = tempfile.NamedTemporaryFile(suffix='.db')
-job_db_filename = f'sqlite:///{job_db_file.name}'
-
+from invisible_flow.constants import COPA_DB_BIND_KEY
 
 """
 
@@ -52,7 +46,6 @@ else:
 def setup_db(_app: Flask) -> SQLAlchemy:
     db_config = {
         'SQLALCHEMY_BINDS': {
-            JOB_DB_BIND_KEY: job_db_filename,
             COPA_DB_BIND_KEY: copa_db_filename
         },
         'SQLALCHEMY_DATABASE_URI': copa_db_filename,

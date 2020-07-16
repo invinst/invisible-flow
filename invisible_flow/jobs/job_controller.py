@@ -1,89 +1,54 @@
-import subprocess
-
-# from flask import jsonify
-# from flask_injector import FlaskInjector
-# from injector import inject
-# from sqlalchemy.orm import validates
-#
-# from invisible_flow.app import copa_scrape
-# from invisible_flow.app_factory import app
-# from invisible_flow.constants import VALID_STATUSES
-# # from invisible_flow.jobs.entities import JobRecord
-# from invisible_flow.jobs.jobs_mapper import JobsMapper
-#
-# import pdb
-#
-# # job_ids = {}
-# # counter = 0
-#
-# STARTED_STATUS = "STARTED"
-# COMPLETED_STATUS = 'COMPLETED - SUCCESSFUL'
-#
-#
-# @app.route("/start_copa_job")
-# def start_copa_job():
-#     retval = do_copa_job()
-#     # copa_scrape()
-#     return jsonify(retval)
-#
-#
-# #
-#
-# def do_copa_job():
-#     job_mapper = JobsMapper()
-#
-#     job = JobRecord(status=STARTED_STATUS)
-#     saved_job = job_mapper.store_job(job)
-#
-#     run_copa_job_in_separate_process()
-#
-#     return saved_job
-#
-#     # return
-#     # job_mapper.update_job(saved_job_id, COMPLETED_STATUS)
 from multiprocessing import Process
 
-from invisible_flow.app import copa_scrape
+# from invisible_flow.app import copa_scrape
+from time import sleep
 
-def save_me():
+from invisible_flow.jobs.jobs_mapper import JobsMapper
+
+STARTED_STATUS = "STARTED"
+COMPLETED_STATUS = 'COMPLETED - SUCCESSFUL'
+
+'''
+    This function is a placeholder until 183 is merged into master.
+    The goal is to move copa_scrape out of app.py and into a separate file.
+    This is because of circular dependency issues.
+'''
+def copa_scrape():
+    sleep(40)
+
+def do_copa_job():
+    print('Creating job record')
+    job = JobRecord(status=STARTED_STATUS)
+    saved_job = JobsMapper.store_job(job)
+
+    print('starting new process')
+    Process(target=run_copa_scrape_and_monitor_progress, args=(saved_job.job_id,)).start()
+
+    print('parent return child process job')
+    return saved_job
 
 
-def run_copa_job_in_separate_process():
-    # os.environ["foo"] = "bar"
-    process = Process(target=copa_scrape)
-    process.start()
-    print("starting")
-    # subprocess.run(["ls", "-l", "/dev/null"], capture_output=True, shell=True)
-    print("finished external")
-    process.join()
-    # copa_scrape()
+def run_copa_scrape_and_monitor_progress(job_id):
+    print('new process starting scrape')
+    copa_scrape()
+    print('new process updating job status')
+    JobsMapper.update_job(job_id, COMPLETED_STATUS)
+    print('new process exiting')
 
 
-run_copa_job_in_separate_process()
+def get_job_status(id):
+    # job = JobRecord.get(id)
+    # return job.status
+    pass
 
 
-#
-#
-# def get_job_status(id):
-#     # job = JobRecord.get(id)
-#     # return job.status
-#     pass
-#
-# class JobRecord:
-#
-#     def __init__(self, status):
-#         self.status = status
-#         # self.job_id = job_id
-#
-#     def __repr__(self):
-#         return f'<JobRecord (in memory) status: {self.status}>'
-#
-#     @validates('status')
-#     def validate_status(self, attribute_name, attribute_value):
-#         if attribute_value not in VALID_STATUSES:
-#             raise ValueError(
-#                 f'The status attribute on Job Record can only receive one of: {VALID_STATUSES}'
-#                 f', but received {attribute_value}')
-#
-#     def __eq__(self, obj: object) -> bool:
-#         return isinstance(obj, JobRecord) and obj.status == self.status
+class JobRecord:
+    def __init__(self, status, job_id=None):
+        self.status = status
+        self.job_id = job_id
+
+    def __repr__(self):
+        return f'<JobRecord (in memory) status: {self.status}>'
+
+    def __eq__(self, obj: object) -> bool:
+        return isinstance(obj, JobRecord) and obj.status == self.status

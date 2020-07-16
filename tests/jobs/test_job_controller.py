@@ -1,36 +1,27 @@
-from collections import namedtuple
-from unittest import mock
-from unittest.mock import Mock, patch, call
+from unittest.mock import patch
 
-import pytest
-
-# from invisible_flow.jobs.entities import JobRecord
-from invisible_flow.jobs.job_controller import start_copa_job, JobRecord, do_copa_job
-import pdb
-
-
-class MockJobRecord(object):
-    pass
+from invisible_flow.jobs.job_controller import JobRecord
+from invisible_flow.jobs.job_controller import run_copa_scrape_and_monitor_progress, do_copa_job
 
 
 class TestJobController:
-    blah = MockJobRecord()
 
-    # db_mock =
-    # manage.py
     @patch('invisible_flow.jobs.job_controller.JobsMapper', autospec=True)
-    @patch('invisible_flow.jobs.job_controller.copa_scrape', autospec=True)  # mocking the single copa_scrape function
-    # @patch('invisible_flow.jobs.job_controller.JobRecord', new_callable=MockJobRecord)
-    def test_startCopaJob_should_start_copa_job_and_return_job_id(self, copa_scrape_mock, jobs_mapper_mock):
-        JobRecordModel = namedtuple('JobRecordModel', ['id'])
-        jobs_mapper_mock.return_value.store_job.return_value = JobRecordModel(id=1)
+    @patch('invisible_flow.jobs.job_controller.Process', autospec=True)  # mocking the single copa_scrape function
+    def test_startCopaJob_should_start_copa_job_and_return_job_id(self, process_mock, jobs_mapper_mock):
+        jobs_mapper_mock.store_job.return_value = JobRecord(status="STARTED", job_id=1)
 
-        retval = do_copa_job()
+        saved_job = do_copa_job()
 
-        assert retval.id == 1
-        expected_started_job_record = JobRecord(status="STARTED")
+        assert saved_job.job_id == 1
+        jobs_mapper_mock.store_job.assert_called_with(JobRecord(status="STARTED"))
+        process_mock.assert_called_with(target=run_copa_scrape_and_monitor_progress, args=(1,))
 
-        jobs_mapper_mock.return_value.store_job.assert_called_with(expected_started_job_record)
+    @patch('invisible_flow.jobs.job_controller.copa_scrape', autospec=True)
+    @patch('invisible_flow.jobs.job_controller.JobsMapper.update_job')
+    def test_job_status_is_updated_when_copa_scrape_done(self, update_job_mock, copa_scrape_mock):
+        run_copa_scrape_and_monitor_progress(job_id=1)
+
         copa_scrape_mock.assert_called()
+        update_job_mock.assert_called_with(1, "COMPLETED - SUCCESSFUL")
 
-# def test_should_return_
