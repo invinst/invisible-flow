@@ -1,12 +1,11 @@
 from sqlalchemy.orm import validates  # type: ignore
 
-from invisible_flow.constants import JOB_DB_BIND_KEY, VALID_STATUSES
+from invisible_flow.constants import VALID_STATUSES
 from manage import db
 
 
 class JobRecordModel(db.Model):
-
-    __bind_key__ = JOB_DB_BIND_KEY
+    __tablename__ = 'job_record'
     id = db.Column(db.Integer, primary_key=True)
     status = db.Column(db.String)
 
