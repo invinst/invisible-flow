@@ -14,7 +14,7 @@ export function runCopaJob(setFinishedLoading, setMaybeIntervalId) {
     }).then(jsonResponse => {
         const jobID = jsonResponse.job_id;
 
-        const intervalId = setInterval(pollForStatus, 500, jobID, () => setFinishedLoading(true));
+        const intervalId = setInterval(pollForStatus, 1000, jobID, () => setFinishedLoading(true));
         setMaybeIntervalId(intervalId)
 
     })
