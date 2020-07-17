@@ -7,7 +7,7 @@ from invisible_flow.app_factory import app
 from invisible_flow.copa.loader import Loader
 from invisible_flow.copa.saver import Saver, strip_zeroes_from_beat_id, cast_col_to_int
 from invisible_flow.globals_factory import GlobalsFactory
-from invisible_flow.jobs.job_controller import do_copa_job
+from invisible_flow.jobs.job_controller import do_copa_job, get_job_status
 from invisible_flow.storage.storage_factory import StorageFactory
 from invisible_flow.transformers.transformer_factory import TransformerFactory
 from invisible_flow.validation import is_valid_file_type
@@ -118,6 +118,9 @@ def foia_response_upload():
 def start_copa_job():
     return jsonify(job_id=do_copa_job().job_id)
 
+@app.route('/job_status/<int:job_id>', methods=['GET'])
+def job_status(job_id):
+    return jsonify(status=get_job_status(job_id))
 
 if __name__ == '__main__':
     app.run(debug=True)

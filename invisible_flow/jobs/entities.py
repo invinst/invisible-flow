@@ -17,7 +17,8 @@ class JobRecordModel(db.Model):
         if attribute_value not in VALID_STATUSES:
             raise ValueError(
                 f'The status attribute on Job Record can only receive one of: {VALID_STATUSES}'
-                f', but received {attribute_value}')
+                f', but received \"{attribute_value}\"')
+        return attribute_value
 
 
     def __eq__(self, obj: object) -> bool:

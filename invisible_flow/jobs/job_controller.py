@@ -6,7 +6,7 @@ from time import sleep
 from invisible_flow.jobs.jobs_mapper import JobsMapper
 
 STARTED_STATUS = "STARTED"
-COMPLETED_STATUS = 'COMPLETED - SUCCESSFUL'
+COMPLETED_STATUS = 'COMPLETED'
 
 '''
     This function is a placeholder until 183 is merged into master.
@@ -17,29 +17,30 @@ def copa_scrape():
     sleep(40)
 
 def do_copa_job():
-    print('Creating job record')
+    print('Parent: creating job record')
     job = JobRecord(status=STARTED_STATUS)
     saved_job = JobsMapper.store_job(job)
 
-    print('starting new process')
+    print('Parent: starting copa job in new process')
     Process(target=run_copa_scrape_and_monitor_progress, args=(saved_job.job_id,)).start()
 
-    print('parent return child process job')
+    print('Parent: returning job id of copa scrape')
     return saved_job
 
 
 def run_copa_scrape_and_monitor_progress(job_id):
-    print('new process starting scrape')
+    print('Child: starting scrape')
     copa_scrape()
-    print('new process updating job status')
+    print('Child: scrape finished, updating job status')
     JobsMapper.update_job(job_id, COMPLETED_STATUS)
-    print('new process exiting')
+    print('Child: exiting')
 
 
 def get_job_status(id):
-    # job = JobRecord.get(id)
-    # return job.status
-    pass
+    job = JobsMapper.get_job(id)
+    if job is None:
+        raise Exception(f'Requested job id "{id}" is not in database')
+    return job.status
 
 
 class JobRecord:
