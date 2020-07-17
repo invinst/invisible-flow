@@ -17,7 +17,7 @@ class JobsMapper:
             raise Exception(f"Job model id was none! {job_model}, came from {job}")
 
     @staticmethod
-    def get_job(job_id: float):
+    def get_job(job_id: int):
         return JobRecordModel.query.get(job_id)
 
     @staticmethod

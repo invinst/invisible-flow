@@ -8,7 +8,7 @@ class TestJobController:
 
     @patch('invisible_flow.jobs.job_controller.JobsMapper', autospec=True)
     @patch('invisible_flow.jobs.job_controller.Process', autospec=True)  # mocking the single copa_scrape function
-    def test_startCopaJob_should_start_copa_job_and_return_job_id(self, process_mock, jobs_mapper_mock):
+    def test_do_copa_job_should_spawn_process_store_job_and_return_job_id(self, process_mock, jobs_mapper_mock):
         jobs_mapper_mock.store_job.return_value = JobRecord(status="STARTED", job_id=1)
 
         saved_job = do_copa_job()
@@ -23,5 +23,4 @@ class TestJobController:
         run_copa_scrape_and_monitor_progress(job_id=1)
 
         copa_scrape_mock.assert_called()
-        update_job_mock.assert_called_with(1, "COMPLETED - SUCCESSFUL")
-
+        update_job_mock.assert_called_with(1, "COMPLETED")

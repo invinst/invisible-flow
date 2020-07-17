@@ -25,7 +25,7 @@ class TestJobRecord:
             JobRecordModel(status='invalid status')
 
         expected_error_string = "The status attribute on Job Record can only receive one of: ['STARTED'," \
-                                " 'COMPLETED - SUCCESSFUL', 'COMPLETED - ERROR'], but received invalid status"
+                                " 'COMPLETED'], but received \"invalid status\""
         assert expected_error_string == str(actual_error.value)
 
     def test_adding_job_record_to_db_works(self, get_db):
