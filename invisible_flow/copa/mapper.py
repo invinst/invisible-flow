@@ -51,6 +51,3 @@ class Mapper:
 
     def load_officer_into_db(self, new_officer_rows):
         db.session.bulk_insert_mappings(DataOfficerAllegation, new_officer_rows.to_dict(orient="records"))
-
-    # def get_officer_allegation_ids(self):
-    #     officer_allegation_ids = DataOfficerAllegation.officerallegation_id

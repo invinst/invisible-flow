@@ -1,3 +1,4 @@
+import pdb
 from io import BytesIO
 from logging import getLogger
 from logging.config import dictConfig
@@ -124,38 +125,36 @@ def allegation_scraper(sorter: Sorter, mapper: Mapper):
 
 
 def officer_scraper(sorter: Sorter, mapper: Mapper):
+
     scraped_data = scrape_officer_data()
     scraped_df = pd.read_csv(BytesIO(scraped_data), encoding='utf-8', sep=",", dtype=str)
 
     new_officer_rows = sorter.get_new_copa_rows(scraped_df)
 
+    # query db for officer data associated with existing crids -- convert to df
     existing_officer_rows = mapper.get_existing_officer_data()
 
-    # Transform new rows --> first create an instance of transform
-    transformer = OfficerTransformer()
-
-    # Create new transformed rows
-    new_transformed_officer_rows = transformer.transform(new_officer_rows)
+    officer_transformer = OfficerTransformer()
+    transformed_new_officer_data = officer_transformer.transform_officer_column_names(new_officer_rows)
 
     # Load transformed rows into DB
-    mapper.load_officer_into_db(new_transformed_officer_rows)
+    mapper.load_officer_into_db(transformed_new_officer_data)
 
-    # Get officerallegation_ids here?
-
-    # allegation_saver = AllegationSaver()
-    # allegation_saver.save_allegation_to_csv(new_officer_rows, "new_officer_allegation_data.csv")
-
-    # Create new instance of Saver to save new rows into CSV
+    allegation_saver = AllegationSaver()
+    allegation_saver.save_allegation_to_csv(transformed_new_officer_data, "new_officer_allegation_data.csv")
 
     # Save existing rows to CSV
+    allegation_saver.save_allegation_to_csv(existing_officer_rows, "existing_officer_data.csv")
+    pdb.set_trace()
 
-    # Save new crids in memory
+    # Save demographics in memory
 
-    # Save existing crids in memory
+    # Save existing officer data in memory
 
-    # Save both crids in db
+    # Save both existing officer data and demographics in db
 
-    return scraped_df
+    # return scraped_df
+    return transformed_new_officer_data
 
 
 if __name__ == '__main__':

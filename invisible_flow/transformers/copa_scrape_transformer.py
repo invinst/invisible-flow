@@ -31,6 +31,12 @@ class CopaScrapeTransformer:
         self.transformed_data.insert(5, "officer_age", officer_age)
         self.transformed_data.insert(6, "officer_years_on_force", officer_years_on_force)
 
+    def transform_officer_data(self, scraped_data: pd.DataFrame):
+
+        gender = self.__transform_officer_gender()
+
+        self.transformed_data.insert(2, "gender", gender)
+
     def __transform_logno_to_crid(self):
         transformed_logno = self.initial_data["log_no"].transform(lambda logno: logno)
 

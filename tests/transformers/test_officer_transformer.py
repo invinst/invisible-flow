@@ -9,7 +9,7 @@ from invisible_flow.transformers.officer_transformer import OfficerTransformer
 
 
 class TestAllegationTransformer():
-    @pytest.mark.focus()
+
     def test_transformer_should_change_column_names_to_match_db(self):
         fake_new_rows = pd.DataFrame({
             "log_no": ["11111"],
@@ -20,7 +20,7 @@ class TestAllegationTransformer():
         })
 
         test_transformer = OfficerTransformer()
-        transformed_scrape_data = test_transformer.transform(fake_new_rows)
+        transformed_scrape_data = test_transformer.transform_officer_column_names(fake_new_rows)
 
         assert("allegation_id" in transformed_scrape_data.columns)
         assert("race" in transformed_scrape_data.columns)

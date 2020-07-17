@@ -57,7 +57,7 @@ class TestCopaSrapeIntegration:
         db.session.add(existing_crids)
 
         db.session.commit()
-
+    @pytest.mark.focus
     @patch('invisible_flow.app.GlobalsFactory.get_current_datetime_utc', lambda: datetime(2019, 3, 25, 5, 30, 50, 0))
     def test_copa_scrape_integration(self, get_copa_data_demographics,
                                      get_copa_officer_data_demographics, get_copa_crids):
