@@ -12,6 +12,7 @@ class JobsMapper:
 
         if job_model.id is not None:
             job.job_id = job_model.id
+            db.session.close()
             return job
         else:
             raise Exception(f"Job model id was none! {job_model}, came from {job}")
