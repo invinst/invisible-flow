@@ -34,8 +34,8 @@ def do_copa_job():
 
 def run_copa_scrape_and_monitor_progress(job_id):
     print('Child: disposing of old database connections')
-    # doing this because: https://stackoverflow.com/questions/22752521/uwsgi-flask-sqlalchemy-and-postgres-ssl-error-decryption-failed-or-bad-reco
-    # Solution taken from here: https://stackoverflow.com/questions/45215596/flask-and-celery-on-heroku-sqlalchemy-exc-databaseerror-psycopg2-databaseerro
+    # doing this because: https://stackoverflow.com/questions/22752521/uwsgi-flask-sqlalchemy-and-postgres-ssl-error-decryption-failed-or-bad-reco # noqa: E501
+    # Solution taken from here: https://stackoverflow.com/questions/45215596/flask-and-celery-on-heroku-sqlalchemy-exc-databaseerror-psycopg2-databaseerro # noqa: E501
     # Documentation for solution is here: https://docs.sqlalchemy.org/en/13/core/connections.html#engine-disposal
     db.engine.dispose()
     print('Child: starting scrape')
