@@ -1,17 +1,17 @@
 import pytest
 
-from invisible_flow.constants import JOB_DB_BIND_KEY, VALID_STATUSES
+from invisible_flow.constants import VALID_STATUSES, COPA_DB_BIND_KEY
 from invisible_flow.jobs.entities import JobRecordModel
 from manage import db
 
 
 class TestJobRecord:
 
-    @pytest.fixture
-    def get_db(self):
-        db.create_all(bind=JOB_DB_BIND_KEY)
-
-        yield db
+    @pytest.fixture(autouse=True)
+    def set_up(self):
+        db.session.close()
+        db.drop_all()
+        db.create_all()
 
     @pytest.mark.parametrize('status', VALID_STATUSES)
     def test_job_record_entity_allows_valid_statuses(self, status):
@@ -28,8 +28,8 @@ class TestJobRecord:
                                 " 'COMPLETED'], but received \"invalid status\""
         assert expected_error_string == str(actual_error.value)
 
-    def test_adding_job_record_to_db_works(self, get_db):
+    def test_adding_job_record_to_db_works(self):
         for status in VALID_STATUSES:
-            get_db.session.add(JobRecordModel(status=status))
-        get_db.session.commit()
+            db.session.add(JobRecordModel(status=status))
+        db.session.commit()
         assert len(JobRecordModel.query.all()) == len(VALID_STATUSES)

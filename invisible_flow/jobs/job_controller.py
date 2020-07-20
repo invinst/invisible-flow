@@ -13,8 +13,11 @@ COMPLETED_STATUS = 'COMPLETED'
     The goal is to move copa_scrape out of app.py and into a separate file.
     This is because of circular dependency issues.
 '''
+
+
 def copa_scrape():
     sleep(40)
+
 
 def do_copa_job():
     print('Parent: creating job record')

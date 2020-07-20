@@ -114,14 +114,16 @@ def foia_response_upload():
     logger.info('Successfully uploaded FOIA file')
     return Response(status=200, response='Success')
 
+
 @app.route('/start_copa_job', methods=['GET'])
 def start_copa_job():
     return jsonify(job_id=do_copa_job().job_id)
+
 
 @app.route('/job_status/<int:job_id>', methods=['GET'])
 def job_status(job_id):
     return jsonify(status=get_job_status(job_id))
 
+
 if __name__ == '__main__':
     app.run(debug=True)
-

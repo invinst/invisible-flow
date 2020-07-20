@@ -25,7 +25,6 @@ jobs:
     before_script:
     - psql -c "create user invisible_flow;"
     - psql -c "create database invisible_flow_testing with owner invisible_flow;"
-    - psql invisible_flow_testing -c "CREATE EXTENSION postgis;"
     - export ENVIRONMENT=travis
     script:
     - flake8 .
