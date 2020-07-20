@@ -21,7 +21,7 @@ describe('MainPageHelper', function () {
 
         await flushPromises()
         expect(global.fetch).toHaveBeenCalledWith("/start_copa_job")
-        expect(global.setInterval).toHaveBeenCalledWith(pollForStatus, 500, randId, expect.any(Function))
+        expect(global.setInterval).toHaveBeenCalledWith(pollForStatus, 1000, randId, expect.any(Function))
     });
 
     describe('pollForStatus', function () {
