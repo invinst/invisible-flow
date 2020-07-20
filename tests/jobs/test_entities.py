@@ -1,6 +1,6 @@
 import pytest
 
-from invisible_flow.constants import VALID_STATUSES, COPA_DB_BIND_KEY
+from invisible_flow.constants import VALID_STATUSES
 from invisible_flow.jobs.entities import JobRecordModel
 from manage import db
 
