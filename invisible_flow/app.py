@@ -10,6 +10,7 @@ from invisible_flow.app_factory import app
 from invisible_flow.copa.mapper import Mapper
 from invisible_flow.copa.allegation_saver import AllegationSaver
 from invisible_flow.copa.loader import Loader
+from invisible_flow.copa.officer_saver import OfficerSaver
 from invisible_flow.copa.saver import Saver, strip_zeroes_from_beat_id, cast_col_to_int
 from invisible_flow.globals_factory import GlobalsFactory  # noqa: F401
 from invisible_flow.api.copa_scrape import scrape_data, scrape_allegation_data, scrape_officer_data, scrape_crids
@@ -125,7 +126,6 @@ def allegation_scraper(sorter: Sorter, mapper: Mapper):
 
 
 def officer_scraper(sorter: Sorter, mapper: Mapper):
-
     scraped_data = scrape_officer_data()
     scraped_df = pd.read_csv(BytesIO(scraped_data), encoding='utf-8', sep=",", dtype=str)
 
@@ -135,17 +135,22 @@ def officer_scraper(sorter: Sorter, mapper: Mapper):
     existing_officer_rows = mapper.get_existing_officer_data()
 
     officer_transformer = OfficerTransformer()
-    transformed_new_officer_data = officer_transformer.transform_officer_column_names(new_officer_rows)
+    transformed_new_officer_columns = officer_transformer.transform_officer_column_names(new_officer_rows)
+    print("////////////    TRANSFORMED NEW OFFICER COLUMNS    ////////////////")
+    print(transformed_new_officer_columns)
+    # transformed_new_officer_data = officer_transformer.transform_gender_data(transformed_new_officer_columns)
 
     # Load transformed rows into DB
-    mapper.load_officer_into_db(transformed_new_officer_data)
+    # mapper.load_officer_into_db(transformed_new_officer_columns)
+    # mapper.load_officer_into_db(new_officer_rows)
 
-    allegation_saver = AllegationSaver()
-    allegation_saver.save_allegation_to_csv(transformed_new_officer_data, "new_officer_allegation_data.csv")
+    officer_saver = OfficerSaver()
+    # officer_saver.save_officer_to_csv(transformed_new_officer_columns, "new_officer_allegation_data.csv")
+    officer_saver.save_officer_to_csv(transformed_new_officer_columns, "new_officer_allegation_data.csv")
 
     # Save existing rows to CSV
-    allegation_saver.save_allegation_to_csv(existing_officer_rows, "existing_officer_data.csv")
-    pdb.set_trace()
+    officer_saver.save_officer_to_csv(existing_officer_rows, "existing_officer_data.csv")
+    # pdb.set_trace()
 
     # Save demographics in memory
 
@@ -154,7 +159,7 @@ def officer_scraper(sorter: Sorter, mapper: Mapper):
     # Save both existing officer data and demographics in db
 
     # return scraped_df
-    return transformed_new_officer_data
+    # return transformed_new_officer_data
 
 
 if __name__ == '__main__':

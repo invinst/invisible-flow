@@ -33,7 +33,8 @@ class TestCopaSrapeIntegration:
 
     @pytest.fixture
     def get_copa_officer_data_demographics(self):
-        copa_scraped_log_no_path = os.path.join(IFTestBase.resource_directory, 'test_copa_scraped_officer_data.csv')
+        copa_scraped_log_no_path = os.path.join(IFTestBase.resource_directory, 'new_officer_allegation_data.csv')
+        # copa_scraped_log_no_path = os.path.join(IFTestBase.resource_directory, 'test_copa_scraped_officer_data.csv')
         copa_data = open(copa_scraped_log_no_path, 'rb').read()
 
         yield copa_data

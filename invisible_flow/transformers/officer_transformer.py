@@ -1,3 +1,5 @@
+import pdb
+
 import pandas as pd
 
 
@@ -13,7 +15,7 @@ class OfficerTransformer(object):
             "years_on_force_of_involved_officer": "years_on_force"
         }, inplace=True)
 
-        self.transform_gender_data(new_rows)
+        # self.transform_gender_data(new_rows)
         return new_rows
 
     def transform_gender_data(self, transformed_officer_columns: pd.DataFrame):
