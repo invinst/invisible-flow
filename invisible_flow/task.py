@@ -18,11 +18,14 @@ if os.environ.get('ENVIRONMENT') == 'docker':
 elif os.environ.get('ENVIRONMENT') == 'heroku':
     flask_app.config.update(
         CELERY_BROKER_URL='redis://redistogo:ffa1fcc9f5ee69a2a7f1d130d6dc51ab@tarpon.redistogo.com:10383/',
-        CELERY_RESULT_BACKEND='redis://redistogo:ffa1fcc9f5ee69a2a7f1d130d6dc51ab@tarpon.redistogo.com:10383/'
+
     )
 else:
     print("not sure what the environment is")
 celery = make_celery(flask_app)
+celery.conf.update(
+    broker_pool_limit=None
+)
 
 print("I'm up!")
 
