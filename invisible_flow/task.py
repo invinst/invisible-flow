@@ -10,22 +10,24 @@ from manage import db
 
 flask_app = AppFactory.create_app()
 # change to celery config
+flask_app.config.update(
+    broker_pool_limit=0
+)
+
 if os.environ.get('ENVIRONMENT') == 'docker':
     flask_app.config.update(
-        CELERY_BROKER_URL='redis://docker-redis:6379',
-        CELERY_RESULT_BACKEND='redis://docker-redis:6379'
+        broker_url='redis://docker-redis:6379',
+        result_backend='redis://docker-redis:6379',
     )
 elif os.environ.get('ENVIRONMENT') == 'heroku':
     flask_app.config.update(
-        CELERY_BROKER_URL='redis://redistogo:ffa1fcc9f5ee69a2a7f1d130d6dc51ab@tarpon.redistogo.com:10383/',
-
+        broker_url='redis://redistogo:ffa1fcc9f5ee69a2a7f1d130d6dc51ab@tarpon.redistogo.com:10383/',
+        result_backend='redis://redistogo:ffa1fcc9f5ee69a2a7f1d130d6dc51ab@tarpon.redistogo.com:10383/',
     )
 else:
     print("not sure what the environment is")
+
 celery = make_celery(flask_app)
-celery.conf.update(
-    broker_pool_limit=None
-)
 
 print("I'm up!")
 
