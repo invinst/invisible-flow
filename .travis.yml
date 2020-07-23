@@ -16,8 +16,7 @@ addons:
 jobs:
   include:
   - stage: test
-    exclude:
-      - if: branch = sandbox
+    if: branch != sandbox
     install:
     - pip install -r requirements.txt
     - cd frontend
