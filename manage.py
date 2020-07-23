@@ -32,7 +32,7 @@ copa_db_filename: Optional[str] = ''
 if os.environ.get("ENVIRONMENT") == 'local' or os.environ.get('ENVIRONMENT') == 'travis':
     copa_db_filename = 'postgres+psycopg2://invisible_flow@localhost:5432/invisible_flow_testing'
 elif os.environ.get("ENVIRONMENT") == 'docker':
-    copa_db_filename = 'postgres+psycopg2://invisible_flow_testing@localhost:5432/invisible_flow_testing'
+    copa_db_filename = 'postgres+psycopg2://docker-database:5432/invisible_flow_testing'
 elif os.environ.get("ENVIRONMENT") == 'development':
     copa_db_filename = 'postgres+psycopg2://invisible_flow_testing@localhost:5432/invisible_flow_testing'
 elif os.environ.get('ENVIRONMENT') == 'heroku':
@@ -67,3 +67,4 @@ manager.add_command('db', MigrateCommand)
 
 if __name__ == '__main__':
     manager.run()
+    pass

@@ -1,0 +1,9 @@
+celery
+redis
+google
+Flask
+Flask-SQLAlchemy
+Flask-Testing
+Flask-Migrate
+Flask-Script
+psycopg2

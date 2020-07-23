@@ -1,0 +1,41 @@
+version: "3"
+
+services:
+  docker-redis:
+    image: "redis:alpine"
+
+  web:
+    container_name: invisible_flow_compose
+    image: invisible_flow:compose
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app/
+    ports:
+      - "5000:5000"
+
+  docker-database:
+    image: "library/postgres"
+    container_name: docker_database
+    environment:
+      POSTGRES_DB: invisible_flow_testing
+#      POSTGRES_USER: invisible_flow
+#      POSTGRES_PASSWORD: password
+#      POSTGRES_
+
+  worker:
+    container_name: invisible_flow_celery
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app/
+    command: celery -l info -A invisible_flow.task.celery worker
+    depends_on:
+      - docker-redis
+#    ports:
+#      - "5000:5000"
+#    volumes:
+#      - .:/app/
+

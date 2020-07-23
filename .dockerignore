@@ -1,0 +1,4 @@
+frontend
+frontend/**/*
+e2e
+e2e/**/*
