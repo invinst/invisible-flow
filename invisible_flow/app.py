@@ -139,7 +139,6 @@ def officer_scraper(sorter: Sorter, mapper: Mapper):
 
     # Load transformed rows into DB
     mapper.load_officer_into_db(transformed_new_officer_data)
-    mapper.load_officer_into_db(new_officer_rows)
 
     officer_saver = OfficerSaver()
     officer_saver.save_officer_to_csv(transformed_new_officer_data, "new_officer_allegation_data.csv")
