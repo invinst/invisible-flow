@@ -138,25 +138,14 @@ def officer_scraper(sorter: Sorter, mapper: Mapper):
     transformed_new_officer_data = officer_transformer.transform_officer_column_names(new_officer_rows)
 
     # Load transformed rows into DB
-    # mapper.load_officer_into_db(transformed_new_officer_columns)
-    # mapper.load_officer_into_db(new_officer_rows)
+    mapper.load_officer_into_db(transformed_new_officer_data)
+    mapper.load_officer_into_db(new_officer_rows)
 
     officer_saver = OfficerSaver()
     officer_saver.save_officer_to_csv(transformed_new_officer_data, "new_officer_allegation_data.csv")
-    # officer_saver.save_officer_to_csv(transformed_new_officer_columns, "new_officer_allegation_data.csv")
 
     # Save existing rows to CSV
     officer_saver.save_officer_to_csv(existing_officer_rows, "existing_officer_data.csv")
-
-    # Save demographics in memory
-
-    # Save existing officer data in memory
-
-    # Save both existing officer data and demographics in db
-    # pdb.set_trace()
-    # return scraped_df
-    # return transformed_new_officer_data
-
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -9,12 +9,12 @@ from invisible_flow.transformers.officer_transformer import OfficerTransformer
 
 
 class TestAllegationTransformer():
-
+    @pytest.mark.focus
     def test_transformer_should_change_column_names_to_match_db(self):
         fake_new_rows = pd.DataFrame({
             "log_no": ["11111"],
             "race_of_involved_officer": ["White"],
-            "sex_of_involved_officer": ["M"],
+            "sex_of_involved_officer": ["Male"],
             "age_of_involved_officer": ["40-49"],
             "years_on_force_of_involved_officer": ["20-25"]
         })
@@ -22,15 +22,16 @@ class TestAllegationTransformer():
         test_transformer = OfficerTransformer()
         transformed_scrape_data = test_transformer.transform_officer_column_names(fake_new_rows)
 
-        assert("allegation_id" in transformed_scrape_data.columns)
-        assert("race" in transformed_scrape_data.columns)
+        assert ("allegation_id" in transformed_scrape_data.columns)
+        assert ("race" in transformed_scrape_data.columns)
         assert ("gender" in transformed_scrape_data.columns)
         assert ("age" in transformed_scrape_data.columns)
         assert ("years_on_force" in transformed_scrape_data.columns)
 
-        assert("log_no" not in transformed_scrape_data.columns)
-        assert("age_of_involved_officer" not in transformed_scrape_data.columns)
+        assert ("log_no" not in transformed_scrape_data.columns)
+        assert ("age_of_involved_officer" not in transformed_scrape_data.columns)
         assert ("race_of_involved_officer" not in transformed_scrape_data.columns)
         assert ("sex_of_involved_officer" not in transformed_scrape_data.columns)
         assert ("years_on_force_of_involved_officer" not in transformed_scrape_data.columns)
 
+        assert (transformed_scrape_data['gender'].str.contains('Male'))
