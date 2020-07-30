@@ -135,7 +135,7 @@ def officer_scraper(sorter: Sorter, mapper: Mapper):
     existing_officer_rows = mapper.get_existing_officer_data()
 
     officer_transformer = OfficerTransformer()
-    transformed_new_officer_data = officer_transformer.transform_officer_column_names(new_officer_rows)
+    transformed_new_officer_data = officer_transformer.transform(new_officer_rows)
 
     # Load transformed rows into DB
     mapper.load_officer_into_db(transformed_new_officer_data)
