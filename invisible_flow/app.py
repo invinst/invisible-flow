@@ -133,11 +133,9 @@ def officer_scraper(sorter: Sorter, mapper: Mapper):
 
     # query db for officer data associated with existing crids -- convert to df
     existing_officer_rows = mapper.get_existing_officer_data()
-    pdb.set_trace()
 
     officer_transformer = OfficerTransformer()
     transformed_new_officer_data = officer_transformer.transform(new_officer_rows)
-    pdb.set_trace()
 
     # Load transformed rows into DB (Maybe omit 8/5/20)
     mapper.load_officer_into_db(transformed_new_officer_data)

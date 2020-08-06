@@ -14,15 +14,17 @@ class MockResponse:
 
 
 base_url = "https://data.cityofchicago.org/resource/mft5-nfa8.csv?$"
+count_query = base_url + "query=SELECT%20count(log_no)"
 base_query = base_url + "query=SELECT%20log_no,beat,race_of_involved_officers,sex_of_involved_officers,"\
                        + "age_of_involved_officers,years_on_force_of_officers"
-count_query = base_url + "query=SELECT%20count(log_no)"
-officer_count_query = OFFICER_BASE_URL + "query=SELECT%20count(log_no)"
 
 allegation_query = ALLEGATION_BASE_URL + "query=SELECT%20log_no,beat"
 allegation_count_query = ALLEGATION_BASE_URL + "query=SELECT%20count(log_no)"
-officer_query = OFFICER_BASE_URL + "query=SELECT%20log_no,race_of_involved_officer,sex_of_involved_officer," \
-                                   "age_of_involved_officer,years_on_force_of_involved_officer"
+
+officer_count_query = OFFICER_BASE_URL + "query=SELECT%20count(log_no)"
+officer_query = OFFICER_BASE_URL + "query=SELECT%20log_no,complaint_date,finding_code,current_status,age_of_involved_officer,\
+            sex_of_involved_officer,race_of_involved_officer,years_on_force_of_involved_officer"
+
 crid_query = ALLEGATION_BASE_URL + "query=SELECT%20log_no"
 
 
