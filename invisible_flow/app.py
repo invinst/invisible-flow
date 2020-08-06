@@ -133,18 +133,17 @@ def officer_scraper(sorter: Sorter, mapper: Mapper):
 
     # query db for officer data associated with existing crids -- convert to df
     existing_officer_rows = mapper.get_existing_officer_data()
+    pdb.set_trace()
 
     officer_transformer = OfficerTransformer()
     transformed_new_officer_data = officer_transformer.transform(new_officer_rows)
+    pdb.set_trace()
 
-    # Load transformed rows into DB
+    # Load transformed rows into DB (Maybe omit 8/5/20)
     mapper.load_officer_into_db(transformed_new_officer_data)
 
     officer_saver = OfficerSaver()
-    officer_saver.save_officer_to_csv(transformed_new_officer_data, "new_officer_allegation_data.csv")
-
-    # Save existing rows to CSV
-    officer_saver.save_officer_to_csv(existing_officer_rows, "existing_officer_data.csv")
+    officer_saver.save_officer_to_csv(existing_officer_rows, transformed_new_officer_data)
 
 if __name__ == '__main__':
     app.run(debug=True)

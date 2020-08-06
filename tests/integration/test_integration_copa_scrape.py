@@ -104,9 +104,12 @@ class TestCopaSrapeIntegration:
 
             local_upload_dir = LocalStorage().local_upload_directory
 
+            os.remove(os.path.join(local_upload_dir, "COPA_SCRAPE-2019-03-25_05-30-50", 'old_officer_allegation_data.csv'))
+            os.remove(os.path.join(local_upload_dir, "COPA_SCRAPE-2019-03-25_05-30-50", 'new_officer_allegation_data.csv'))
+            os.remove(os.path.join(local_upload_dir, "COPA_SCRAPE-2019-03-25_05-30-50", 'old_officer_demographic_data.csv'))
+            os.remove(os.path.join(local_upload_dir, "COPA_SCRAPE-2019-03-25_05-30-50", 'new_officer_demographic_data.csv'))
             os.remove(os.path.join(local_upload_dir, "COPA_SCRAPE-2019-03-25_05-30-50", 'existing_allegation_data.csv'))
             os.remove(os.path.join(local_upload_dir, "COPA_SCRAPE-2019-03-25_05-30-50", 'new_allegation_data.csv'))
-            os.remove(os.path.join(local_upload_dir, "COPA_SCRAPE-2019-03-25_05-30-50", 'existing_officer_data.csv'))
-            os.remove(os.path.join(local_upload_dir, "COPA_SCRAPE-2019-03-25_05-30-50", 'new_officer_allegation_data.csv'))
+
 
             os.rmdir(os.path.join(local_upload_dir, "COPA_SCRAPE-2019-03-25_05-30-50"))
