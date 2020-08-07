@@ -33,19 +33,17 @@ class TestAllegationTransformer():
         assert ("sex_of_involved_officer" not in transformed_scrape_data.columns)
         assert ("years_on_force_of_involved_officer" not in transformed_scrape_data.columns)
 
-
-
     def test_officer_transformer_handles_bad_gender_values(self):
-        fake_new_rows = pd.DataFrame(np.array([["11111", "White", "Male", "40-49", "20-25"],
-                                               ["22222", "White", "Female", "20-30", "5-10"],
-                                               ["22222", "White", "Person", "20-30", "5-10"],
-                                               ["22222", "White", None, "20-30", "5-10"],
-                                               ["33333", "White", np.NaN, "20-30", "5-10"]
-                                               ]),
+        fake_new_rows = pd.DataFrame(np.array([["11111", "White", 'Male', "40-49", "20-25"],
+                                               ["22222", "White", 'Female', "20-30", "5-10"],
+                                               ["22222", "White", 'Prefer not to say', "20-30", "5-10"],
+                                               ["22222", "White", 'Non-Binary/Third Gender', "20-30", "5-10"],
+                                               ["33333", "White", np.nan, "20-30", "5-10"]
+                                               ], dtype=object),
                                      columns=['log_no', 'race_of_involved_officer', 'sex_of_involved_officer',
                                               'age_of_involved_officer', 'years_on_force_of_involved_officer'])
 
         test_transformer = OfficerTransformer()
         transformed_scrape_data = test_transformer.transform(fake_new_rows)
-        assert (transformed_scrape_data['gender'].str.contains('M|F|U', regex=True).all())
+        assert (transformed_scrape_data['gender'].str.contains('M|F|U|N|P', regex=True).all())
 
