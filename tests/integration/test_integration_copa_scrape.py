@@ -32,8 +32,8 @@ class TestCopaSrapeIntegration:
         yield copa_data
 
     @pytest.fixture
-    def get_copa_officer_data_demographics(self):
-        copa_scraped_log_no_path = os.path.join(IFTestBase.resource_directory, 'new_officer_allegation_data.csv')
+    def get_copa_officer_data(self):
+        copa_scraped_log_no_path = os.path.join(IFTestBase.resource_directory, 'officer_endpoint_scrape_data.csv')
         # copa_scraped_log_no_path = os.path.join(IFTestBase.resource_directory, 'test_copa_scraped_officer_data.csv')
         copa_data = open(copa_scraped_log_no_path, 'rb').read()
 
@@ -61,24 +61,27 @@ class TestCopaSrapeIntegration:
 
     @patch('invisible_flow.app.GlobalsFactory.get_current_datetime_utc', lambda: datetime(2019, 3, 25, 5, 30, 50, 0))
     def test_copa_scrape_integration(self, get_copa_data_demographics,
-                                     get_copa_officer_data_demographics, get_copa_crids):
+                                     get_copa_officer_data, get_copa_crids):
         with patch.object(StorageFactory, 'get_storage') as storage_mock, \
-                patch('invisible_flow.app.scrape_allegation_data') as scrape_mock, \
+                patch('invisible_flow.app.scrape_allegation_data') as allegation_scrape_mock, \
                 patch('invisible_flow.app.scrape_officer_data') as officer_scrape_mock, \
                 patch('invisible_flow.app.scrape_crids') as crid_scrape_mock:
-            scrape_mock.return_value = get_copa_data_demographics
-            officer_scrape_mock.return_value = get_copa_officer_data_demographics
+            allegation_scrape_mock.return_value = get_copa_data_demographics
+            officer_scrape_mock.return_value = get_copa_officer_data
             crid_scrape_mock.return_value = get_copa_crids
 
             storage_mock.return_value = LocalStorage()
+            print("Local storage step")
 
             db.session.close()
             db.drop_all()
             db.create_all(COPA_DB_BIND_KEY)
 
             self.initialize_database(db)
+            print("Database initialized")
 
             copa_scrape()
+            print("Copa Scrape")
 
             existing_allegation_file_contents = LocalStorage().get('existing_allegation_data.csv',
                                                                    "COPA_SCRAPE-2019-03-25_05-30-50")
@@ -99,14 +102,25 @@ class TestCopaSrapeIntegration:
             assert(existing_allegation_file_contents == expected_existing_allegation_file_contents)
             assert(new_allegation_file_contents == expected_new_allegation_data)
 
+            new_officer_allegation_file_contents = LocalStorage().get('new_officer_allegation_data.csv',
+                                                                      "COPA_SCRAPE-2019-03-25_05-30-50")
+            expected_new_officer_allegation_file_contents = open(os.path.join(IFTestBase.resource_directory, 'expected_new_officer_allegation_data.csv')).read()
+
+            assert(new_officer_allegation_file_contents == expected_new_officer_allegation_file_contents)
+
+            new_officer_demographic_file_contents = LocalStorage().get('new_officer_demographic_data.csv',
+                                                                      "COPA_SCRAPE-2019-03-25_05-30-50")
+            expected_new_officer_demographic_file_contents = open(
+                os.path.join(IFTestBase.resource_directory, 'expected_new_officer_demographic_data.csv')).read()
+
+            assert(new_officer_demographic_file_contents == expected_new_officer_demographic_file_contents)
+
             assert(entry_from_db is not None)
             assert(number_of_rows_in_db == 151)
 
             local_upload_dir = LocalStorage().local_upload_directory
 
-            os.remove(os.path.join(local_upload_dir, "COPA_SCRAPE-2019-03-25_05-30-50", 'old_officer_allegation_data.csv'))
             os.remove(os.path.join(local_upload_dir, "COPA_SCRAPE-2019-03-25_05-30-50", 'new_officer_allegation_data.csv'))
-            os.remove(os.path.join(local_upload_dir, "COPA_SCRAPE-2019-03-25_05-30-50", 'old_officer_demographic_data.csv'))
             os.remove(os.path.join(local_upload_dir, "COPA_SCRAPE-2019-03-25_05-30-50", 'new_officer_demographic_data.csv'))
             os.remove(os.path.join(local_upload_dir, "COPA_SCRAPE-2019-03-25_05-30-50", 'existing_allegation_data.csv'))
             os.remove(os.path.join(local_upload_dir, "COPA_SCRAPE-2019-03-25_05-30-50", 'new_allegation_data.csv'))

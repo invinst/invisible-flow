@@ -10,7 +10,6 @@ from invisible_flow.app_factory import app
 from invisible_flow.copa.mapper import Mapper
 from invisible_flow.copa.allegation_saver import AllegationSaver
 from invisible_flow.copa.loader import Loader
-from invisible_flow.copa.officer_saver import OfficerSaver
 from invisible_flow.copa.saver import Saver, strip_zeroes_from_beat_id, cast_col_to_int
 from invisible_flow.globals_factory import GlobalsFactory  # noqa: F401
 from invisible_flow.api.copa_scrape import scrape_data, scrape_allegation_data, scrape_officer_data, scrape_crids
@@ -135,13 +134,11 @@ def officer_scraper(sorter: Sorter, mapper: Mapper):
     existing_officer_rows = mapper.get_existing_officer_data()
 
     officer_transformer = OfficerTransformer()
-    transformed_new_officer_data = officer_transformer.transform(new_officer_rows)
+    officer_demographic_data, officer_allegation_data = officer_transformer.transform(new_officer_rows)
 
-    # Load transformed rows into DB (Maybe omit 8/5/20)
-    mapper.load_officer_into_db(transformed_new_officer_data)
-
-    officer_saver = OfficerSaver()
-    officer_saver.save_officer_to_csv(existing_officer_rows, transformed_new_officer_data)
+    officer_saver = Saver()
+    officer_saver.save_to_csv(officer_demographic_data, 'new_officer_demographic_data.csv')
+    officer_saver.save_to_csv(officer_allegation_data, 'new_officer_allegation_data.csv')
 
 if __name__ == '__main__':
     app.run(debug=True)
