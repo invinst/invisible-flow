@@ -50,3 +50,17 @@ class TestSorter:
         })
         new_rows = test_sorter.get_new_copa_rows(fake_scraped_data)
         assert_frame_equal(new_rows, expected_new_rows)
+
+    def test_should_remove_duplicates(self):
+        test_sorter = Sorter()
+        test_sorter.new_crids = ["33333333", "1111111", "999999"]
+        fake_scraped_data = pd.DataFrame({
+            "log_no" : ["999999", "999999"],
+            "beat" : ["555", "555"]
+        })
+        expected_new_rows = pd.DataFrame({
+            "log_no" : ["999999"],
+            "beat" : ["555"]
+        })
+        new_rows = test_sorter.get_new_copa_rows(fake_scraped_data)
+        assert_frame_equal(new_rows, expected_new_rows)

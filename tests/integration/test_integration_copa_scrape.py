@@ -34,7 +34,6 @@ class TestCopaSrapeIntegration:
     @pytest.fixture
     def get_copa_officer_data(self):
         copa_scraped_log_no_path = os.path.join(IFTestBase.resource_directory, 'officer_endpoint_scrape_data.csv')
-        # copa_scraped_log_no_path = os.path.join(IFTestBase.resource_directory, 'test_copa_scraped_officer_data.csv')
         copa_data = open(copa_scraped_log_no_path, 'rb').read()
 
         yield copa_data
@@ -71,17 +70,14 @@ class TestCopaSrapeIntegration:
             crid_scrape_mock.return_value = get_copa_crids
 
             storage_mock.return_value = LocalStorage()
-            print("Local storage step")
 
             db.session.close()
             db.drop_all()
             db.create_all(COPA_DB_BIND_KEY)
 
             self.initialize_database(db)
-            print("Database initialized")
 
             copa_scrape()
-            print("Copa Scrape")
 
             existing_allegation_file_contents = LocalStorage().get('existing_allegation_data.csv',
                                                                    "COPA_SCRAPE-2019-03-25_05-30-50")

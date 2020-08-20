@@ -1,4 +1,3 @@
-import pdb
 
 
 class Sorter:
@@ -19,5 +18,6 @@ class Sorter:
         return self.old_crids
 
     def get_new_copa_rows(self, scraped_data):
+        scraped_data.drop_duplicates(inplace=True)
         new_rows = scraped_data[scraped_data['log_no'].isin(self.new_crids)]
         return new_rows
