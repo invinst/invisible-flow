@@ -80,6 +80,8 @@ Try querying:
         SELECT * FROM data_officerallegation;
 If you see a populated table, you should be all set up!
 
+There are several bash functions included in this project to make running the above commands easier. Run `source scripts` to load them into the current terminal session or add them to your `bashrc` to have them loaded universally.
+
 ### Flask Database Migrations 
 1. Make desired change to the SQLAlchemy models in `invisible_flow/copa`.    
     

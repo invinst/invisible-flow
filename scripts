@@ -1,0 +1,17 @@
+function ifbuild {
+  docker build -t invisible_flow:latest .
+}
+
+# If you get a Docker error telling you the container is in use run ifstop to kill it.
+function ifrun {
+  docker run -t -i --publish=5000:5000 --env=PORT=5000 --volume="$(pwd):/app/" --name=invisible-flow invisible_flow:latest
+}
+
+function ifbash {
+  docker exec -it invisible-flow bash
+}
+
+function ifstop {
+  docker kill invisible-flow || true
+  docker rm invisible-flow
+}
