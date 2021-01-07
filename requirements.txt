@@ -66,7 +66,7 @@ json-merge-patch==0.2
 jsonref==0.1
 jsonschema==2.6.0
 lockfile==0.12.2
-lxml==4.3.4
+lxml==4.6.2
 Mako==1.0.13
 Markdown==2.6.11
 MarkupSafe==1.1.1
