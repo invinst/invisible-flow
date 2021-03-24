@@ -107,7 +107,7 @@ pytz==2019.1
 pytzdata==2019.2
 PyYAML==5.1.1
 requests==2.22.0
-rsa==4.0
+rsa==4.1
 setproctitle==1.1.10
 six==1.12.0
 smmap2==2.0.5
