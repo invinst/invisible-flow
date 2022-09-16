@@ -67,7 +67,7 @@ jsonref==0.1
 jsonschema==2.6.0
 lockfile==0.12.2
 lxml==4.3.4
-Mako==1.0.13
+Mako==1.2.2
 Markdown==2.6.11
 MarkupSafe==1.1.1
 mccabe==0.6.1
