@@ -61,7 +61,7 @@ injector==0.17.0
 iso8601==0.1.12
 itsdangerous==1.1.0
 Jinja2==2.10.1
-joblib==0.11
+joblib==1.2.0
 json-merge-patch==0.2
 jsonref==0.1
 jsonschema==2.6.0
